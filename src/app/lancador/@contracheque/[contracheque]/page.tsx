@@ -1,13 +1,16 @@
-import { contracheque } from "../../data-access/contracheque";
-
 import { Table, TableContainer, Td, Th, Thead, Tr } from "@chakra-ui/react";
-import ContrachequeHeader from "./header";
+import { contracheque } from "../../data-access/contracheque";
+import ContrachequeHeader from "../header";
 
-export default function ConTracheque(props: any) {
-  const servidor = props.servidor;
+interface ContrachequeProps {
+  params: any;
+}
+
+export default function Contracheque({ params }: ContrachequeProps) {
+  const servidor_id = +params.contracheque;
 
   const eventos = contracheque.find(
-    (c) => c.servidor_id === servidor.id
+    (c) => c.servidor_id === servidor_id
   )?.eventos;
 
   return (

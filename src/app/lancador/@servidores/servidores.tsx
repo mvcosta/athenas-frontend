@@ -1,21 +1,14 @@
-"use client";
-
 import React from "react";
 import { Table, TableContainer, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
 import ServidorTableRow from "./servidor-table-row";
-import { servidores } from "../../data-access/servidores";
-import ServidoresHeader from "./header";
+import ServidoresHeader from "./servidores-header";
+import { servidores } from "../data-access/servidores";
 
-export default function Servidores(props: any) {
-  function servidorClickedHandler(event: any) {
-    event.preventDefault();
-    const servidor_id = +event.target.parentElement.getAttribute("data-id");
+interface ServidoresProps {
+  contracheque?: number;
+}
 
-    props.servidorClicked(servidor_id);
-  }
-  const selectedServidor = props.selectedServidor;
-  console.log(selectedServidor);
-
+export default function Servidores({ contracheque }: ServidoresProps) {
   return (
     <>
       <ServidoresHeader />
@@ -36,9 +29,8 @@ export default function Servidores(props: any) {
             {servidores.map((s) => (
               <ServidorTableRow
                 servidor={s}
-                isSelected={s.id === selectedServidor.id}
+                isSelected={s.id === contracheque}
                 key={s.id}
-                onClick={servidorClickedHandler}
               />
             ))}
           </Tbody>

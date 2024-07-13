@@ -1,5 +1,3 @@
-"use client";
-
 import { ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
 import {
   Button,
