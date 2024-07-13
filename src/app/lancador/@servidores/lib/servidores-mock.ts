@@ -1,4 +1,4 @@
-export const servidores = [
+const servidores = [
   {
     id: 1,
     matricula: "0001",
@@ -36,3 +36,7 @@ export const servidores = [
     ferias: "17/07/2023",
   },
 ];
+
+export function getAllServidores() {
+  return servidores;
+}

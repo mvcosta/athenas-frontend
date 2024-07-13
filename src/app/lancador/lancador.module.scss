@@ -1,0 +1,27 @@
+.lancador {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.servidores {
+  $mt: 2vh;
+  $pb: 1vh;
+
+  display: flex;
+  flex-direction: column;
+
+  margin-top: $mt;
+  padding-bottom: $pb;
+  height: calc(60vh - $pb - $mt);
+}
+.contracheques {
+  $mb: 2vh;
+  $pt: 1vh;
+
+  display: flex;
+  flex-direction: column;
+
+  padding-top: $pt;
+  margin-bottom: $mb;
+  height: calc(60vh - $pt - $mb);
+}

@@ -1,4 +1,4 @@
-export const contracheque = [
+const contracheques = [
   {
     servidor_id: 1,
     eventos: [
@@ -146,3 +146,11 @@ export const contracheque = [
     ],
   },
 ];
+
+export function getAllContracheques() {
+  return contracheques;
+}
+
+export function getContracheque(servidor_id: number) {
+  return contracheques.find((c) => c.servidor_id === servidor_id);
+}

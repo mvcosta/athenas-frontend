@@ -1,17 +1,18 @@
 import React from "react";
 import { Table, TableContainer, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
-import ServidorTableRow from "./servidor-table-row";
-import ServidoresHeader from "./servidores-header";
-import { servidores } from "../data-access/servidores";
+import Servidor from "./servidor";
+import { getServidores } from "../lib/servidores";
 
 interface ServidoresProps {
-  contracheque?: number;
+  selectedServidorId?: number;
 }
 
-export default function Servidores({ contracheque }: ServidoresProps) {
+export default async function Servidores({
+  selectedServidorId,
+}: ServidoresProps) {
+  const servidores = await getServidores();
   return (
     <>
-      <ServidoresHeader />
       <TableContainer>
         <Table>
           <Thead>
@@ -26,10 +27,10 @@ export default function Servidores({ contracheque }: ServidoresProps) {
             </Tr>
           </Thead>
           <Tbody>
-            {servidores.map((s) => (
-              <ServidorTableRow
+            {servidores.map((s: any) => (
+              <Servidor
                 servidor={s}
-                isSelected={s.id === contracheque}
+                isSelected={s.id === selectedServidorId}
                 key={s.id}
               />
             ))}

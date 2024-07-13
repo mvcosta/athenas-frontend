@@ -3,15 +3,12 @@
 import { Td, Tr } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
-interface ServidorTableRowProps {
+interface ServidorProps {
   servidor: any;
   isSelected: boolean;
 }
 
-export default function ServidorTableRow({
-  servidor,
-  isSelected,
-}: ServidorTableRowProps) {
+export default function Servidor({ servidor, isSelected }: ServidorProps) {
   const router = useRouter();
   function navigateToContracheque() {
     router.push(`/lancador/${servidor.id}`);

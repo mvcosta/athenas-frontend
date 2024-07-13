@@ -1,6 +1,6 @@
 import React from "react";
-import Servidores from "./servidores";
+import Servidores from "./components/servidores";
 
-export default function ServidoresDefault() {
+export default async function ServidoresDefault() {
   return <Servidores />;
 }

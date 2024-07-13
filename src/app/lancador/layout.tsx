@@ -1,5 +1,5 @@
-import { Container, Flex } from "@chakra-ui/react";
-import styles from "./lancador.module.css";
+import { Container } from "@chakra-ui/react";
+import classes from "./lancador.module.scss";
 
 interface LancadorPageProps {
   servidores: any;
@@ -12,14 +12,10 @@ export default function LancadorPage({
 }: LancadorPageProps) {
   return (
     <Container maxW="1320px">
-      <Flex
-        className={styles.mainh}
-        flexDirection="column"
-        justifyContent="space-around"
-      >
-        <div>{servidores}</div>
-        <div>{contracheque}</div>
-      </Flex>
+      <div className={classes.lancador}>
+        <div className={classes.servidores}>{servidores}</div>
+        <div className={classes.contracheques}>{contracheque}</div>
+      </div>
     </Container>
   );
 }
