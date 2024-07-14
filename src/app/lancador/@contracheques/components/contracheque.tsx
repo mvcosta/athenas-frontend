@@ -1,14 +1,15 @@
 "use client";
 
+import { Contracheque } from "@/app/models/contracheque.models";
 import { Td, Tr } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
 interface ContrachequeProps {
-  contracheque: any;
+  contracheque: Contracheque;
   isSelected: boolean;
 }
 
-export default function Contracheque({
+export default function ContrachequeRow({
   contracheque,
   isSelected,
 }: ContrachequeProps) {

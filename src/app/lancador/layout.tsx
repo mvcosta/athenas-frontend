@@ -1,9 +1,10 @@
 import { Container } from "@chakra-ui/react";
 import classes from "./lancador.module.scss";
+import React from "react";
 
 interface LancadorPageProps {
-  contracheques: any;
-  eventos: any;
+  contracheques: React.ReactNode;
+  eventos: React.ReactNode;
 }
 
 export default function LancadorPage({

@@ -28,16 +28,14 @@ export default async function FolhaEventosPage({
             </Tr>
           </Thead>
           <tbody>
-            {folhaEventos?.map((fe: any) => (
+            {folhaEventos?.map((fe) => (
               <Tr key={fe.id}>
                 <Td></Td>
-                <Td>
-                  {fe.evento.numero}({fe.evento.rubrica})
-                </Td>
-                <Td>{fe.evento.titulo}</Td>
-                <Td>{fe.qnt}</Td>
-                <Td>{fe.pct}</Td>
-                <Td> </Td>
+                <Td>{fe.evento} </Td>
+                <Td>{fe.descricao}</Td>
+                <Td>{fe.quantidade}</Td>
+                <Td>{fe.percentual}</Td>
+                <Td>{fe.prazo} </Td>
                 <Td>{fe.valor}</Td>
                 <Td>{fe.valor_base}</Td>
                 <Td>{fe.patronal}</Td>

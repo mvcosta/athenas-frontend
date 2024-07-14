@@ -1,6 +1,6 @@
 import React from "react";
 import { Table, TableContainer, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
-import Contracheque from "./contracheque";
+import ContrachequeRow from "./contracheque";
 import { getContracheques } from "../../lib/contracheques";
 
 interface ContrachequesProps {
@@ -27,8 +27,8 @@ export default async function Contracheques({
             </Tr>
           </Thead>
           <Tbody>
-            {contracheques.map((c: any) => (
-              <Contracheque
+            {contracheques.map((c) => (
+              <ContrachequeRow
                 contracheque={c}
                 isSelected={c.id === selectedContrachequeId}
                 key={c.id}
