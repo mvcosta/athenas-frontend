@@ -1,16 +1,16 @@
 import React from "react";
 import { Table, TableContainer, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
-import Servidor from "./servidor";
-import { getServidores } from "../lib/servidores";
+import Contracheque from "./contracheque";
+import { getContracheques } from "../../lib/contracheques";
 
-interface ServidoresProps {
-  selectedServidorId?: number;
+interface ContrachequesProps {
+  selectedContrachequeId?: number;
 }
 
-export default async function Servidores({
-  selectedServidorId,
-}: ServidoresProps) {
-  const servidores = await getServidores();
+export default async function Contracheques({
+  selectedContrachequeId,
+}: ContrachequesProps) {
+  const contracheques = await getContracheques();
   return (
     <>
       <TableContainer>
@@ -27,11 +27,11 @@ export default async function Servidores({
             </Tr>
           </Thead>
           <Tbody>
-            {servidores.map((s: any) => (
-              <Servidor
-                servidor={s}
-                isSelected={s.id === selectedServidorId}
-                key={s.id}
+            {contracheques.map((c: any) => (
+              <Contracheque
+                contracheque={c}
+                isSelected={c.id === selectedContrachequeId}
+                key={c.id}
               />
             ))}
           </Tbody>

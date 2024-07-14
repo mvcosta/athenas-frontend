@@ -24,7 +24,7 @@ import {
   MenuOptionGroup,
 } from "@chakra-ui/react";
 
-export default function ContrachequeHeader() {
+export default function EventosHeader() {
   return (
     <Flex justifyContent="space-evenly">
       <Lancamentos />

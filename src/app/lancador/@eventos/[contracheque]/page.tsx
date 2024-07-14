@@ -1,18 +1,14 @@
 import { Table, TableContainer, Td, Th, Thead, Tr } from "@chakra-ui/react";
-import { getFolhaEventos } from "../lib/contracheques";
-import { getServidores } from "../../@servidores/lib/servidores";
+import { getFolhaEventos } from "../../lib/contracheques";
 
-interface ContrachequeProps {
+interface FolhaEventosPageProps {
   params: any;
 }
 
-export default async function Contracheque({ params }: ContrachequeProps) {
-  const servidorId = +params.servidor;
-  const servidores = await getServidores();
-  const contrachequeId = servidores.find(
-    (s: any) => s.id === servidorId
-  )?.contracheque;
-
+export default async function FolhaEventosPage({
+  params,
+}: FolhaEventosPageProps) {
+  const contrachequeId = +params.contracheque;
   const folhaEventos = await getFolhaEventos(contrachequeId);
   return (
     <>

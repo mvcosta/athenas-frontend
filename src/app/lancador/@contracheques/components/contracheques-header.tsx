@@ -4,7 +4,7 @@ import { Button, Flex, FormLabel, Input } from "@chakra-ui/react";
 import FiltroMenu from "./filtro-menu";
 import { DeleteIcon, WarningTwoIcon } from "@chakra-ui/icons";
 
-export default function ServidoresHeader() {
+export default function ContrachequesHeader() {
   return (
     <Flex justifyContent="space-evenly">
       <Button colorScheme="red" leftIcon={<DeleteIcon />}>

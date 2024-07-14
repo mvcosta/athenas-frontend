@@ -3,7 +3,7 @@
   overflow: hidden;
 }
 
-.servidores {
+.contracheques {
   $mt: 2vh;
   $pb: 1vh;
 
@@ -14,7 +14,7 @@
   padding-bottom: $pb;
   height: calc(60vh - $pb - $mt);
 }
-.contracheques {
+.eventos {
   $mb: 2vh;
   $pt: 1vh;
 
