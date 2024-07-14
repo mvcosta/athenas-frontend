@@ -6,6 +6,7 @@ import {
   FolhaEvento,
   FolhasEventosResponse,
 } from "@/app/models/folha-evento.models";
+import { ServidorResponse } from "@/app/models/servidor.models";
 
 export async function getFolhaEventos(
   contrachequeId: number
@@ -53,13 +54,63 @@ export async function getContracheques(): Promise<Contracheque[]> {
   }
 
   const contrachequeResponse: ContrachequesResponse = await response.json();
-  return contrachequeResponse.results.map((c) => ({
-    id: c.pk,
-    matricula: c.servidor.matricula,
-    nome: c.servidor.nome,
-    efetivo: "",
-    confianca: "",
-    estagio: "",
-    ferias: "",
-  }));
+  return await Promise.all(
+    contrachequeResponse.results.map(async (c) => {
+      const extraAttr = await getServidorExtraAttr(c.servidor.id);
+      return {
+        id: c.pk,
+        matricula: c.servidor.matricula,
+        nome: c.servidor.nome,
+        efetivo: extraAttr.efetivo,
+        confianca: extraAttr.confianca,
+        estagio: "",
+        ferias: extraAttr.refFerias,
+      };
+    })
+  );
+}
+
+type ServidorExtraAttr = {
+  refFerias: string;
+  efetivo: string;
+  confianca: string;
+  estagio?: string;
+};
+
+async function getServidorExtraAttr(
+  servidorId: number
+): Promise<ServidorExtraAttr> {
+  const response = await fetch(
+    `http://localhost/api/servidores/${servidorId}/`,
+    {
+      headers: {
+        Authorization: "Token 32c54ab5ceff4fb43a9df251d61736f0470bec69",
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const txt = await response.text();
+    throw new Error(txt);
+  }
+
+  const servidor: ServidorResponse = await response.json();
+  const efetivo = findCargoCodigoPorTipoLeiCargo(servidor, "EF");
+  const confianca = findCargoCodigoPorTipoLeiCargo(servidor, "CM");
+
+  return {
+    refFerias: servidor.data_referencia_ferias ?? "",
+    efetivo,
+    confianca,
+  };
+}
+
+function findCargoCodigoPorTipoLeiCargo(
+  servidor: ServidorResponse,
+  tipoLeiCargo: string
+): string {
+  return (
+    servidor.posses.find((p) => p.tipo_lei_cargo === tipoLeiCargo)
+      ?.cargo_codigo ?? ""
+  );
 }
