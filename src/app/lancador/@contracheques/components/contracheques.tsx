@@ -1,16 +1,17 @@
 import React from "react";
 import { Table, TableContainer, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
 import ContrachequeRow from "./contracheque";
-import { getContracheques } from "../../lib/contracheques";
+import { Contracheque } from "@/app/models/contracheque.models";
 
 interface ContrachequesProps {
+  contracheques: Contracheque[];
   selectedContrachequeId?: number;
 }
 
 export default async function Contracheques({
+  contracheques,
   selectedContrachequeId,
 }: ContrachequesProps) {
-  const contracheques = await getContracheques();
   return (
     <>
       <TableContainer>

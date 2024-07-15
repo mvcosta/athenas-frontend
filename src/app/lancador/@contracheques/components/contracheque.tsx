@@ -2,7 +2,7 @@
 
 import { Contracheque } from "@/app/models/contracheque.models";
 import { Td, Tr } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface ContrachequeProps {
   contracheque: Contracheque;
@@ -14,14 +14,19 @@ export default function ContrachequeRow({
   isSelected,
 }: ContrachequeProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
   function navigateToContracheque() {
-    router.push(`/lancador/${contracheque.id}`);
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    const pagination = current.toString();
+    const query = pagination ? `?${pagination}` : "";
+    router.push(`/lancador/${contracheque.id}${query}`);
   }
 
   return (
     <Tr
-      bg={isSelected ? "green.500" : "transparent"}
-      _hover={{ bg: "green.500" }}
+      bg={isSelected ? "gray.100" : "transparent"}
+      _hover={{ bg: "gray.100" }}
       onClick={navigateToContracheque}
       cursor={"pointer"}
     >

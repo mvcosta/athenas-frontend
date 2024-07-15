@@ -15,7 +15,7 @@ export async function getFolhaEventos(
     `http://localhost/api/folhas-eventos/?contracheque=${contrachequeId}`,
     {
       headers: {
-        Authorization: "Token 32c54ab5ceff4fb43a9df251d61736f0470bec69",
+        Authorization: "Token 27daa423f39d2edbae258941813570567d95889e",
       },
     }
   );
@@ -39,22 +39,26 @@ export async function getFolhaEventos(
   }));
 }
 
-export async function getContracheques(): Promise<Contracheque[]> {
+export async function getContracheques(
+  limit: number = 10,
+  offset: number = 0
+): Promise<{ contracheques: Contracheque[]; count: number }> {
   const response = await fetch(
-    "http://localhost/api/contracheques/?tipo_folha=1&ano=2024&mes=1&limit=10&offset=0",
+    `http://localhost/api/contracheques/?tipo_folha=1&ano=2024&mes=1&limit=${limit}&offset=${offset}`,
     {
       headers: {
-        Authorization: "Token 32c54ab5ceff4fb43a9df251d61736f0470bec69",
+        Authorization: "Token 27daa423f39d2edbae258941813570567d95889e",
       },
     }
   );
 
   if (!response.ok) {
-    throw new Error("Failed to fetch");
+    const txt = await response.text();
+    throw new Error(txt);
   }
 
   const contrachequeResponse: ContrachequesResponse = await response.json();
-  return await Promise.all(
+  const contracheques = await Promise.all(
     contrachequeResponse.results.map(async (c) => {
       const extraAttr = await getServidorExtraAttr(c.servidor.id);
       return {
@@ -68,6 +72,11 @@ export async function getContracheques(): Promise<Contracheque[]> {
       };
     })
   );
+
+  return {
+    contracheques,
+    count: contrachequeResponse.count,
+  };
 }
 
 type ServidorExtraAttr = {
@@ -84,7 +93,7 @@ async function getServidorExtraAttr(
     `http://localhost/api/servidores/${servidorId}/`,
     {
       headers: {
-        Authorization: "Token 32c54ab5ceff4fb43a9df251d61736f0470bec69",
+        Authorization: "Token 27daa423f39d2edbae258941813570567d95889e",
       },
     }
   );
