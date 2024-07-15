@@ -40,17 +40,18 @@ export async function getFolhaEventos(
 }
 
 export async function getContracheques(
+  ano: string = "2024",
+  mes: string = "1",
+  tipo_folha: string = "1",
   limit: number = 10,
   offset: number = 0
 ): Promise<{ contracheques: Contracheque[]; count: number }> {
-  const response = await fetch(
-    `http://localhost/api/contracheques/?tipo_folha=1&ano=2024&mes=1&limit=${limit}&offset=${offset}`,
-    {
-      headers: {
-        Authorization: "Token 27daa423f39d2edbae258941813570567d95889e",
-      },
-    }
-  );
+  const query = `?tipo_folha=${tipo_folha}&ano=${ano}&mes=${mes}&limit=${limit}&offset=${offset}`;
+  const response = await fetch(`http://localhost/api/contracheques/${query}`, {
+    headers: {
+      Authorization: "Token 27daa423f39d2edbae258941813570567d95889e",
+    },
+  });
 
   if (!response.ok) {
     const txt = await response.text();

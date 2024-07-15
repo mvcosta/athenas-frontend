@@ -2,13 +2,15 @@ import { Table, TableContainer, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { getFolhaEventos } from "../../lib/contracheques";
 
 interface FolhaEventosPageProps {
-  params: any;
+  params: { [key: string]: string | string[] | undefined };
 }
 
 export default async function FolhaEventosPage({
   params,
 }: FolhaEventosPageProps) {
-  const contrachequeId = +params.contracheque;
+  const contrachequeId = Number(params?.filter?.[3]);
+  if (!contrachequeId) return <h1>Selecione um contracheque</h1>;
+
   const folhaEventos = await getFolhaEventos(contrachequeId);
   return (
     <>
