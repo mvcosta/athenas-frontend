@@ -53,7 +53,13 @@ export default async function ContrachequesPage({
           selectedContrachequeId={selectedContrachequeId}
         />
       </div>
-      <ContrachequesFooter page={page} numberOfPages={numberOfPages} />
+      <ContrachequesFooter
+        page={page}
+        numberOfPages={numberOfPages}
+        ano={ano}
+        mes={mes}
+        folha={folha}
+      />
     </>
   );
 }

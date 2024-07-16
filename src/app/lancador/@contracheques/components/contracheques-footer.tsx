@@ -1,26 +1,28 @@
-import { Flex } from "@chakra-ui/react";
-import StepPaginationButton from "./pagination/step-pagination-button";
-import ExtremesPaginationButton from "./pagination/extremes-pagination-button";
+import { Box, Flex } from "@chakra-ui/react";
+import PaginationControls from "./pagination/pagination-controls";
+import SeletorFolha from "./seletor-folha";
 
 export default function ContrachequesFooter({
   page,
   numberOfPages,
+  ano,
+  mes,
+  folha,
 }: {
   page: number;
   numberOfPages: number;
+  ano?: string;
+  mes?: string;
+  folha?: string;
 }) {
   return (
-    <Flex justifyContent="space-evenly" alignItems="center">
-      <ExtremesPaginationButton direction="back" />
-      <StepPaginationButton direction="back" />
-      <span>
-        Página {page} de {numberOfPages}
-      </span>
-      <StepPaginationButton direction="foward" numberOfPages={numberOfPages} />
-      <ExtremesPaginationButton
-        direction="foward"
-        numberOfPages={numberOfPages}
-      />
+    <Flex gap="2rem">
+      <Box flex="1">
+        <PaginationControls page={page} numberOfPages={numberOfPages} />
+      </Box>
+      <Box flex="1">
+        <SeletorFolha ano={ano} mes={mes} folha={folha} />
+      </Box>
     </Flex>
   );
 }

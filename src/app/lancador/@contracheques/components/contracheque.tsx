@@ -23,7 +23,6 @@ export default function ContrachequeRow({
     const query = pagination ? `?${pagination}` : "";
 
     const paths = pathname.split("/");
-    console.log(paths);
 
     paths[5] = contracheque.id.toString();
 
