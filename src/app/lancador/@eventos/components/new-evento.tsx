@@ -2,7 +2,6 @@ import { AddIcon, SearchIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
-  Center,
   Divider,
   Flex,
   FormControl,
@@ -10,7 +9,6 @@ import {
   Input,
   InputGroup,
   InputLeftAddon,
-  InputRightAddon,
   InputRightElement,
   MenuItem,
   Modal,
@@ -20,12 +18,13 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Textarea,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
-import MoedaInput from "./moeda-input";
 import Link from "next/link";
+import MoedaFormControl from "./moeda-form-control";
 
 export default function NewEvento() {
   const pathname = usePathname();
@@ -86,46 +85,25 @@ export default function NewEvento() {
                       </InputLeftAddon>
                       <Input placeholder="Busque o evento" />
                       <InputRightElement color="green">
-                        <Link href="/">
+                        <Link href="/lancador">
                           <AddIcon />
                         </Link>
                       </InputRightElement>
                     </InputGroup>
                   </Box>
                 </Flex>
-                <Divider />
-                <Flex wrap={"wrap"} gap={"10px"} marginTop={"1rem"}>
-                  <Box>
-                    <FormLabel>Quantidade:</FormLabel>
-                    <MoedaInput />
-                  </Box>
-                  <Box>
-                    <FormLabel>Quantidade Base:</FormLabel>
-                    <MoedaInput />
-                  </Box>
-                  <Box>
-                    <FormLabel>Percentual:</FormLabel>
-                    <MoedaInput />
-                  </Box>
-                  <Box>
-                    <FormLabel>Prazo:</FormLabel>
-                    <MoedaInput />
-                  </Box>
-                  <Box>
-                    <FormLabel>Valor:</FormLabel>
-                    <MoedaInput />
-                  </Box>
-                  <Box>
-                    <FormLabel>Valor Base:</FormLabel>
-                    <MoedaInput />
-                  </Box>
-                  <Box>
-                    <FormLabel>Patronal:</FormLabel>
-                    <MoedaInput />
-                  </Box>
-                  <Box>
-                    <FormLabel>Base Previdenciária:</FormLabel>
-                    <MoedaInput />
+                <Flex wrap={"wrap"} gap={"15px 10px"} marginTop={"1rem"}>
+                  <MoedaFormControl>Quantidade:</MoedaFormControl>
+                  <MoedaFormControl>Quantidade Base:</MoedaFormControl>
+                  <MoedaFormControl>Percentual:</MoedaFormControl>
+                  <MoedaFormControl>Prazo:</MoedaFormControl>
+                  <MoedaFormControl>Valor:</MoedaFormControl>
+                  <MoedaFormControl>Valor Base:</MoedaFormControl>
+                  <MoedaFormControl>Patronal:</MoedaFormControl>
+                  <MoedaFormControl>Base Previdenciária:</MoedaFormControl>
+                  <Box flex={1}>
+                    <FormLabel>Informações:</FormLabel>
+                    <Textarea></Textarea>
                   </Box>
                 </Flex>
               </FormControl>
