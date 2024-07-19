@@ -19,31 +19,19 @@ export default function Eventos({ eventos }: { eventos: Evento[] }) {
   return (
     <EntityTable headers={headers}>
       {eventos.map((e) => (
-        <EventoRow key={e.id} evento={e} isSelected={false} />
+        <EntityRow key={e.id} id={e.id} isSelected={false}>
+          <Td></Td>
+          <Td>{e.numero}</Td>
+          <Td>{e.rubrica}</Td>
+          <Td>{e.titulo}</Td>
+          <Td>{e.lancamento.descricao}</Td>
+          <Td>{e.tipo}</Td>
+          <Td>{e.tipo_calculo.descricao}</Td>
+          <Td></Td>
+          <Td>{e.calculo?.slug}</Td>
+          <Td>{e.carater.descricao}</Td>
+        </EntityRow>
       ))}
     </EntityTable>
-  );
-}
-
-function EventoRow({
-  evento,
-  isSelected,
-}: {
-  evento: Evento;
-  isSelected: boolean;
-}) {
-  return (
-    <EntityRow id={evento.id} isSelected={isSelected}>
-      <Td></Td>
-      <Td>{evento.numero}</Td>
-      <Td>{evento.rubrica}</Td>
-      <Td>{evento.titulo}</Td>
-      <Td>{evento.lancamento.descricao}</Td>
-      <Td>{evento.tipo}</Td>
-      <Td>{evento.tipo_calculo.descricao}</Td>
-      <Td></Td>
-      <Td>{evento.calculo?.slug}</Td>
-      <Td>{evento.carater.descricao}</Td>
-    </EntityRow>
   );
 }
