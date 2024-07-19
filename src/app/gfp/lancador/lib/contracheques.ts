@@ -15,7 +15,7 @@ export async function getFolhaEventos(
     `http://localhost/api/folhas-eventos/?contracheque=${contrachequeId}`,
     {
       headers: {
-        Authorization: "Token 27daa423f39d2edbae258941813570567d95889e",
+        Authorization: "Token e8860c988eb2dcfd95d92d516f2c206d8dc3e3bc",
       },
     }
   );
@@ -49,7 +49,7 @@ export async function getContracheques(
   const query = `?tipo_folha=${tipo_folha}&ano=${ano}&mes=${mes}&limit=${limit}&offset=${offset}`;
   const response = await fetch(`http://localhost/api/contracheques/${query}`, {
     headers: {
-      Authorization: "Token 27daa423f39d2edbae258941813570567d95889e",
+      Authorization: "Token e8860c988eb2dcfd95d92d516f2c206d8dc3e3bc",
     },
   });
 
@@ -94,7 +94,7 @@ async function getServidorExtraAttr(
     `http://localhost/api/servidores/${servidorId}/`,
     {
       headers: {
-        Authorization: "Token 27daa423f39d2edbae258941813570567d95889e",
+        Authorization: "Token e8860c988eb2dcfd95d92d516f2c206d8dc3e3bc",
       },
     }
   );

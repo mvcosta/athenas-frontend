@@ -23,7 +23,7 @@ export default function ContrachequeRow({
 
     const paths = pathname.split("/");
 
-    paths[5] = contracheque.id.toString();
+    paths[6] = contracheque.id.toString();
 
     router.push(`${paths.join("/")}${query}`);
   }

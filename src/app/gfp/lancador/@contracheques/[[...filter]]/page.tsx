@@ -17,7 +17,7 @@ export default async function ContrachequesPage({
 }: ContrachequesPageProps) {
   const filter = params.filter;
   if (!filter || filter.length < 3 || filter.length > 4) {
-    redirect("/lancador/2024/1/1");
+    redirect("gfp/lancador/2024/1/1");
   }
 
   const ano = filter[0];
@@ -38,7 +38,7 @@ export default async function ContrachequesPage({
 
   const contrachequeId = filter[3];
   if (!contrachequeId) {
-    redirect(`/lancador/2024/1/1/${contracheques[0].id}`);
+    redirect(`gfp/lancador/2024/1/1/${contracheques[0].id}`);
   }
 
   const numberOfPages = Math.ceil(count / limit);
