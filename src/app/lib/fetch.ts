@@ -21,6 +21,14 @@ export async function authAPIFetch(
   return authFetch(url, init);
 }
 
+export function getCurrentPage(searchParams: {
+  [key: string]: string | string[] | undefined;
+}) {
+  const page = Number(searchParams.page ?? "1");
+  const limit = Number(searchParams.limit ?? "20");
+  return { page, limit };
+}
+
 async function authFetch(
   input: string | URL | globalThis.Request,
   init?: RequestInit
