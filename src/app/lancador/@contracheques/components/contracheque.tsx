@@ -19,8 +19,7 @@ export default function ContrachequeRow({
 
   function navigateToContracheque() {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
-    const pagination = current.toString();
-    const query = pagination ? `?${pagination}` : "";
+    const query = current ? `?${current}` : "";
 
     const paths = pathname.split("/");
 

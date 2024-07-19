@@ -23,6 +23,7 @@ import {
   MenuList,
   MenuOptionGroup,
 } from "@chakra-ui/react";
+import NewEvento from "./new-evento";
 
 export default function EventosHeader() {
   return (
@@ -53,7 +54,7 @@ function Lancamentos() {
         Lançamentos
       </MenuButton>
       <MenuList>
-        <MenuItem icon={<AddIcon />}>Adicionar</MenuItem>
+        <NewEvento />
         <MenuItem icon={<EditIcon />}>Editar</MenuItem>
         <MenuItem icon={<DeleteIcon />}>Remover</MenuItem>
       </MenuList>
