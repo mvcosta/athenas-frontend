@@ -1,13 +1,13 @@
-import { authAPIFetch, authAPIPaginatedFetch } from "@/app/lib/fetch";
+import { authAPIFetch, authAPIPaginatedFetch } from "@/lib/fetch";
 import {
   Contracheque,
   ContrachequesResponse,
-} from "@/app/models/contracheque.models";
+} from "@/models/contracheque.models";
 import {
   FolhaEvento,
   FolhasEventosResponse,
-} from "@/app/models/folha-evento.models";
-import { ServidorResponse } from "@/app/models/servidor.models";
+} from "@/models/folha-evento.models";
+import { ServidorResponse } from "@/models/servidor.models";
 
 export async function getFolhaEventos(
   contrachequeId: number

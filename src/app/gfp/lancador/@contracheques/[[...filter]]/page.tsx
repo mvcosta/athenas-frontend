@@ -5,8 +5,8 @@ import ContrachequesHeader from "../components/contracheques-header";
 import ContrachequesFooter from "../components/contracheques-footer";
 import classes from "./contracheques.module.scss";
 import { redirect } from "next/navigation";
-import { PageProps } from "@/app/types/next-page-type";
-import { getCurrentPage } from "@/app/lib/fetch";
+import { PageProps } from "@/types/next-page-type";
+import { getCurrentPage } from "@/lib/fetch";
 
 export default async function ContrachequesPage({
   params,

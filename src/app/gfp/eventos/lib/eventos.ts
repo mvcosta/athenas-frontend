@@ -1,5 +1,5 @@
-import { authAPIPaginatedFetch } from "@/app/lib/fetch";
-import { Evento, EventoResponse } from "@/app/models/eventos.models";
+import { authAPIPaginatedFetch } from "@/lib/fetch";
+import { Evento, EventoResponse } from "@/models/eventos.models";
 
 export async function getEventos(
   page: number = 0,

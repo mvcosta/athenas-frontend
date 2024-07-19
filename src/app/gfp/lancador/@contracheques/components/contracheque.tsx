@@ -1,6 +1,6 @@
 "use client";
 
-import { Contracheque } from "@/app/models/contracheque.models";
+import { Contracheque } from "@/models/contracheque.models";
 import { Td, Tr } from "@chakra-ui/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 

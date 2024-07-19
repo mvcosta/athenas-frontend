@@ -1,7 +1,7 @@
 import React from "react";
 import { Table, TableContainer, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
 import ContrachequeRow from "./contracheque";
-import { Contracheque } from "@/app/models/contracheque.models";
+import { Contracheque } from "@/models/contracheque.models";
 
 interface ContrachequesProps {
   contracheques: Contracheque[];
