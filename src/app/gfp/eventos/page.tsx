@@ -1,14 +1,19 @@
 import { PageProps } from "@/types/next-page-type";
 import { getEventos } from "./lib/eventos";
 import { getCurrentPage } from "@/lib/fetch";
+import { Container, Heading } from "@chakra-ui/react";
+import Eventos from "./components/eventos";
 
 export default async function EventosPage({ searchParams }: PageProps) {
   const { page, limit } = getCurrentPage(searchParams);
   const eventos = await getEventos(page, limit);
+
   return (
-    <>
-      <h1>Gerenciador de Eventos da Folha</h1>
-      {eventos.map((e) => e.titulo)}
-    </>
+    <Container maxW="1500px">
+      <Heading marginY="2rem" textAlign="center">
+        Gerenciador de Eventos da Folha
+      </Heading>
+      <Eventos eventos={eventos} />
+    </Container>
   );
 }
