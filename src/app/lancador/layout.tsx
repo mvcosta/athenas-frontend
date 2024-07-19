@@ -12,7 +12,7 @@ export default function LancadorPage({
   contracheques,
 }: LancadorPageProps) {
   return (
-    <Container maxW="1320px">
+    <Container maxW="1500px">
       <div className={classes.lancador}>
         <div className={classes.contracheques}>{contracheques}</div>
         <div className={classes.eventos}>{eventos}</div>

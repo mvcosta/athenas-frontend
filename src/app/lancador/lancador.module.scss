@@ -3,25 +3,26 @@
   overflow: hidden;
 }
 
+$contracheques-vh: calc(60vh);
+$eventos-vh: calc(100vh - $contracheques-vh);
+
 .contracheques {
   $mt: 2vh;
-  $pb: 1vh;
+  $pb: 1rem;
 
   display: flex;
   flex-direction: column;
 
   margin-top: $mt;
   padding-bottom: $pb;
-  height: calc(60vh - $pb - $mt);
+  height: calc($contracheques-vh - $mt);
 }
 .eventos {
   $mb: 2vh;
-  $pt: 1vh;
 
   display: flex;
   flex-direction: column;
 
-  padding-top: $pt;
   margin-bottom: $mb;
-  height: calc(60vh - $pt - $mb);
+  height: calc($eventos-vh - $mb);
 }
