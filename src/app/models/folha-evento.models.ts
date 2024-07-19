@@ -1,3 +1,4 @@
+import { Evento } from "./eventos.models";
 import { Folha } from "./folha.models";
 import { Periodo } from "./periodo.models";
 
@@ -33,38 +34,4 @@ interface FolhaEventoResponse {
   info: string | null;
   competencia: Periodo;
   adc_remuneracao_periodo_anterior: null;
-}
-
-interface Evento {
-  id: number;
-  tipo: string;
-  titulo: string;
-  numero: string;
-  rubrica: string;
-  carater: EnumField;
-  classe: EnumField;
-  lancamento: EnumField;
-  tipo_calculo: EnumField;
-  config_transparencia: EnumField;
-  base_de_calculo: EnumField;
-  natureza_indenizacao: EnumField;
-  natureza_rubrica: EnumField;
-  tipo_rubrica: EnumField;
-  incidencia_prev_rgps: EnumField;
-  incidencia_irrf: EnumField;
-  incidencia_fgts: EnumField;
-  incidencia_prev_rpps_regime_militar: EnumField;
-  consignatario: null;
-  calculo: Calculo;
-}
-
-interface EnumField {
-  id: number;
-  descricao: string;
-}
-
-interface Calculo {
-  id: number;
-  slug: string;
-  path: string;
 }

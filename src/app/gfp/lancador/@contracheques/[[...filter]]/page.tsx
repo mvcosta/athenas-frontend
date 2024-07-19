@@ -5,19 +5,15 @@ import ContrachequesHeader from "../components/contracheques-header";
 import ContrachequesFooter from "../components/contracheques-footer";
 import classes from "./contracheques.module.scss";
 import { redirect } from "next/navigation";
-
-interface ContrachequesPageProps {
-  params: { [key: string]: string | string[] | undefined };
-  searchParams: { [key: string]: string | string[] | undefined };
-}
+import { PageProps } from "@/app/types/next-page-type";
 
 export default async function ContrachequesPage({
   params,
   searchParams,
-}: ContrachequesPageProps) {
+}: PageProps) {
   const filter = params.filter;
   if (!filter || filter.length < 3 || filter.length > 4) {
-    redirect("gfp/lancador/2024/1/1");
+    redirect("/gfp/lancador/2024/1/1");
   }
 
   const ano = filter[0];
@@ -37,7 +33,7 @@ export default async function ContrachequesPage({
 
   const contrachequeId = filter[3];
   if (!contrachequeId) {
-    redirect(`gfp/lancador/2024/1/1/${contracheques[0].id}`);
+    redirect(`/gfp/lancador/2024/1/1/${contracheques[0].id}`);
   }
 
   const numberOfPages = Math.ceil(count / limit);
