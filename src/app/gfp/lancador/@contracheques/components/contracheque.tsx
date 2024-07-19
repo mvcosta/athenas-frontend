@@ -1,8 +1,8 @@
 "use client";
 
+import EntityRow from "@/app/components/entity-row";
 import { Contracheque } from "@/models/contracheque.models";
-import { Td, Tr } from "@chakra-ui/react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Td } from "@chakra-ui/react";
 
 interface ContrachequeProps {
   contracheque: Contracheque;
@@ -13,28 +13,8 @@ export default function ContrachequeRow({
   contracheque,
   isSelected,
 }: ContrachequeProps) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-
-  function navigateToContracheque() {
-    const current = new URLSearchParams(Array.from(searchParams.entries()));
-    const query = current ? `?${current}` : "";
-
-    const paths = pathname.split("/");
-
-    paths[6] = contracheque.id.toString();
-
-    router.push(`${paths.join("/")}${query}`);
-  }
-
   return (
-    <Tr
-      bg={isSelected ? "gray.100" : "transparent"}
-      _hover={{ bg: "gray.100" }}
-      onClick={navigateToContracheque}
-      cursor={"pointer"}
-    >
+    <EntityRow id={contracheque.id} isSelected={isSelected} pathIndex={6}>
       <Td></Td>
       <Td>{contracheque.matricula}</Td>
       <Td>{contracheque.nome}</Td>
@@ -42,6 +22,6 @@ export default function ContrachequeRow({
       <Td>{contracheque.confianca}</Td>
       <Td>{contracheque.estagio}</Td>
       <Td>{contracheque.ferias}</Td>
-    </Tr>
+    </EntityRow>
   );
 }
