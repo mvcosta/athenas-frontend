@@ -1,3 +1,4 @@
+import { authAPIFetch, authAPIPaginatedFetch } from "@/app/lib/fetch";
 import {
   Contracheque,
   ContrachequesResponse,
@@ -11,19 +12,9 @@ import { ServidorResponse } from "@/app/models/servidor.models";
 export async function getFolhaEventos(
   contrachequeId: number
 ): Promise<FolhaEvento[]> {
-  const response = await fetch(
-    `http://localhost/api/folhas-eventos/?contracheque=${contrachequeId}`,
-    {
-      headers: {
-        Authorization: "Token e8860c988eb2dcfd95d92d516f2c206d8dc3e3bc",
-      },
-    }
+  const response = await authAPIFetch(
+    `folhas-eventos/?contracheque=${contrachequeId}`
   );
-
-  if (!response.ok) {
-    const responseText = await response.text();
-    throw new Error(responseText);
-  }
 
   const folhaEventoResponse: FolhasEventosResponse = await response.json();
   return folhaEventoResponse.results.map((fe) => ({
@@ -43,20 +34,15 @@ export async function getContracheques(
   ano: string = "2024",
   mes: string = "1",
   tipo_folha: string = "1",
-  limit: number = 10,
-  offset: number = 0
+  page: number = 0,
+  limit: number = 10
 ): Promise<{ contracheques: Contracheque[]; count: number }> {
-  const query = `?tipo_folha=${tipo_folha}&ano=${ano}&mes=${mes}&limit=${limit}&offset=${offset}`;
-  const response = await fetch(`http://localhost/api/contracheques/${query}`, {
-    headers: {
-      Authorization: "Token e8860c988eb2dcfd95d92d516f2c206d8dc3e3bc",
-    },
-  });
-
-  if (!response.ok) {
-    const txt = await response.text();
-    throw new Error(txt);
-  }
+  const query = `?tipo_folha=${tipo_folha}&ano=${ano}&mes=${mes}`;
+  const response = await authAPIPaginatedFetch(
+    `contracheques/${query}`,
+    page,
+    limit
+  );
 
   const contrachequeResponse: ContrachequesResponse = await response.json();
   const contracheques = await Promise.all(
@@ -90,19 +76,7 @@ type ServidorExtraAttr = {
 async function getServidorExtraAttr(
   servidorId: number
 ): Promise<ServidorExtraAttr> {
-  const response = await fetch(
-    `http://localhost/api/servidores/${servidorId}/`,
-    {
-      headers: {
-        Authorization: "Token e8860c988eb2dcfd95d92d516f2c206d8dc3e3bc",
-      },
-    }
-  );
-
-  if (!response.ok) {
-    const txt = await response.text();
-    throw new Error(txt);
-  }
+  const response = await authAPIFetch(`/servidores/${servidorId}/`);
 
   const servidor: ServidorResponse = await response.json();
   const efetivo = findCargoCodigoPorTipoLeiCargo(servidor, "EF");

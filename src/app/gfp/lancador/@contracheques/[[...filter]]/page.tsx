@@ -26,14 +26,13 @@ export default async function ContrachequesPage({
 
   const page = Number(searchParams.page ?? "1");
   const limit = Number(searchParams.limit ?? "20");
-  const offset = (page - 1) * limit;
 
   const { contracheques, count } = await getContracheques(
     ano,
     mes,
     folha,
-    limit,
-    offset
+    page,
+    limit
   );
 
   const contrachequeId = filter[3];
