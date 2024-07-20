@@ -42,7 +42,12 @@ export default function NewEvento() {
       <MenuItem icon={<AddIcon />} onClick={onOpen}>
         Adicionar
       </MenuItem>
-      <DraggableModal title="Lançar Evento" isOpen={isOpen} onClose={onClose}>
+      <DraggableModal
+        title="Lançar Evento"
+        isOpen={isOpen}
+        onClose={onClose}
+        size={"xl"}
+      >
         <ModalBody>
           <form action="">
             <FormControl>

@@ -7,12 +7,14 @@ export default function EntityRow({
   id,
   isSelected,
   pathIndex,
+  onClick,
   children,
 }: {
   id: number;
-  // Indice da url a ser atualizado durante a navegação
   isSelected: boolean;
+  // Indice da url a ser atualizado durante a navegação
   pathIndex?: number;
+  onClick?: (e: React.MouseEvent) => any;
   children: React.ReactNode;
 }) {
   const router = useRouter();
@@ -28,11 +30,14 @@ export default function EntityRow({
     paths[pathIndex] = id.toString();
     router.push(`${paths.join("/")}${query}`);
   }
+
+  const handleClick = onClick ?? navigateToEntity;
+
   return (
     <Tr
       bg={isSelected ? "#152838" : "transparent"}
       _hover={{ bg: "#152838" }}
-      onClick={navigateToEntity}
+      onClick={handleClick}
       cursor={"pointer"}
     >
       {children}

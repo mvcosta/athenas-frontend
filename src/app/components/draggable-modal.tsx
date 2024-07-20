@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Divider,
   Modal,
@@ -5,27 +7,26 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  ModalProps,
 } from "@chakra-ui/react";
-import { useRef } from "react";
+import { FC, useRef } from "react";
 
-export default function DraggableModal({
+interface DraggableModalProps extends ModalProps {
+  title: string;
+}
+
+const DraggableModal: FC<DraggableModalProps> = ({
   title,
   isOpen,
   onClose,
   children,
-}: {
-  title: string;
-  isOpen: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
-}) {
-  const documentRef = useRef(document);
+  ...props
+}) => {
   const modalRef = useRef<any>(null);
 
   function handleMouseDown(e: React.MouseEvent) {
     e.preventDefault();
     const modal = modalRef.current;
-    const document = documentRef.current;
 
     let l = modal.offsetLeft;
     let t = modal.offsetTop;
@@ -56,8 +57,8 @@ export default function DraggableModal({
       isOpen={isOpen}
       onClose={onClose}
       isCentered
-      size={"xl"}
       closeOnOverlayClick={false}
+      {...props}
     >
       <ModalOverlay />
       <ModalContent ref={modalRef}>
@@ -68,4 +69,6 @@ export default function DraggableModal({
       </ModalContent>
     </Modal>
   );
-}
+};
+
+export default DraggableModal;

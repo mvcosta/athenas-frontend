@@ -2,8 +2,15 @@ import EntityRow from "@/app/components/entity-row";
 import EntityTable from "@/app/components/entity-table";
 import { Evento } from "@/models/eventos.models";
 import { Td } from "@chakra-ui/react";
+import React from "react";
 
-export default function Eventos({ eventos }: { eventos: Evento[] }) {
+export default function Eventos({
+  eventos,
+  onClick,
+}: {
+  eventos: Evento[];
+  onClick?: (e: Evento) => any;
+}) {
   const headers = [
     "",
     "Número",
@@ -16,10 +23,16 @@ export default function Eventos({ eventos }: { eventos: Evento[] }) {
     "Cálculo",
     "Caráter",
   ];
+
   return (
     <EntityTable headers={headers}>
       {eventos.map((e) => (
-        <EntityRow key={e.id} id={e.id} isSelected={false}>
+        <EntityRow
+          key={e.id}
+          id={e.id}
+          isSelected={false}
+          onClick={() => onClick?.(e)}
+        >
           <Td></Td>
           <Td>{e.numero}</Td>
           <Td>{e.rubrica}</Td>
