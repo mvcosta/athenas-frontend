@@ -1,20 +1,16 @@
 import React from "react";
-import {
-  Td,
-} from "@chakra-ui/react";
+import { Td } from "@chakra-ui/react";
 import { Contracheque } from "@/models/contracheque.models";
 import EntityRow from "@/app/components/entity-row";
 import EntityTable from "@/app/components/entity-table";
 
-interface ContrachequesProps {
-  contracheques: Contracheque[];
-  selectedContrachequeId?: number;
-}
-
 export default async function Contracheques({
   contracheques,
   selectedContrachequeId,
-}: ContrachequesProps) {
+}: {
+  contracheques: Contracheque[];
+  selectedContrachequeId?: number;
+}) {
   const headers = [
     "Matrícula",
     "Nome",
