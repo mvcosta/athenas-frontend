@@ -16,8 +16,8 @@ import {
 } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import MoedaFormControl from "./moeda-form-control";
-import DraggableModal from "@/app/components/draggable-modal";
-import EventoFormControl from "@/app/components/evento-form-control";
+import DraggableModal from "@/components/draggable-modal";
+import EventoFormControl from "@/components/evento-form-control";
 
 export default function NewEvento() {
   const pathname = usePathname();

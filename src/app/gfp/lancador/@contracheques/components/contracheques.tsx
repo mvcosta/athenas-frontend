@@ -1,8 +1,8 @@
 import React from "react";
 import { Td } from "@chakra-ui/react";
 import { Contracheque } from "@/models/contracheque.models";
-import EntityRow from "@/app/components/entity-row";
-import EntityTable from "@/app/components/entity-table";
+import EntityRow from "@/components/entity-row";
+import EntityTable from "@/components/entity-table";
 
 export default async function Contracheques({
   contracheques,

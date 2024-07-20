@@ -1,5 +1,5 @@
-import EntityRow from "@/app/components/entity-row";
-import EntityTable from "@/app/components/entity-table";
+import EntityRow from "@/components/entity-row";
+import EntityTable from "@/components/entity-table";
 import { Evento } from "@/models/eventos.models";
 import { Td } from "@chakra-ui/react";
 import React from "react";

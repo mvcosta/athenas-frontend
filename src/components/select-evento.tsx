@@ -1,12 +1,12 @@
 "use client";
 
-import DraggableModal from "@/app/components/draggable-modal";
 import { AddIcon } from "@chakra-ui/icons";
 import { InputRightElement, ModalBody, useDisclosure } from "@chakra-ui/react";
 import { Evento } from "@/models/eventos.models";
-import Eventos from "../gfp/eventos/components/eventos";
+import Eventos from "../app/gfp/eventos/components/eventos";
 import { useState } from "react";
-import { getEventos } from "../gfp/eventos/lib/eventos";
+import { getEventos } from "../app/gfp/eventos/lib/eventos";
+import DraggableModal from "./draggable-modal";
 
 export default function SelectEvento({
   onSelected,
