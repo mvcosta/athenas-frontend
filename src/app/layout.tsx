@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Providers } from "./providers";
+import { ThemeProvider } from "./theme-providers";
+import { cookies } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,10 +16,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const colorMode = cookies().get("chakra-ui-color-mode");
+
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        <ThemeProvider colorMode={colorMode?.value}>{children}</ThemeProvider>
       </body>
     </html>
   );

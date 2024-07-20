@@ -30,8 +30,8 @@ export default function EntityRow({
   }
   return (
     <Tr
-      bg={isSelected ? "gray.100" : "transparent"}
-      _hover={{ bg: "gray.100" }}
+      bg={isSelected ? "#152838" : "transparent"}
+      _hover={{ bg: "#152838" }}
       onClick={navigateToEntity}
       cursor={"pointer"}
     >
