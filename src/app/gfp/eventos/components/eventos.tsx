@@ -25,26 +25,28 @@ export default function Eventos({
   ];
 
   return (
-    <EntityTable headers={headers}>
-      {eventos.map((e) => (
-        <EntityRow
-          key={e.id}
-          id={e.id}
-          isSelected={false}
-          onClick={() => onClick?.(e)}
-        >
-          <Td></Td>
-          <Td>{e.numero}</Td>
-          <Td>{e.rubrica}</Td>
-          <Td>{e.titulo}</Td>
-          <Td>{e.lancamento.descricao}</Td>
-          <Td>{e.tipo}</Td>
-          <Td>{e.tipo_calculo.descricao}</Td>
-          <Td></Td>
-          <Td>{e.calculo?.slug}</Td>
-          <Td>{e.carater.descricao}</Td>
-        </EntityRow>
-      ))}
-    </EntityTable>
+    <>
+      <EntityTable headers={headers}>
+        {eventos.map((e) => (
+          <EntityRow
+            key={e.id}
+            id={e.id}
+            isSelected={false}
+            // onClick={() => onClick?.(e)}
+          >
+            <Td></Td>
+            <Td>{e.numero}</Td>
+            <Td>{e.rubrica}</Td>
+            <Td>{e.titulo}</Td>
+            <Td>{e.lancamento.descricao}</Td>
+            <Td>{e.tipo}</Td>
+            <Td>{e.tipo_calculo.descricao}</Td>
+            <Td></Td>
+            <Td>{e.calculo?.slug}</Td>
+            <Td>{e.carater.descricao}</Td>
+          </EntityRow>
+        ))}
+      </EntityTable>
+    </>
   );
 }

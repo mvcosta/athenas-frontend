@@ -5,25 +5,23 @@ import PaginationButton from "./pagination-button";
 
 export default function StepPaginationButton({
   direction,
-  numberOfPages,
+  isDisabled,
+  onClick,
 }: {
   direction: "foward" | "back";
-  numberOfPages?: number;
+  isDisabled: boolean;
+  onClick: () => void;
 }) {
-  function getNewPage(page: number): number {
-    return isBack() ? page - 1 : page + 1;
-  }
-
   function isBack(): boolean {
     return direction === "back";
   }
 
   return (
     <PaginationButton
-      getNewPage={getNewPage}
-      icon={isBack() ? <ArrowBackIcon /> : <ArrowForwardIcon />}
       direction={direction}
-      numberOfPages={numberOfPages}
+      isDisabled={isDisabled}
+      onClick={onClick}
+      icon={isBack() ? <ArrowBackIcon /> : <ArrowForwardIcon />}
     >
       {isBack() ? "Anterior" : "Próximo"}
     </PaginationButton>

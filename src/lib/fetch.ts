@@ -21,7 +21,7 @@ export async function authAPIFetch(
   return authFetch(url, init);
 }
 
-export function getCurrentPage(searchParams: {
+export function getPageFromParams(searchParams: {
   [key: string]: string | string[] | undefined;
 }) {
   const page = Number(searchParams.page ?? "1");

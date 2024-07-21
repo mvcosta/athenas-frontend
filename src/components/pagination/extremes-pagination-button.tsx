@@ -5,27 +5,23 @@ import PaginationButton from "./pagination-button";
 
 export default function ExtremesPaginationButton({
   direction,
-  numberOfPages,
+  isDisabled,
+  onClick,
 }: {
   direction: "foward" | "back";
-  numberOfPages?: number;
+  isDisabled: boolean;
+  onClick: () => void;
 }) {
-  function getNewPage(page: number): number {
-    if (isBack()) return 1;
-    if (!numberOfPages) throw new Error("Configure o número de paginas");
-    return numberOfPages;
-  }
-
   function isBack(): boolean {
     return direction === "back";
   }
 
   return (
     <PaginationButton
-      getNewPage={getNewPage}
-      icon={isBack() ? <ArrowLeftIcon /> : <ArrowRightIcon />}
       direction={direction}
-      numberOfPages={numberOfPages}
+      isDisabled={isDisabled}
+      onClick={onClick}
+      icon={isBack() ? <ArrowLeftIcon /> : <ArrowRightIcon />}
     >
       {isBack() ? "Primeira" : "Última"}
     </PaginationButton>

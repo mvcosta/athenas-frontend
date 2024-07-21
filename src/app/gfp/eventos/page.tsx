@@ -1,12 +1,14 @@
 import { PageProps } from "@/types/next-page-type";
 import { getEventos } from "./lib/eventos";
-import { getCurrentPage } from "@/lib/fetch";
+import { getPageFromParams } from "@/lib/fetch";
 import { Container, Heading } from "@chakra-ui/react";
 import Eventos from "./components/eventos";
 
 export default async function EventosPage({ searchParams }: PageProps) {
-  const { page, limit } = getCurrentPage(searchParams);
-  const eventos = await getEventos(page, limit);
+  const { page, limit } = getPageFromParams(searchParams);
+  const { eventos, count } = await getEventos(page, limit);
+
+  const numberOfPages = Math.ceil(count / limit);
 
   return (
     <Container maxW="1500px">

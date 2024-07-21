@@ -7,19 +7,12 @@ import {
 const { definePartsStyle, defineMultiStyleConfig } =
   createMultiStyleConfigHelpers(parts.keys);
 
-const baseStyle = definePartsStyle({
-  dialog: {
-    resize: "both",
-  },
-});
-
-const xl = defineStyle({
-  maxW: "576",
+const xxl = defineStyle({
+  maxW: "600",
 });
 
 export const modalTheme = defineMultiStyleConfig({
-  baseStyle,
   sizes: {
-    xl: definePartsStyle({ dialog: xl }),
+    xxl: definePartsStyle({ dialog: xxl }),
   },
 });

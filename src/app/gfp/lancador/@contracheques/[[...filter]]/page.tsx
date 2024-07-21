@@ -6,7 +6,7 @@ import ContrachequesFooter from "../components/contracheques-footer";
 import classes from "./contracheques.module.scss";
 import { redirect } from "next/navigation";
 import { PageProps } from "@/types/next-page-type";
-import { getCurrentPage } from "@/lib/fetch";
+import { getPageFromParams } from "@/lib/fetch";
 
 export default async function ContrachequesPage({
   params,
@@ -21,7 +21,7 @@ export default async function ContrachequesPage({
   const mes = filter[1];
   const folha = filter[2];
 
-  const { page, limit } = getCurrentPage(searchParams);
+  const { page, limit } = getPageFromParams(searchParams);
 
   const { contracheques, count } = await getContracheques(
     ano,
