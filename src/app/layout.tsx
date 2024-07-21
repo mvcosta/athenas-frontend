@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../theme/theme-providers";
 import { cookies } from "next/headers";
+import Menu from "./menu";
+import { Flex } from "@chakra-ui/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +23,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThemeProvider colorMode={colorMode?.value}>{children}</ThemeProvider>
+        <ThemeProvider colorMode={colorMode?.value}>
+          <Flex>
+            <Menu width={300} />
+            {children}
+          </Flex>
+        </ThemeProvider>
       </body>
     </html>
   );

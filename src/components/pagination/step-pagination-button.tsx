@@ -23,7 +23,7 @@ export default function StepPaginationButton({
       onClick={onClick}
       icon={isBack() ? <ArrowBackIcon /> : <ArrowForwardIcon />}
     >
-      {isBack() ? "Anterior" : "Próximo"}
+      {isBack() ? "Anterior" : "Próxima"}
     </PaginationButton>
   );
 }

@@ -7,10 +7,10 @@ import { useState } from "react";
 import { getEventos } from "../eventos/lib/eventos";
 import DraggableModal from "../../../components/draggable-modal";
 import { useParams } from "next/navigation";
-import { getPageFromParams } from "@/lib/fetch";
 import PaginationControls from "../../../components/pagination/pagination-controls";
 import EntityRow, { EntityRowProps } from "@/components/entity-row";
 import Eventos from "../eventos/components/eventos";
+import { getPageFromParams } from "@/lib/pagination-utils";
 
 export default function SelectEvento({
   onSelected,
