@@ -4,13 +4,13 @@ import QueryPaginationControls from "../../../../../components/pagination/query-
 
 export default function ContrachequesFooter({
   page,
-  numberOfPages,
+  lastPage,
   ano,
   mes,
   folha,
 }: {
   page: number;
-  numberOfPages: number;
+  lastPage: number;
   ano?: string;
   mes?: string;
   folha?: string;
@@ -18,7 +18,7 @@ export default function ContrachequesFooter({
   return (
     <Flex gap="2rem">
       <Box flex="1">
-        <QueryPaginationControls page={page} numberOfPages={numberOfPages} />
+        <QueryPaginationControls page={page} lastPage={lastPage} />
       </Box>
       <Box flex="1">
         <SeletorFolha ano={ano} mes={mes} folha={folha} />

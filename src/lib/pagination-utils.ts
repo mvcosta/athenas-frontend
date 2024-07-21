@@ -6,6 +6,6 @@ export function getPageFromParams(searchParams: {
   return { page, limit };
 }
 
-export function calculateNumberOfPages(count: number, limit: number) {
+export function calcLastPage(count: number, limit: number) {
   return Math.ceil(count / limit);
 }

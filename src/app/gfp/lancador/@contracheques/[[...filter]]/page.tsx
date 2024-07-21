@@ -5,10 +5,7 @@ import ContrachequesHeader from "../components/contracheques-header";
 import ContrachequesFooter from "../components/contracheques-footer";
 import classes from "./contracheques.module.scss";
 import { redirect } from "next/navigation";
-import {
-  calculateNumberOfPages,
-  getPageFromParams,
-} from "@/lib/pagination-utils";
+import { calcLastPage, getPageFromParams } from "@/lib/pagination-utils";
 import { PageProps } from "@/interfaces/page-props";
 
 export default async function ContrachequesPage({
@@ -34,7 +31,7 @@ export default async function ContrachequesPage({
     limit
   );
 
-  const numberOfPages = calculateNumberOfPages(count, limit);
+  const lastPage = calcLastPage(count, limit);
 
   const contrachequeId = filter[3];
   if (!contrachequeId) {
@@ -56,7 +53,7 @@ export default async function ContrachequesPage({
       </div>
       <ContrachequesFooter
         page={page}
-        numberOfPages={numberOfPages}
+        lastPage={lastPage}
         ano={ano}
         mes={mes}
         folha={folha}

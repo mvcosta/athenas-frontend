@@ -6,15 +6,15 @@ import StepPaginationButton from "./step-pagination-button";
 import { useState } from "react";
 
 export default function PaginationControls({
-  numberOfPages,
+  lastPage,
   onPageChange,
 }: {
-  numberOfPages: number;
+  lastPage: number;
   onPageChange: (page: number) => void;
 }) {
   const [page, setPage] = useState(1);
   const isBackDisabled = page === 1;
-  const isFowardDisabled = page === numberOfPages;
+  const isFowardDisabled = page === lastPage;
 
   return (
     <Flex alignItems="center" gap="10px">
@@ -39,7 +39,7 @@ export default function PaginationControls({
         isDisabled={isBackDisabled}
       />
       <span>
-        Página {page} de {numberOfPages}
+        Página {page} de {lastPage}
       </span>
       <StepPaginationButton
         direction="foward"
@@ -56,8 +56,8 @@ export default function PaginationControls({
         direction="foward"
         onClick={() => {
           setPage((p) => {
-            onPageChange(numberOfPages);
-            return numberOfPages;
+            onPageChange(lastPage);
+            return lastPage;
           });
         }}
         isDisabled={isFowardDisabled}

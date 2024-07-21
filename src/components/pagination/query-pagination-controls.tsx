@@ -7,10 +7,10 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function QueryPaginationControls({
   page,
-  numberOfPages,
+  lastPage,
 }: {
   page: number;
-  numberOfPages: number;
+  lastPage: number;
 }) {
   const router = useRouter();
   const pathName = usePathname();
@@ -26,7 +26,7 @@ export default function QueryPaginationControls({
   }
 
   const isBackDisabled = page === 1;
-  const isFowardDisabled = page === numberOfPages;
+  const isFowardDisabled = page === lastPage;
 
   return (
     <Flex alignItems="center" gap="10px">
@@ -41,7 +41,7 @@ export default function QueryPaginationControls({
         isDisabled={isBackDisabled}
       />
       <span>
-        Página {page} de {numberOfPages}
+        Página {page} de {lastPage}
       </span>
       <StepPaginationButton
         direction="foward"
@@ -50,7 +50,7 @@ export default function QueryPaginationControls({
       />
       <ExtremesPaginationButton
         direction="foward"
-        onClick={() => onPageChange(numberOfPages)}
+        onClick={() => onPageChange(lastPage)}
         isDisabled={isFowardDisabled}
       />
     </Flex>

@@ -22,12 +22,12 @@ export default function SelectEvento({
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [eventos, setEventos] = useState<Evento[]>([]);
-  const [numberOfPages, setnumberOfPages] = useState<number>(0);
+  const [lastPage, setlastPage] = useState<number>(0);
 
   async function onOpenModal() {
     const { eventos: eventosRes, count } = await getEventos(1, 20);
     setEventos(eventosRes);
-    setnumberOfPages(Math.ceil(count / limit));
+    setlastPage(Math.ceil(count / limit));
     onOpen();
   }
 
@@ -59,10 +59,7 @@ export default function SelectEvento({
       >
         <ModalBody>
           <SelectEventoTable eventos={eventos} onClick={handleClick} />
-          <PaginationControls
-            onPageChange={onPageChange}
-            numberOfPages={numberOfPages}
-          />
+          <PaginationControls onPageChange={onPageChange} lastPage={lastPage} />
         </ModalBody>
       </DraggableModal>
     </>
