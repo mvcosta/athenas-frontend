@@ -1,22 +1,25 @@
 "use client";
 
+import { HasId } from "@/interfaces/has-id";
 import { Tr } from "@chakra-ui/react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
-export default function EntityRow({
-  id,
+export interface EntityRowProps<T extends HasId> {
+  entity: T;
+  isSelected: boolean;
+  // Indice da url a ser atualizado durante a navegação
+  pathIndex?: number;
+  onClick?: (e: React.MouseEvent) => void;
+  children: React.ReactNode;
+}
+
+export default function EntityRow<T extends HasId>({
+  entity,
   isSelected,
   pathIndex,
   onClick,
   children,
-}: {
-  id: number;
-  isSelected: boolean;
-  // Indice da url a ser atualizado durante a navegação
-  pathIndex?: number;
-  onClick?: (e: React.MouseEvent) => any;
-  children: React.ReactNode;
-}) {
+}: EntityRowProps<T>) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -27,7 +30,7 @@ export default function EntityRow({
     const current = new URLSearchParams(Array.from(searchParams.entries()));
     const query = current ? `?${current}` : "";
     const paths = pathname.split("/");
-    paths[pathIndex] = id.toString();
+    paths[pathIndex] = entity.id.toString();
     router.push(`${paths.join("/")}${query}`);
   }
 

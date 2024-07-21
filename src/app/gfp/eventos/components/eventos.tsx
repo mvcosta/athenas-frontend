@@ -1,4 +1,4 @@
-import EntityRow from "@/components/entity-row";
+import EntityRowType from "@/components/entity-row";
 import EntityTable from "@/components/entity-table";
 import { Evento } from "@/models/eventos.models";
 import { Td } from "@chakra-ui/react";
@@ -6,10 +6,10 @@ import React from "react";
 
 export default function Eventos({
   eventos,
-  onClick,
+  EntityRow,
 }: {
   eventos: Evento[];
-  onClick?: (e: Evento) => any;
+  EntityRow: typeof EntityRowType<Evento>;
 }) {
   const headers = [
     "",
@@ -28,12 +28,7 @@ export default function Eventos({
     <>
       <EntityTable headers={headers}>
         {eventos.map((e) => (
-          <EntityRow
-            key={e.id}
-            id={e.id}
-            isSelected={false}
-            // onClick={() => onClick?.(e)}
-          >
+          <EntityRow key={e.id} entity={e} isSelected={false}>
             <Td></Td>
             <Td>{e.numero}</Td>
             <Td>{e.rubrica}</Td>

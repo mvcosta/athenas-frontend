@@ -25,7 +25,7 @@ export default async function Contracheques({
       {contracheques.map((c) => (
         <EntityRow
           key={c.id}
-          id={c.id}
+          entity={c}
           isSelected={c.id === selectedContrachequeId}
           pathIndex={6}
         >

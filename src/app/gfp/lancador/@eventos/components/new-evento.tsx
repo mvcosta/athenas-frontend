@@ -17,7 +17,7 @@ import {
 import { usePathname } from "next/navigation";
 import MoedaFormControl from "./moeda-form-control";
 import DraggableModal from "@/components/draggable-modal";
-import EventoFormControl from "@/components/evento-form-control";
+import EventoFormControl from "@/app/gfp/components/evento-form-control";
 
 export default function NewEvento() {
   const pathname = usePathname();

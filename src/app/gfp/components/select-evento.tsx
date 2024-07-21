@@ -3,13 +3,14 @@
 import { AddIcon } from "@chakra-ui/icons";
 import { InputRightElement, ModalBody, useDisclosure } from "@chakra-ui/react";
 import { Evento } from "@/models/eventos.models";
-import Eventos from "../app/gfp/eventos/components/eventos";
 import { useState } from "react";
-import { getEventos } from "../app/gfp/eventos/lib/eventos";
-import DraggableModal from "./draggable-modal";
+import { getEventos } from "../eventos/lib/eventos";
+import DraggableModal from "../../../components/draggable-modal";
 import { useParams } from "next/navigation";
 import { getPageFromParams } from "@/lib/fetch";
-import PaginationControls from "./pagination/pagination-controls";
+import PaginationControls from "../../../components/pagination/pagination-controls";
+import EntityRow, { EntityRowProps } from "@/components/entity-row";
+import Eventos from "../eventos/components/eventos";
 
 export default function SelectEvento({
   onSelected,
@@ -17,7 +18,7 @@ export default function SelectEvento({
   onSelected: (evento: Evento) => void;
 }) {
   const params = useParams();
-  const { page, limit } = getPageFromParams(params);
+  const { limit } = getPageFromParams(params);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [eventos, setEventos] = useState<Evento[]>([]);
@@ -57,7 +58,7 @@ export default function SelectEvento({
         size={"full"}
       >
         <ModalBody>
-          <Eventos eventos={eventos} onClick={handleClick} />
+          <SelectEventoTable eventos={eventos} onClick={handleClick} />
           <PaginationControls
             onPageChange={onPageChange}
             numberOfPages={numberOfPages}
@@ -66,4 +67,23 @@ export default function SelectEvento({
       </DraggableModal>
     </>
   );
+}
+
+function SelectEventoTable({
+  eventos,
+  onClick,
+}: {
+  eventos: Evento[];
+  onClick?: (e: Evento) => void;
+}) {
+  const withOnClickEntityRow = ({
+    entity,
+    ...props
+  }: EntityRowProps<Evento>) => (
+    <EntityRow {...props} entity={entity} onClick={() => onClick?.(entity)}>
+      {props.children}
+    </EntityRow>
+  );
+
+  return <Eventos eventos={eventos} EntityRow={withOnClickEntityRow} />;
 }
