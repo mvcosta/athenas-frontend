@@ -5,8 +5,11 @@ import ContrachequesHeader from "../components/contracheques-header";
 import ContrachequesFooter from "../components/contracheques-footer";
 import classes from "./contracheques.module.scss";
 import { redirect } from "next/navigation";
-import { PageProps } from "@/types/next-page-type";
-import { getPageFromParams } from "@/lib/fetch";
+import {
+  calculateNumberOfPages,
+  getPageFromParams,
+} from "@/lib/pagination-utils";
+import { PageProps } from "@/interfaces/page-props";
 
 export default async function ContrachequesPage({
   params,
@@ -31,12 +34,12 @@ export default async function ContrachequesPage({
     limit
   );
 
+  const numberOfPages = calculateNumberOfPages(count, limit);
+
   const contrachequeId = filter[3];
   if (!contrachequeId) {
     redirect(`/gfp/lancador/2024/1/1/${contracheques[0].id}`);
   }
-
-  const numberOfPages = Math.ceil(count / limit);
 
   const selectedContrachequeId = contrachequeId
     ? Number(contrachequeId)

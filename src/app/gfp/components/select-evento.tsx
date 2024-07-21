@@ -25,14 +25,14 @@ export default function SelectEvento({
   const [numberOfPages, setnumberOfPages] = useState<number>(0);
 
   async function onOpenModal() {
-    const { eventos: eventosRes, count } = await getEventos();
+    const { eventos: eventosRes, count } = await getEventos(1, 20);
     setEventos(eventosRes);
     setnumberOfPages(Math.ceil(count / limit));
     onOpen();
   }
 
   async function onPageChange(page: number) {
-    const { eventos: eventosRes } = await getEventos(page);
+    const { eventos: eventosRes } = await getEventos(page, 20);
     setEventos(eventosRes);
   }
 
