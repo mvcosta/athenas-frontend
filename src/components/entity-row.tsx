@@ -10,6 +10,8 @@ export interface EntityRowProps<T extends HasId> {
   // Indice da url a ser atualizado durante a navegação
   pathIndex?: number;
   onClick?: (e: React.MouseEvent) => void;
+  onCtrlClick?: (entity: T) => void;
+  onShiftClick?: (eentity: T) => void;
   children: React.ReactNode;
 }
 
@@ -18,11 +20,31 @@ export default function EntityRow<T extends HasId>({
   isSelected,
   pathIndex,
   onClick,
+  onCtrlClick,
+  onShiftClick,
   children,
 }: EntityRowProps<T>) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+
+  function handleClick(e: React.MouseEvent) {
+    e.preventDefault();
+    if (e.ctrlKey) {
+      onCtrlClick?.(entity);
+      return;
+    }
+    if (e.shiftKey) {
+      onShiftClick?.(entity);
+      return;
+    }
+
+    if (onClick) {
+      onClick(e);
+    } else {
+      navigateToEntity();
+    }
+  }
 
   function navigateToEntity() {
     if (!pathIndex) return;
@@ -33,8 +55,6 @@ export default function EntityRow<T extends HasId>({
     paths[pathIndex] = entity.id.toString();
     router.push(`${paths.join("/")}${query}`);
   }
-
-  const handleClick = onClick ?? navigateToEntity;
 
   return (
     <Tr
