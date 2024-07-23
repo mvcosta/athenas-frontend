@@ -5,6 +5,7 @@ import { ThemeProvider } from "../theme/theme-providers";
 import { cookies } from "next/headers";
 import Menu from "./menu";
 import { Flex } from "@chakra-ui/react";
+import { ReactQueryClientProvider } from "./react-query-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,12 +24,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThemeProvider colorMode={colorMode?.value}>
-          <Flex>
-            <Menu width={300} />
-            {children}
-          </Flex>
-        </ThemeProvider>
+        <ReactQueryClientProvider>
+          <ThemeProvider colorMode={colorMode?.value}>
+            <Flex>
+              <Menu width={300} />
+              {children}
+            </Flex>
+          </ThemeProvider>
+        </ReactQueryClientProvider>
       </body>
     </html>
   );
