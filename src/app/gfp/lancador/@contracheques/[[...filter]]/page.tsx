@@ -38,9 +38,7 @@ export default async function ContrachequesPage({
     redirect(`/gfp/lancador/2024/1/1/${contracheques[0].id}`);
   }
 
-  const selectedContrachequeId = contrachequeId
-    ? Number(contrachequeId)
-    : undefined;
+  const selectedContrachequeId = Number(contrachequeId);
 
   return (
     <>

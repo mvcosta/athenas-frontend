@@ -1,39 +1,41 @@
 "use client";
 
 import { AddIcon } from "@chakra-ui/icons";
-import { InputRightElement, ModalBody, useDisclosure } from "@chakra-ui/react";
+import {
+  CircularProgress,
+  Heading,
+  InputRightElement,
+  ModalBody,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { Evento } from "@/models/eventos.models";
 import { useState } from "react";
-import { getEventos } from "../eventos/lib/eventos";
+import { getEventosQuery } from "../eventos/lib/eventos";
 import DraggableModal from "../../../components/draggable-modal";
-import { useParams } from "next/navigation";
 import PaginationControls from "../../../components/pagination/pagination-controls";
 import EntityRow, { EntityRowProps } from "@/components/entity-row";
 import Eventos from "../eventos/components/eventos";
-import { getPageFromParams } from "@/lib/pagination-utils";
+import { calcLastPage } from "@/lib/pagination-utils";
+import { useQuery } from "@tanstack/react-query";
 
 export default function SelectEvento({
   onSelected,
 }: {
   onSelected: (evento: Evento) => void;
 }) {
-  const params = useParams();
-  const { limit } = getPageFromParams(params);
-
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [eventos, setEventos] = useState<Evento[]>([]);
-  const [lastPage, setlastPage] = useState<number>(0);
+  const [page, setPage] = useState(1);
 
-  async function onOpenModal() {
-    const { eventos: eventosRes, count } = await getEventos(1, 20);
-    setEventos(eventosRes);
-    setlastPage(Math.ceil(count / limit));
-    onOpen();
-  }
+  const { data, isPending } = useQuery({
+    queryKey: ["eventos", { page: page, limit: 20 }],
+    queryFn: getEventosQuery,
+  });
+
+  const eventos = data?.eventos;
+  const lastPage = calcLastPage(data?.count ?? 0, 20);
 
   async function onPageChange(page: number) {
-    const { eventos: eventosRes } = await getEventos(page, 20);
-    setEventos(eventosRes);
+    setPage(page);
   }
 
   const handleClick = (e: Evento) => {
@@ -41,13 +43,26 @@ export default function SelectEvento({
     onClose();
   };
 
+  let content = (
+    <>
+      <SelectEventoTable eventos={eventos!} onClick={handleClick} />
+    </>
+  );
+
+  if (isPending)
+    content = (
+      <Heading>
+        <CircularProgress isIndeterminate color="green.300" />
+      </Heading>
+    );
+
   return (
     <>
       <InputRightElement
         as="button"
         type="button"
         color="green"
-        onClick={onOpenModal}
+        onClick={onOpen}
       >
         <AddIcon />
       </InputRightElement>
@@ -58,7 +73,7 @@ export default function SelectEvento({
         size={"full"}
       >
         <ModalBody>
-          <SelectEventoTable eventos={eventos} onClick={handleClick} />
+          {content}
           <PaginationControls onPageChange={onPageChange} lastPage={lastPage} />
         </ModalBody>
       </DraggableModal>

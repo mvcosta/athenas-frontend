@@ -25,7 +25,11 @@ async function authFetch(
   input: string | URL | globalThis.Request,
   init?: RequestInit
 ): Promise<Response> {
-  const token = "e8860c988eb2dcfd95d92d516f2c206d8dc3e3bc";
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+  await delay(500);
+
+  const token = process.env.NEXT_PUBLIC_AUTH_TOKEN;
   const config = {
     ...init,
     headers: {
@@ -36,9 +40,18 @@ async function authFetch(
   const response = await fetch(input, config);
 
   if (!response.ok) {
-    const txt = await response.text();
-    throw new Error(txt);
+    const error = new FetchError("Erro ao buscar os dados");
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
   }
 
   return response;
+}
+
+class FetchError extends Error {
+  constructor(message?: string, public code?: number, public info?: any) {
+    super(message);
+    this.name = "FetchError";
+  }
 }

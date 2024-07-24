@@ -3,7 +3,7 @@
 import { Flex } from "@chakra-ui/react";
 import ExtremesPaginationButton from "./extremes-pagination-button";
 import StepPaginationButton from "./step-pagination-button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function PaginationControls({
   lastPage,
@@ -16,50 +16,33 @@ export default function PaginationControls({
   const isBackDisabled = page === 1;
   const isFowardDisabled = page === lastPage;
 
+  useEffect(() => {
+    onPageChange(page);
+  }, [page]);
+
   return (
     <Flex alignItems="center" gap="10px">
       <ExtremesPaginationButton
         direction="back"
-        onClick={() => {
-          setPage((p) => {
-            onPageChange(1);
-            return 1;
-          });
-        }}
+        onClick={() => setPage(1)}
         isDisabled={isBackDisabled}
       />
       <StepPaginationButton
         direction="back"
-        onClick={() => {
-          setPage((p) => {
-            onPageChange(p - 1);
-            return p - 1;
-          });
-        }}
+        onClick={() => setPage((p) => Math.max(p - 1, 1))}
         isDisabled={isBackDisabled}
       />
       <span>
-        Página {page} de {lastPage}
+        Página {page} de {lastPage > 0 ? lastPage : "..."}
       </span>
       <StepPaginationButton
         direction="foward"
-        onClick={() => {
-          setPage((p) => {
-            onPageChange(p + 1);
-            return p + 1;
-          });
-          onPageChange(page);
-        }}
+        onClick={() => setPage((p) => Math.min(p + 1, lastPage))}
         isDisabled={isFowardDisabled}
       />
       <ExtremesPaginationButton
         direction="foward"
-        onClick={() => {
-          setPage((p) => {
-            onPageChange(lastPage);
-            return lastPage;
-          });
-        }}
+        onClick={() => setPage(lastPage)}
         isDisabled={isFowardDisabled}
       />
     </Flex>
