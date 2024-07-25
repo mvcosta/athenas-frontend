@@ -59,11 +59,7 @@ export default function EventoFormControl() {
           {data?.map((e) => {
             const text = `${e.numero} (${e.rubrica}) - ${e.titulo}`;
             return (
-              <AutoCompleteItem
-                key={e.id}
-                value={text}
-                // onClick={() => handleSelectedEvento(e)}
-              >
+              <AutoCompleteItem key={e.id} value={text}>
                 {text}
               </AutoCompleteItem>
             );

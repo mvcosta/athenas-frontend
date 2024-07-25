@@ -9,7 +9,7 @@ export default function EntityTable({
   children: React.ReactNode;
 }) {
   return (
-    <TableContainer>
+    <TableContainer className="no-select">
       <Table>
         <Thead>
           <Tr>
