@@ -55,7 +55,7 @@ export default function EventoFormControl() {
           <SelectEvento onSelected={handleSelectedEvento} />
         </InputGroup>
 
-        <AutoCompleteList width="auto">
+        <AutoCompleteList fontSize="0.9rem" resize="both">
           {data?.map((e) => {
             const text = `${e.numero} (${e.rubrica}) - ${e.titulo}`;
             return (
