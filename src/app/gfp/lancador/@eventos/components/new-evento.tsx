@@ -22,7 +22,7 @@ import EventoFormControl from "@/app/gfp/components/evento-form-control";
 export default function NewEvento() {
   const pathname = usePathname();
   const paths = pathname.split("/");
-  const ano = paths?.[2];
+  const ano = paths?.[3];
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 

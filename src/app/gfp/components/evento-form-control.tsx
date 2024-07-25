@@ -1,90 +1,75 @@
 "use client";
 
 import { SearchIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  FormLabel,
-  InputGroup,
-  InputLeftAddon,
-  Input,
-  Popover,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-} from "@chakra-ui/react";
+import { Box, FormLabel, InputGroup, InputLeftAddon } from "@chakra-ui/react";
 import SelectEvento from "./select-evento";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Evento } from "@/models/eventos.models";
 import { useQuery } from "@tanstack/react-query";
 import { searchEventosQuery } from "../eventos/lib/eventos";
+import {
+  AutoComplete,
+  AutoCompleteInput,
+  AutoCompleteItem,
+  AutoCompleteList,
+} from "@choc-ui/chakra-autocomplete";
 
 export default function EventoFormControl() {
-  const [value, setValue] = useState<string>("");
-  const handleChange = (event: any) => setValue(event.target.value);
+  const [value, setValue] = useState<string>(" ");
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setValue(event.target.value);
   const handleSelectedEvento = (evento: Evento) =>
     setValue(`${evento.numero} (${evento.rubrica}) - ${evento.titulo}`);
 
-  const initialFocusRef = useRef<any>();
+  const { data, isLoading } = useQuery({
+    queryKey: ["eventos", { search: value }],
+    queryFn: searchEventosQuery,
+    enabled: value.length > 0,
+  });
+
+  const options = [
+    "AUXÍLIO ALIMENTAÇÃO",
+    "AUXÍLIO ALIMENTAÇÃO DE DEFENSOR",
+    "AUXÍLIO ALIMENTAÇÃO SERVIDOR FEDERAL",
+    "AUXÍLIO NATALIDADE",
+  ];
 
   return (
     <Box>
-      <Popover initialFocusRef={initialFocusRef} placement="bottom-start">
-        <FormLabel>Evento:</FormLabel>
+      <FormLabel>Evento:</FormLabel>
+      <AutoComplete
+        openOnFocus
+        isLoading={isLoading}
+        emptyState={<Box textAlign="center"> Nenhum evento encontrado </Box>}
+      >
         <InputGroup>
           <InputLeftAddon>
             <SearchIcon />
           </InputLeftAddon>
-          <PopoverTrigger>
-            <Input
-              ref={initialFocusRef}
-              value={value}
-              onChange={handleChange}
-              placeholder="Busque o evento"
-            />
-          </PopoverTrigger>
+          <AutoCompleteInput
+            variant="filled"
+            placeholder="Busque o evento"
+            onChange={handleChange}
+          />
+
           <SelectEvento onSelected={handleSelectedEvento} />
         </InputGroup>
-        {value ? (
-          <SearchBox search={value} onClick={handleSelectedEvento} />
-        ) : null}
-      </Popover>
-    </Box>
-  );
-}
 
-function SearchBox({
-  search,
-  onClick,
-}: {
-  search: string;
-  onClick: (evento: Evento) => void;
-}) {
-  const { data } = useQuery({
-    queryKey: ["eventos", { search: search }],
-    queryFn: searchEventosQuery,
-  });
-
-  const showContent = data ? data.length > 0 : false;
-
-  return (
-    <>
-      {showContent ? (
-        <PopoverContent width="auto">
-          <PopoverBody>
-            {data?.map((e) => (
-              <Box
+        <AutoCompleteList width="auto">
+          {data?.map((e) => {
+            const text = `${e.numero} (${e.rubrica}) - ${e.titulo}`;
+            return (
+              <AutoCompleteItem
                 key={e.id}
-                cursor="pointer"
-                padding="1"
-                _hover={{ bg: "#152838" }}
-                onClick={() => onClick(e)}
+                value={text}
+                // onClick={() => handleSelectedEvento(e)}
               >
-                {e.numero} ({e.rubrica}) - {e.titulo}
-              </Box>
-            ))}
-          </PopoverBody>
-        </PopoverContent>
-      ) : null}
-    </>
+                {text}
+              </AutoCompleteItem>
+            );
+          })}
+        </AutoCompleteList>
+      </AutoComplete>
+    </Box>
   );
 }
