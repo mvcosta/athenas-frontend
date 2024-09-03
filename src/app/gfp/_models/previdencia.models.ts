@@ -1,11 +1,9 @@
 import { EnumField } from "@/interfaces/enum-field";
+import { PaginatedResponse } from "@/interfaces/paginated-response";
 
-export interface ConfiguracaoPrevidenciaResponse {
-  count: number;
-  next: string;
-  previous: string;
-  results: ConfiguracaoPrevidencia[];
-}
+export interface ConfiguracaoPrevidenciaResponse
+  extends PaginatedResponse<ConfiguracaoPrevidencia> {}
+
 export interface ConfiguracaoPrevidencia {
   id: number;
   regime_previdencia: EnumField;

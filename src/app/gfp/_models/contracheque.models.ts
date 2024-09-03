@@ -1,4 +1,8 @@
+import { PaginatedResponse } from "@/interfaces/paginated-response";
 import { Folha } from "./folha.models";
+
+export interface ContrachequesResponse
+  extends PaginatedResponse<ContrachequeResponse> {}
 
 export interface Contracheque {
   id: number;
@@ -9,14 +13,6 @@ export interface Contracheque {
   estagio: string;
   ferias: string;
 }
-
-export interface ContrachequesResponse {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: ContrachequeResponse[];
-}
-
 interface ContrachequeResponse {
   pk: number;
   servidor: Servidor;

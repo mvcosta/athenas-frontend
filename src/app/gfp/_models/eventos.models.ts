@@ -1,11 +1,7 @@
 import { EnumField } from "@/interfaces/enum-field";
+import { PaginatedResponse } from "@/interfaces/paginated-response";
 
-export interface EventoResponse {
-  count: number;
-  next: string;
-  previous: string;
-  results: Evento[];
-}
+export interface EventoResponse extends PaginatedResponse<Evento> {}
 
 export interface Evento {
   id: number;

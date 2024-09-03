@@ -1,7 +1,9 @@
+import { PaginatedResponse } from "@/interfaces/paginated-response";
 import { Evento } from "./eventos.models";
 import { Folha } from "./folha.models";
 import { Periodo } from "./periodo.models";
 
+export interface FolhasEventosResponse extends PaginatedResponse<FolhaEvento> {}
 export interface FolhaEvento {
   id: number;
   evento: string;
@@ -12,13 +14,6 @@ export interface FolhaEvento {
   valor: number;
   valor_base: number;
   patronal: number;
-}
-
-export interface FolhasEventosResponse {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: FolhaEventoResponse[];
 }
 
 interface FolhaEventoResponse {
