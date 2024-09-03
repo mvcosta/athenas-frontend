@@ -1,4 +1,4 @@
-import { authAPIFetch, authAPIPaginatedFetch } from "@/lib/fetch";
+import { authAPIFetch, authAPIPaginatedFetch } from "@/lib/fetch-server";
 import {
   Contracheque,
   ContrachequesResponse,
