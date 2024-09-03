@@ -8,36 +8,26 @@ export default function Previdencias({
   previdencias,
   EntityRow,
 }: {
-  previdencias?: ConfiguracaoPrevidencia[];
+  previdencias: ConfiguracaoPrevidencia[];
   EntityRow: typeof EntityRowType<ConfiguracaoPrevidencia>;
 }) {
-  const headers = ["", "Previdencia", "Plano de Segregação da Massa"];
-  previdencias = [
-    {
-      id: 1,
-      pessoaJuridica: "INSS",
-      tipoPlanoSegregacao: "Não se aplica",
-    },
-    {
-      id: 2,
-      pessoaJuridica: "IPER",
-      tipoPlanoSegregacao: "Financeiro",
-    },
-    {
-      id: 3,
-      pessoaJuridica: "IPER",
-      tipoPlanoSegregacao: "Previdenciário",
-    },
+  const headers = [
+    "Regime de previdência",
+    "Regime de previdência (SICAP)",
+    "Plano de Segregação da Massa",
+    "Órgão de previdência",
+    "Órgão de recolhimento",
   ];
-
   return (
     <>
       <EntityTable headers={headers}>
-        {previdencias!.map((p) => (
+        {previdencias.map((p) => (
           <EntityRow key={p.id} entity={p} isSelected={false}>
-            <Td></Td>
-            <Td>{p.pessoaJuridica}</Td>
-            <Td>{p.tipoPlanoSegregacao}</Td>
+            <Td>{p.regime_previdencia.descricao}</Td>
+            <Td>{p.regime_previdencia_sicap.descricao}</Td>
+            <Td>{p.tipo_plano_segregacao.descricao}</Td>
+            <Td>{p.orgao_previdencia.nome}</Td>
+            <Td>{p.orgao_recolhimento.nome}</Td>
           </EntityRow>
         ))}
       </EntityTable>

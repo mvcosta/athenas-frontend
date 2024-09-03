@@ -1,3 +1,5 @@
+import { EnumField } from "@/interfaces/enum-field";
+
 export interface EventoResponse {
   count: number;
   next: string;
@@ -26,11 +28,6 @@ export interface Evento {
   incidencia_prev_rpps_regime_militar: EnumField;
   consignatario: Consignatario;
   calculo: Calculo;
-}
-
-interface EnumField {
-  id: string;
-  descricao: string;
 }
 
 interface Consignatario {
