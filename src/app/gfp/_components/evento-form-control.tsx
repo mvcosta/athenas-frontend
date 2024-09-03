@@ -4,7 +4,7 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { Box, FormLabel, InputGroup, InputLeftAddon } from "@chakra-ui/react";
 import SelectEvento from "./select-evento";
 import { useState } from "react";
-import { Evento } from "@/app/gfp/models/eventos.models";
+import { Evento } from "@/app/gfp/_models/eventos.models";
 import { useQuery } from "@tanstack/react-query";
 import {
   AutoComplete,
@@ -12,7 +12,7 @@ import {
   AutoCompleteItem,
   AutoCompleteList,
 } from "@choc-ui/chakra-autocomplete";
-import { searchEventosQuery } from "../queries/eventos-query";
+import { searchEventosQuery } from "../_queries/eventos-query";
 
 export default function EventoFormControl() {
   const [value, setValue] = useState<string>(" ");

@@ -1,8 +1,8 @@
 import React from "react";
-import Contracheques from "../components/contracheques";
-import { getContracheques } from "../../../lib/contracheques";
-import ContrachequesHeader from "../components/contracheques-header";
-import ContrachequesFooter from "../components/contracheques-footer";
+import Contracheques from "../_components/contracheques";
+import { getContracheques } from "../../../_lib/contracheques";
+import ContrachequesHeader from "../_components/contracheques-header";
+import ContrachequesFooter from "../_components/contracheques-footer";
 import classes from "./contracheques.module.scss";
 import { redirect } from "next/navigation";
 import { calcLastPage, getPageFromParams } from "@/lib/pagination-utils";

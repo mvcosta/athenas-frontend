@@ -1,5 +1,5 @@
 import { Table, TableContainer, Td, Th, Thead, Tr } from "@chakra-ui/react";
-import { getFolhaEventos } from "../../../lib/contracheques";
+import { getFolhaEventos } from "../../../_lib/contracheques";
 
 interface FolhaEventosPageProps {
   params: { [key: string]: string | string[] | undefined };

@@ -1,6 +1,6 @@
 import EntityRowType from "@/components/entity-row";
 import EntityTable from "@/components/entity-table";
-import { Evento } from "@/app/gfp/models/eventos.models";
+import { Evento } from "@/app/gfp/_models/eventos.models";
 import { Td } from "@chakra-ui/react";
 import React from "react";
 

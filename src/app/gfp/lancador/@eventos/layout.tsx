@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./eventos.module.scss";
-import EventosHeader from "./components/eventos-header";
+import EventosHeader from "./_components/eventos-header";
 
 export default function FolhaEventosLayout({
   children,

@@ -1,4 +1,4 @@
-import { Evento, EventoResponse } from "@/app/gfp/models/eventos.models";
+import { Evento, EventoResponse } from "@/app/gfp/_models/eventos.models";
 import { authAPIPaginatedFetch } from "@/lib/fetch-server";
 
 export async function getEventos(

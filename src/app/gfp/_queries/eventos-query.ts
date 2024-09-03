@@ -1,6 +1,6 @@
 import { authAPIPaginatedClientFetch } from "@/lib/fetch-client";
 import { QueryFunctionContext } from "@tanstack/react-query";
-import { Evento, EventoResponse } from "../models/eventos.models";
+import { Evento, EventoResponse } from "../_models/eventos.models";
 
 export async function getEventosQuery({
   queryKey,

@@ -1,6 +1,6 @@
-import { getEventos } from "../lib/eventos";
+import { getEventos } from "../_lib/eventos";
 import { Container, Heading } from "@chakra-ui/react";
-import Eventos from "./components/eventos";
+import Eventos from "./_components/eventos";
 import EntityRow from "@/components/entity-row";
 import { PageProps } from "@/interfaces/page-props";
 import QueryPaginationControls from "@/components/pagination/query-pagination-controls";
