@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { Td } from "@chakra-ui/react";
-import { Contracheque } from "@/models/contracheque.models";
 import EntityRow from "@/components/entity-row";
 import EntityTable from "@/components/entity-table";
+import { Contracheque } from "@/app/gfp/_models/contracheque.models";
 
 export default function Contracheques({
   contracheques,

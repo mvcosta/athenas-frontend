@@ -60,6 +60,12 @@ export default function NavBar({ ...props }: FlexProps) {
           title={"Lançador"}
           href="/gfp/lancador"
         />
+        <NavItem
+          navSize={navSize}
+          icon={CalendarIcon}
+          title={"Previdencia"}
+          href="/gfp/previdencia"
+        />
       </Flex>
 
       <Flex
