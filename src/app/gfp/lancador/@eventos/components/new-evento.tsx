@@ -15,7 +15,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
-import MoedaFormControl from "./moeda-form-control";
+import MoedaFormControl from "../../../../../components/moeda/moeda-form-control";
 import DraggableModal from "@/components/draggable-modal";
 import EventoFormControl from "@/app/gfp/components/evento-form-control";
 

@@ -1,6 +1,6 @@
 import React from "react";
 import Contracheques from "../components/contracheques";
-import { getContracheques } from "../../lib/contracheques";
+import { getContracheques } from "../../../lib/contracheques";
 import ContrachequesHeader from "../components/contracheques-header";
 import ContrachequesFooter from "../components/contracheques-footer";
 import classes from "./contracheques.module.scss";

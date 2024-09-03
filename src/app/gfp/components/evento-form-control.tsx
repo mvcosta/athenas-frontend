@@ -4,9 +4,9 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { Box, FormLabel, InputGroup, InputLeftAddon } from "@chakra-ui/react";
 import SelectEvento from "./select-evento";
 import { useState } from "react";
-import { Evento } from "@/models/eventos.models";
+import { Evento } from "@/app/gfp/models/eventos.models";
 import { useQuery } from "@tanstack/react-query";
-import { searchEventosQuery } from "../eventos/lib/eventos";
+import { searchEventosQuery } from "../lib/eventos";
 import {
   AutoComplete,
   AutoCompleteInput,

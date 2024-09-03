@@ -2,11 +2,11 @@ import { authAPIFetch, authAPIPaginatedFetch } from "@/lib/fetch-server";
 import {
   Contracheque,
   ContrachequesResponse,
-} from "@/models/contracheque.models";
+} from "@/app/gfp/models/contracheque.models";
 import {
   FolhaEvento,
   FolhasEventosResponse,
-} from "@/models/folha-evento.models";
+} from "@/app/gfp/models/folha-evento.models";
 import { ServidorResponse } from "@/models/servidor.models";
 
 export async function getFolhaEventos(

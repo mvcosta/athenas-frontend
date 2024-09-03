@@ -8,9 +8,9 @@ import {
   ModalBody,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Evento } from "@/models/eventos.models";
+import { Evento } from "@/app/gfp/models/eventos.models";
 import { useState } from "react";
-import { getEventosQuery } from "../eventos/lib/eventos";
+import { getEventosQuery } from "../lib/eventos";
 import DraggableModal from "../../../components/draggable-modal";
 import PaginationControls from "../../../components/pagination/pagination-controls";
 import EntityRow, { EntityRowProps } from "@/components/entity-row";
