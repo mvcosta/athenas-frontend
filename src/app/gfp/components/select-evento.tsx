@@ -10,13 +10,13 @@ import {
 } from "@chakra-ui/react";
 import { Evento } from "@/app/gfp/models/eventos.models";
 import { useState } from "react";
-import { getEventosQuery } from "../lib/eventos";
 import DraggableModal from "../../../components/draggable-modal";
 import PaginationControls from "../../../components/pagination/pagination-controls";
 import EntityRow, { EntityRowProps } from "@/components/entity-row";
 import Eventos from "../eventos/components/eventos";
 import { calcLastPage } from "@/lib/pagination-utils";
 import { useQuery } from "@tanstack/react-query";
+import { getEventosQuery } from "../queries/eventos-query";
 
 export default function SelectEvento({
   onSelected,

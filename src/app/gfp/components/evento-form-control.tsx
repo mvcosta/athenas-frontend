@@ -6,13 +6,13 @@ import SelectEvento from "./select-evento";
 import { useState } from "react";
 import { Evento } from "@/app/gfp/models/eventos.models";
 import { useQuery } from "@tanstack/react-query";
-import { searchEventosQuery } from "../lib/eventos";
 import {
   AutoComplete,
   AutoCompleteInput,
   AutoCompleteItem,
   AutoCompleteList,
 } from "@choc-ui/chakra-autocomplete";
+import { searchEventosQuery } from "../queries/eventos-query";
 
 export default function EventoFormControl() {
   const [value, setValue] = useState<string>(" ");
