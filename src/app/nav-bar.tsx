@@ -1,9 +1,15 @@
 "use client";
 
-import { CalendarIcon, HamburgerIcon } from "@chakra-ui/icons";
+import {
+  CalendarIcon,
+  HamburgerIcon,
+  MoonIcon,
+  SunIcon,
+} from "@chakra-ui/icons";
 import { Link } from "@chakra-ui/next-js";
 import {
   Avatar,
+  Button,
   Divider,
   Flex,
   FlexProps,
@@ -13,12 +19,15 @@ import {
   Menu,
   MenuButton,
   Text,
+  useColorMode,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 export default function NavBar({ ...props }: FlexProps) {
   const [navSize, setNavSize] = useState("large");
+  const { colorMode, toggleColorMode } = useColorMode();
   return (
     <Flex
       pos="sticky"
@@ -30,7 +39,7 @@ export default function NavBar({ ...props }: FlexProps) {
       flexDir="column"
       justifyContent="space-between"
       paddingRight={navSize === "small" ? 5 : 0}
-      borderRight="1px solid #2D3748"
+      borderRight={colorMode === "dark" ? "1px solid #2D3748" : ""}
     >
       <Flex
         p="5%"
@@ -77,6 +86,17 @@ export default function NavBar({ ...props }: FlexProps) {
       >
         <Divider display={navSize === "small" ? "none" : "flex"} />
         <Flex mt={4} align="center">
+          <Button onClick={toggleColorMode}>
+            {navSize === "small"
+              ? ""
+              : colorMode === "light"
+              ? "Dark Mode "
+              : "Light Mode "}
+            &nbsp;
+            {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+          </Button>
+        </Flex>
+        <Flex mt={4} align="center">
           <Avatar size="sm" />
           <Flex
             flexDir="column"
@@ -107,6 +127,7 @@ function NavItem({
 }) {
   const pathname = usePathname();
   const isActive = pathname.includes(href);
+  const highlightColor = useColorModeValue("gray.100", "#152838");
   return (
     <Flex
       mt={30}
@@ -116,11 +137,11 @@ function NavItem({
     >
       <Menu placement="right">
         <Link
-          backgroundColor={isActive ? "#152838" : "transparent"}
+          backgroundColor={isActive ? highlightColor : "transparent"}
           href={href}
           p={3}
           borderRadius={8}
-          _hover={{ textDecor: "none", backgroundColor: "#152838" }}
+          _hover={{ textDecor: "none", backgroundColor: highlightColor }}
           w={navSize === "large" ? "100%" : undefined}
         >
           <MenuButton w="100%">

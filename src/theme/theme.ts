@@ -2,7 +2,7 @@ import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
 import { modalTheme } from "./modal-theme";
 
 const config: ThemeConfig = {
-  initialColorMode: "dark",
+  initialColorMode: "light",
   useSystemColorMode: false,
 };
 
