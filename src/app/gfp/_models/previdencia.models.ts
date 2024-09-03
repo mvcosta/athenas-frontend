@@ -9,11 +9,11 @@ export interface ConfiguracaoPrevidencia {
   regime_previdencia: EnumField;
   regime_previdencia_sicap: EnumField;
   tipo_plano_segregacao: EnumField;
-  orgao_previdencia: Orgaoprevidencia;
-  orgao_recolhimento: Orgaoprevidencia;
+  orgao_previdencia: OrgaoPrevidencia;
+  orgao_recolhimento: OrgaoPrevidencia;
 }
 
-interface Orgaoprevidencia {
+interface OrgaoPrevidencia {
   id: number;
   nome: string;
   cnpj: string;

@@ -8,6 +8,7 @@ import { getConfiguracoesPrevidencia } from "../_lib/previdencia";
 export default async function EventosPage({ searchParams }: PageProps) {
   const { configuracoesPrevidencias, count } =
     await getConfiguracoesPrevidencia();
+
   return (
     <Container maxW="1500px">
       <Heading marginY="2rem" textAlign="center">

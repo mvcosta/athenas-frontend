@@ -3,6 +3,7 @@ import {
   ConfiguracaoPrevidencia,
   ConfiguracaoPrevidenciaResponse,
 } from "../_models/previdencia.models";
+import { EnumFieldResponse } from "@/interfaces/enum-field";
 
 export async function getConfiguracoesPrevidencia(
   page: number = 0,
@@ -22,4 +23,21 @@ export async function getConfiguracoesPrevidencia(
     configuracoesPrevidencias: configuracoesResponse.results,
     count: configuracoesResponse.count,
   };
+}
+
+export async function getRegimesPrevidenciaEnum() {
+  return await fetchEnum("v2/regimes-previdencia");
+}
+export async function getRegimesPrevidenciaSicapEnum() {
+  return await fetchEnum("v2/regimes-previdencia-sicap");
+}
+
+export async function getPlanosSegregacaoMassa() {
+  return await fetchEnum("v2/planos-segregacao-massa");
+}
+
+async function fetchEnum(endpoint: string) {
+  const response = await authAPIPaginatedFetch(endpoint);
+  const regimesResponse: EnumFieldResponse = await response.json();
+  return regimesResponse.results;
 }
