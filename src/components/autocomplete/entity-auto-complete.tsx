@@ -9,7 +9,7 @@ import {
   AutoCompleteItem,
 } from "@choc-ui/chakra-autocomplete";
 import { useQuery } from "@tanstack/react-query";
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import SelectEntity from "./select-entity";
 import { HasId } from "@/interfaces/has-id";
 import {
@@ -19,7 +19,6 @@ import {
 } from "./auto-complete.type";
 
 export default function EntityAutoComplete<T extends HasId>({
-  handleSelectedEntity,
   placeholder,
   entityNotFound,
   queryKey,
@@ -28,10 +27,6 @@ export default function EntityAutoComplete<T extends HasId>({
   getItemText,
   Entity,
 }: {
-  handleSelectedEntity: (
-    entity: T,
-    setValue: React.Dispatch<SetStateAction<string>>
-  ) => void;
   placeholder?: string;
   entityNotFound?: string;
   queryKey: string;
@@ -43,6 +38,8 @@ export default function EntityAutoComplete<T extends HasId>({
   const [value, setValue] = useState<string>(" ");
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setValue(event.target.value);
+
+  const handleSelected = (e: T) => setValue(getItemText(e));
 
   const { data, isLoading } = useQuery({
     queryKey: [queryKey, { search: value }],
@@ -72,7 +69,7 @@ export default function EntityAutoComplete<T extends HasId>({
           queryFn={getEntitiesQuery}
           queryKey={queryKey}
           Entity={Entity}
-          onSelected={(evento) => handleSelectedEntity(evento, setValue)}
+          onSelected={(evento) => handleSelected(evento)}
         />
       </InputGroup>
 
