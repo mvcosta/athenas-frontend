@@ -9,7 +9,7 @@ import {
   AutoCompleteItem,
 } from "@choc-ui/chakra-autocomplete";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import SelectEntity from "./select-entity";
 import { HasId } from "@/interfaces/has-id";
 import {
@@ -28,7 +28,10 @@ export default function EntityAutoComplete<T extends HasId>({
   getItemText,
   Entity,
 }: {
-  handleSelectedEntity: any;
+  handleSelectedEntity: (
+    entity: T,
+    setValue: React.Dispatch<SetStateAction<string>>
+  ) => void;
   placeholder?: string;
   entityNotFound?: string;
   queryKey: string;

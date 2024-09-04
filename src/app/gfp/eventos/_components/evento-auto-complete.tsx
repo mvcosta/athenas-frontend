@@ -1,34 +1,35 @@
 "use client";
 
-import {
-  getEventosQuery,
-  searchEventosQuery,
-} from "../../_queries/eventos-query";
 import Eventos from "./eventos";
 import { Evento } from "../../_models/eventos.models";
 import EntityAutoComplete from "@/components/autocomplete/entity-auto-complete";
 import { Box, FormLabel } from "@chakra-ui/react";
+import { getEntityQueryFn, getSearchEntityQueryFn } from "@/lib/query";
+import { SetStateAction } from "react";
 
 export default function EventoAutoComplete() {
-  const getEventoText = (e: Evento) =>
-    `${e.numero} (${e.rubrica}) - ${e.titulo}`;
+  const endpoint = "eventos";
+  const getItemText = (e: Evento) => `${e.numero} (${e.rubrica}) - ${e.titulo}`;
 
-  const handleSelectedEvento = (
-    evento: Evento,
-    setValue: (value: any) => void
-  ) => setValue(`${evento.numero} (${evento.rubrica}) - ${evento.titulo}`);
+  const handleSelected = (
+    e: Evento,
+    setValue: React.Dispatch<SetStateAction<string>>
+  ) => setValue(getItemText(e));
+
+  const getQuery = getEntityQueryFn<Evento>(endpoint);
+  const searchQuery = getSearchEntityQueryFn<Evento>(endpoint);
 
   return (
     <Box>
       <FormLabel>Evento:</FormLabel>
       <EntityAutoComplete
-        queryKey={"evento"}
+        queryKey={endpoint}
         placeholder={"Selecione o evento"}
         entityNotFound={"Nenhum evento encontrado"}
-        handleSelectedEntity={handleSelectedEvento}
-        searchEntityQuery={searchEventosQuery}
-        getEntitiesQuery={getEventosQuery}
-        getItemText={getEventoText}
+        handleSelectedEntity={handleSelected}
+        searchEntityQuery={searchQuery}
+        getEntitiesQuery={getQuery}
+        getItemText={getItemText}
         Entity={Eventos}
       />
     </Box>
