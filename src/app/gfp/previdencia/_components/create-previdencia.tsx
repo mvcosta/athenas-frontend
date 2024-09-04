@@ -1,5 +1,6 @@
 "use client";
 
+import PessoaJuridicaAutoComplete from "@/app/rh/pessoa-juridica/_components/pessoa-juridica-auto-complete";
 import DraggableModal from "@/components/draggable-modal";
 import { EnumField } from "@/interfaces/enum-field";
 import {
@@ -8,7 +9,6 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Input,
   ModalBody,
   ModalFooter,
   Select,
@@ -74,11 +74,11 @@ export default function CreatePrevidencia({
                 </Box>
                 <Box>
                   <FormLabel>Órgão de previdência:</FormLabel>
-                  <Input />
+                  <PessoaJuridicaAutoComplete />
                 </Box>
                 <Box>
                   <FormLabel>Órgão de recolhimento:</FormLabel>
-                  <Input />
+                  <PessoaJuridicaAutoComplete />
                 </Box>
               </Flex>
             </FormControl>

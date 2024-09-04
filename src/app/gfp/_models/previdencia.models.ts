@@ -1,5 +1,6 @@
 import { EnumField } from "@/interfaces/enum-field";
 import { PaginatedResponse } from "@/interfaces/paginated-response";
+import { PessoaJuridica } from "../../rh/_models/pessoa-juridica.models";
 
 export interface ConfiguracaoPrevidenciaResponse
   extends PaginatedResponse<ConfiguracaoPrevidencia> {}
@@ -9,13 +10,6 @@ export interface ConfiguracaoPrevidencia {
   regime_previdencia: EnumField;
   regime_previdencia_sicap: EnumField;
   tipo_plano_segregacao: EnumField;
-  orgao_previdencia: OrgaoPrevidencia;
-  orgao_recolhimento: OrgaoPrevidencia;
-}
-
-interface OrgaoPrevidencia {
-  id: number;
-  nome: string;
-  cnpj: string;
-  razao_social: string;
+  orgao_previdencia: PessoaJuridica;
+  orgao_recolhimento: PessoaJuridica;
 }
