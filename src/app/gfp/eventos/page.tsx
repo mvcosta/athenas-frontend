@@ -16,7 +16,7 @@ export default async function EventosPage({ searchParams }: PageProps) {
       <Heading marginY="2rem" textAlign="center">
         Gerenciador de Eventos da Folha
       </Heading>
-      <Eventos eventos={eventos} EntityRow={EntityRow} />
+      <Eventos data={eventos} EntityRow={EntityRow} />
       <QueryPaginationControls page={page} lastPage={lastPage} />
     </Container>
   );

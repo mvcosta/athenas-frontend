@@ -11,40 +11,29 @@ import {
 import { useState } from "react";
 import EntityRow, { EntityRowProps } from "@/components/entity-row";
 import { calcLastPage } from "@/lib/pagination-utils";
-import { QueryFunctionContext, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import DraggableModal from "../draggable-modal";
 import PaginationControls from "../pagination/pagination-controls";
 import { HasId } from "@/interfaces/has-id";
-
-export type SelectEntityConfig<T extends HasId> = {
-  entityName: string;
-  queryKey: string;
-  queryFn: queryFnType<T>;
-  Entity: React.ComponentType<EntityProps<T>>;
-};
-
-type queryFnType<T> = (
-  context: QueryFunctionContext<[string, { page: number; limit: number }]>
-) => Promise<{ data: T[]; count: number }>;
-
-type EntityProps<T extends HasId> = {
-  data: T[];
-  EntityRow: typeof EntityRow<T>;
-};
+import { EntityProps, getEntitiesQuery } from "./auto-complete.type";
 
 export default function SelectEntity<T extends HasId>({
   onSelected,
-  config,
+  queryKey,
+  queryFn,
+  Entity,
 }: {
-  onSelected: (evento: T) => void;
-  config: SelectEntityConfig<T>;
+  onSelected: (entity: T) => void;
+  queryKey: string;
+  queryFn: getEntitiesQuery<T>;
+  Entity: React.ComponentType<EntityProps<T>>;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [page, setPage] = useState(1);
 
   const { data, isPending } = useQuery({
-    queryKey: [config.queryKey, { page: page, limit: 20 }],
-    queryFn: config.queryFn,
+    queryKey: [queryKey, { page: page, limit: 20 }],
+    queryFn: queryFn,
   });
 
   const entityData = data?.data;
@@ -62,7 +51,7 @@ export default function SelectEntity<T extends HasId>({
   let content = (
     <>
       <SelectEntityTable
-        Entity={config.Entity}
+        Entity={Entity}
         entities={entityData!}
         onClick={handleClick}
       />
