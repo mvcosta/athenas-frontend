@@ -46,7 +46,9 @@ export default function CreatePrevidencia({
                   <FormLabel>Regime de previdência:</FormLabel>
                   <Select>
                     {options.regimesPrevidenciaEnum.map((o) => (
-                      <option value={o.id}>{o.descricao}</option>
+                      <option key={o.id} value={o.id}>
+                        {o.descricao}
+                      </option>
                     ))}
                   </Select>
                 </Box>
@@ -54,7 +56,9 @@ export default function CreatePrevidencia({
                   <FormLabel>Regime de previdência (SICAP):</FormLabel>
                   <Select>
                     {options.regimesPrevidenciaSicapEnum.map((o) => (
-                      <option value={o.id}>{o.descricao}</option>
+                      <option key={o.id} value={o.id}>
+                        {o.descricao}
+                      </option>
                     ))}
                   </Select>
                 </Box>
@@ -62,7 +66,9 @@ export default function CreatePrevidencia({
                   <FormLabel>Plano de Segregação da Massa:</FormLabel>
                   <Select>
                     {options.planosSegregacaoMassa.map((o) => (
-                      <option value={o.id}>{o.descricao}</option>
+                      <option key={o.id} value={o.id}>
+                        {o.descricao}
+                      </option>
                     ))}
                   </Select>
                 </Box>

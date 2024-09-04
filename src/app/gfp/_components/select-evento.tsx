@@ -4,6 +4,7 @@ import { AddIcon } from "@chakra-ui/icons";
 import {
   CircularProgress,
   Heading,
+  InputLeftAddon,
   InputRightElement,
   ModalBody,
   useDisclosure,
@@ -58,14 +59,16 @@ export default function SelectEvento({
 
   return (
     <>
-      <InputRightElement
+      <InputLeftAddon
+        borderLeftRadius={0}
+        borderRightRadius={"5px"}
         as="button"
         type="button"
         color="green"
         onClick={onOpen}
       >
         <AddIcon />
-      </InputRightElement>
+      </InputLeftAddon>
       <DraggableModal
         title="Selecionar Evento"
         isOpen={isOpen}

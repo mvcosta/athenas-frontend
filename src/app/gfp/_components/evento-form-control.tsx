@@ -27,13 +27,6 @@ export default function EventoFormControl() {
     enabled: value.length > 0,
   });
 
-  const options = [
-    "AUXÍLIO ALIMENTAÇÃO",
-    "AUXÍLIO ALIMENTAÇÃO DE DEFENSOR",
-    "AUXÍLIO ALIMENTAÇÃO SERVIDOR FEDERAL",
-    "AUXÍLIO NATALIDADE",
-  ];
-
   return (
     <Box>
       <FormLabel>Evento:</FormLabel>
@@ -41,12 +34,14 @@ export default function EventoFormControl() {
         openOnFocus
         isLoading={isLoading}
         emptyState={<Box textAlign="center"> Nenhum evento encontrado </Box>}
+        value={value}
       >
         <InputGroup>
           <InputLeftAddon>
             <SearchIcon />
           </InputLeftAddon>
           <AutoCompleteInput
+            borderRightRadius={0}
             variant="filled"
             placeholder="Busque o evento"
             onChange={handleChange}
