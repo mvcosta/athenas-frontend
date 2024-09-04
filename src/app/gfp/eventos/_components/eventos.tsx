@@ -5,10 +5,10 @@ import { Td } from "@chakra-ui/react";
 import React from "react";
 
 export default function Eventos({
-  eventos,
+  data,
   EntityRow,
 }: {
-  eventos: Evento[];
+  data: Evento[];
   EntityRow: typeof EntityRowType<Evento>;
 }) {
   const headers = [
@@ -27,7 +27,7 @@ export default function Eventos({
   return (
     <>
       <EntityTable headers={headers}>
-        {eventos.map((e) => (
+        {data.map((e) => (
           <EntityRow key={e.id} entity={e} isSelected={false}>
             <Td></Td>
             <Td>{e.numero}</Td>

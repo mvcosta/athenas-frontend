@@ -2,7 +2,6 @@
 
 import { SearchIcon } from "@chakra-ui/icons";
 import { Box, FormLabel, InputGroup, InputLeftAddon } from "@chakra-ui/react";
-import SelectEvento from "./select-evento";
 import { useState } from "react";
 import { Evento } from "@/app/gfp/_models/eventos.models";
 import { useQuery } from "@tanstack/react-query";
@@ -12,7 +11,14 @@ import {
   AutoCompleteItem,
   AutoCompleteList,
 } from "@choc-ui/chakra-autocomplete";
-import { searchEventosQuery } from "../../_queries/eventos-query";
+import {
+  getEventosQuery,
+  searchEventosQuery,
+} from "../../_queries/eventos-query";
+import SelectEntity, {
+  SelectEntityConfig,
+} from "@/components/autocomplete/select-entity";
+import Eventos from "./eventos";
 
 export default function EventoAutoComplete() {
   const [value, setValue] = useState<string>(" ");
@@ -63,4 +69,18 @@ export default function EventoAutoComplete() {
       </AutoComplete>
     </Box>
   );
+}
+
+function SelectEvento({
+  onSelected,
+}: {
+  onSelected: (evento: Evento) => void;
+}) {
+  const config: SelectEntityConfig<Evento> = {
+    entityName: "eventos",
+    queryKey: "eventos",
+    queryFn: getEventosQuery,
+    Entity: Eventos,
+  };
+  return <SelectEntity onSelected={onSelected} config={config} />;
 }

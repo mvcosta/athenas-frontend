@@ -5,14 +5,14 @@ import { Evento, EventoResponse } from "../_models/eventos.models";
 export async function getEventosQuery({
   queryKey,
 }: QueryFunctionContext<[string, { page: number; limit: number }]>): Promise<{
-  eventos: Evento[];
+  data: Evento[];
   count: number;
 }> {
   const [_, { page, limit }] = queryKey;
   const response = await authAPIPaginatedClientFetch("eventos/", page, limit);
 
   const eventoResponse: EventoResponse = await response.json();
-  return { eventos: eventoResponse.results, count: eventoResponse.count };
+  return { data: eventoResponse.results, count: eventoResponse.count };
 }
 
 export async function searchEventosQuery({

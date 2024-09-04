@@ -5,48 +5,67 @@ import {
   CircularProgress,
   Heading,
   InputLeftAddon,
-  InputRightElement,
   ModalBody,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Evento } from "@/app/gfp/_models/eventos.models";
 import { useState } from "react";
-import DraggableModal from "../../../../components/draggable-modal";
-import PaginationControls from "../../../../components/pagination/pagination-controls";
 import EntityRow, { EntityRowProps } from "@/components/entity-row";
-import Eventos from "./eventos";
 import { calcLastPage } from "@/lib/pagination-utils";
-import { useQuery } from "@tanstack/react-query";
-import { getEventosQuery } from "../../_queries/eventos-query";
+import { QueryFunctionContext, useQuery } from "@tanstack/react-query";
+import DraggableModal from "../draggable-modal";
+import PaginationControls from "../pagination/pagination-controls";
+import { HasId } from "@/interfaces/has-id";
 
-export default function SelectEvento({
+export type SelectEntityConfig<T extends HasId> = {
+  entityName: string;
+  queryKey: string;
+  queryFn: queryFnType<T>;
+  Entity: React.ComponentType<EntityProps<T>>;
+};
+
+type queryFnType<T> = (
+  context: QueryFunctionContext<[string, { page: number; limit: number }]>
+) => Promise<{ data: T[]; count: number }>;
+
+type EntityProps<T extends HasId> = {
+  data: T[];
+  EntityRow: typeof EntityRow<T>;
+};
+
+export default function SelectEntity<T extends HasId>({
   onSelected,
+  config,
 }: {
-  onSelected: (evento: Evento) => void;
+  onSelected: (evento: T) => void;
+  config: SelectEntityConfig<T>;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [page, setPage] = useState(1);
 
   const { data, isPending } = useQuery({
-    queryKey: ["eventos", { page: page, limit: 20 }],
-    queryFn: getEventosQuery,
+    queryKey: [config.queryKey, { page: page, limit: 20 }],
+    queryFn: config.queryFn,
   });
 
-  const eventos = data?.eventos;
+  const entityData = data?.data;
   const lastPage = calcLastPage(data?.count ?? 0, 20);
 
   async function onPageChange(page: number) {
     setPage(page);
   }
 
-  const handleClick = (e: Evento) => {
+  const handleClick = (e: T) => {
     onSelected(e);
     onClose();
   };
 
   let content = (
     <>
-      <SelectEventoTable eventos={eventos!} onClick={handleClick} />
+      <SelectEntityTable
+        Entity={config.Entity}
+        entities={entityData!}
+        onClick={handleClick}
+      />
     </>
   );
 
@@ -84,21 +103,20 @@ export default function SelectEvento({
   );
 }
 
-function SelectEventoTable({
-  eventos,
+function SelectEntityTable<T extends HasId>({
+  Entity,
+  entities,
   onClick,
 }: {
-  eventos: Evento[];
-  onClick?: (e: Evento) => void;
+  Entity: any;
+  entities: T[];
+  onClick?: (e: T) => void;
 }) {
-  const withOnClickEntityRow = ({
-    entity,
-    ...props
-  }: EntityRowProps<Evento>) => (
+  const withOnClickEntityRow = ({ entity, ...props }: EntityRowProps<T>) => (
     <EntityRow {...props} entity={entity} onClick={() => onClick?.(entity)}>
       {props.children}
     </EntityRow>
   );
 
-  return <Eventos eventos={eventos} EntityRow={withOnClickEntityRow} />;
+  return <Entity data={entities} EntityRow={withOnClickEntityRow} />;
 }
