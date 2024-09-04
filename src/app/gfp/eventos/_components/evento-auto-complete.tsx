@@ -12,9 +12,9 @@ import {
   AutoCompleteItem,
   AutoCompleteList,
 } from "@choc-ui/chakra-autocomplete";
-import { searchEventosQuery } from "../_queries/eventos-query";
+import { searchEventosQuery } from "../../_queries/eventos-query";
 
-export default function EventoFormControl() {
+export default function EventoAutoComplete() {
   const [value, setValue] = useState<string>(" ");
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setValue(event.target.value);

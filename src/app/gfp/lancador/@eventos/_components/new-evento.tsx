@@ -17,7 +17,7 @@ import {
 import { usePathname } from "next/navigation";
 import MoedaFormControl from "../../../../../components/moeda/moeda-form-control";
 import DraggableModal from "@/components/draggable-modal";
-import EventoFormControl from "@/app/gfp/_components/evento-form-control";
+import EventoAutoComplete from "@/app/gfp/eventos/_components/evento-auto-complete";
 
 export default function NewEvento() {
   const pathname = usePathname();
@@ -60,7 +60,7 @@ export default function NewEvento() {
                     isDisabled={true}
                   />
                 </Box>
-                <EventoFormControl />
+                <EventoAutoComplete />
               </Flex>
               <Flex wrap={"wrap"} gap={"15px 10px"} marginTop={"1rem"}>
                 {moedaFormControls.map((m) => (
