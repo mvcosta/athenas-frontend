@@ -14,6 +14,7 @@ import {
   Select,
   useDisclosure,
 } from "@chakra-ui/react";
+import { createPrevidencia } from "../../_actions/previdencia";
 
 export type PrevidenciaOptions = {
   regimesPrevidenciaEnum: EnumField[];
@@ -29,6 +30,7 @@ export default function CreatePrevidencia({
   options: PrevidenciaOptions;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <>
       <Button onClick={onOpen}>{children}</Button>
@@ -38,13 +40,13 @@ export default function CreatePrevidencia({
         onClose={onClose}
         size={"xl"}
       >
-        <ModalBody>
-          <form action="">
+        <form action={createPrevidencia}>
+          <ModalBody>
             <FormControl>
               <Flex direction={"column"} marginBottom={"1rem"} gap={"10px"}>
                 <Box>
                   <FormLabel>Regime de previdência:</FormLabel>
-                  <Select>
+                  <Select name="regime">
                     {options.regimesPrevidenciaEnum.map((o) => (
                       <option key={o.id} value={o.id}>
                         {o.descricao}
@@ -54,7 +56,7 @@ export default function CreatePrevidencia({
                 </Box>
                 <Box>
                   <FormLabel>Regime de previdência (SICAP):</FormLabel>
-                  <Select>
+                  <Select name="regime-sicap">
                     {options.regimesPrevidenciaSicapEnum.map((o) => (
                       <option key={o.id} value={o.id}>
                         {o.descricao}
@@ -64,7 +66,7 @@ export default function CreatePrevidencia({
                 </Box>
                 <Box>
                   <FormLabel>Plano de Segregação da Massa:</FormLabel>
-                  <Select>
+                  <Select name="plano">
                     {options.planosSegregacaoMassa.map((o) => (
                       <option key={o.id} value={o.id}>
                         {o.descricao}
@@ -74,21 +76,21 @@ export default function CreatePrevidencia({
                 </Box>
                 <Box>
                   <FormLabel>Órgão de previdência:</FormLabel>
-                  <PessoaJuridicaAutoComplete />
+                  <PessoaJuridicaAutoComplete name="orgao-previdencia" />
                 </Box>
                 <Box>
                   <FormLabel>Órgão de recolhimento:</FormLabel>
-                  <PessoaJuridicaAutoComplete />
+                  <PessoaJuridicaAutoComplete name="orgao-recolhimento" />
                 </Box>
               </Flex>
             </FormControl>
-          </form>
-        </ModalBody>
-        <ModalFooter>
-          <Button colorScheme="green" mr={3} onClick={onClose}>
-            Salvar
-          </Button>
-        </ModalFooter>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="green" mr={3} type="submit">
+              Salvar
+            </Button>
+          </ModalFooter>
+        </form>
       </DraggableModal>
     </>
   );

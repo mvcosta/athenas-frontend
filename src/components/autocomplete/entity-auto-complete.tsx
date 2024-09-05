@@ -1,7 +1,7 @@
 "use client";
 
 import { SearchIcon } from "@chakra-ui/icons";
-import { Box, InputGroup, InputLeftAddon } from "@chakra-ui/react";
+import { Box, Input, InputGroup, InputLeftAddon } from "@chakra-ui/react";
 import {
   AutoComplete,
   AutoCompleteInput,
@@ -21,6 +21,7 @@ import {
 export default function EntityAutoComplete<T extends HasId>({
   placeholder,
   entityNotFound,
+  name,
   queryKey,
   searchEntityQuery,
   getEntitiesQuery,
@@ -29,60 +30,70 @@ export default function EntityAutoComplete<T extends HasId>({
 }: {
   placeholder?: string;
   entityNotFound?: string;
+  name?: string;
   queryKey: string;
   searchEntityQuery: searchEntityQuery<T>;
   getEntitiesQuery: getEntitiesQuery<T>;
   getItemText: (entity: T) => string;
   Entity: React.ComponentType<EntityProps<T>>;
 }) {
-  const [value, setValue] = useState<string>(" ");
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setValue(event.target.value);
+  const [value, setValue] = useState<string>("");
+  const [entityId, setEntityId] = useState<string>("");
 
-  const handleSelected = (e: T) => setValue(getItemText(e));
+  const handleOnSelected = (e: T) => {
+    setValue(getItemText(e));
+    setEntityId(e.id.toString());
+  };
 
   const { data, isLoading } = useQuery({
     queryKey: [queryKey, { search: value }],
     queryFn: searchEntityQuery,
-    enabled: value.length > 0,
   });
 
   return (
-    <AutoComplete
-      openOnFocus
-      isLoading={isLoading}
-      emptyState={<Box textAlign="center">{entityNotFound}</Box>}
-      value={value}
-    >
-      <InputGroup>
-        <InputLeftAddon>
-          <SearchIcon />
-        </InputLeftAddon>
-        <AutoCompleteInput
-          borderRightRadius={0}
-          variant="filled"
-          placeholder={placeholder}
-          onChange={handleChange}
-        />
+    <>
+      <Input type="hidden" name={`${name}-id`} value={entityId} />
+      <AutoComplete
+        openOnFocus
+        isLoading={isLoading}
+        emptyState={<Box textAlign="center">{entityNotFound}</Box>}
+      >
+        <InputGroup>
+          <InputLeftAddon>
+            <SearchIcon />
+          </InputLeftAddon>
+          <AutoCompleteInput
+            name={name}
+            borderRightRadius={0}
+            variant="filled"
+            placeholder={placeholder}
+            onChange={(e) => setValue(e.target.value)}
+            value={value}
+          />
 
-        <SelectEntity
-          queryFn={getEntitiesQuery}
-          queryKey={queryKey}
-          Entity={Entity}
-          onSelected={(evento) => handleSelected(evento)}
-        />
-      </InputGroup>
+          <SelectEntity
+            queryFn={getEntitiesQuery}
+            queryKey={queryKey}
+            Entity={Entity}
+            onSelected={(e) => handleOnSelected(e)}
+          />
+        </InputGroup>
 
-      <AutoCompleteList fontSize="0.9rem" resize="both">
-        {data?.map((e) => {
-          const text = getItemText(e);
-          return (
-            <AutoCompleteItem key={e.id} value={text}>
-              {text}
-            </AutoCompleteItem>
-          );
-        })}
-      </AutoCompleteList>
-    </AutoComplete>
+        <AutoCompleteList fontSize="0.9rem" resize="both">
+          {data?.map((e) => {
+            const text = getItemText(e);
+            return (
+              <AutoCompleteItem
+                key={e.id}
+                value={text}
+                onClick={() => handleOnSelected(e)}
+              >
+                {text}
+              </AutoCompleteItem>
+            );
+          })}
+        </AutoCompleteList>
+      </AutoComplete>
+    </>
   );
 }

@@ -1,5 +1,12 @@
 import { cookies } from "next/headers";
 import { authFetch } from "./fetch";
+import { EnumFieldResponse } from "@/interfaces/enum-field";
+
+export async function fetchEnum(endpoint: string) {
+  const response = await authAPIPaginatedFetch(endpoint);
+  const regimesResponse: EnumFieldResponse = await response.json();
+  return regimesResponse.results;
+}
 
 export async function authAPIPaginatedFetch(
   endpoint: string,
