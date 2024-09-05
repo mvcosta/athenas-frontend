@@ -26,7 +26,7 @@ export async function authFetch(
   return response;
 }
 
-class FetchError extends Error {
+export class FetchError extends Error {
   constructor(message?: string, public code?: number, public info?: any) {
     super(message);
     this.name = "FetchError";

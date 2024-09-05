@@ -13,13 +13,22 @@ import {
   ModalFooter,
   Select,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { createPrevidencia } from "../../_actions/previdencia";
+import { useFormState } from "react-dom";
+import SaveButton from "../../../../components/save-button";
+import { useEffect } from "react";
 
 export type PrevidenciaOptions = {
   regimesPrevidenciaEnum: EnumField[];
   regimesPrevidenciaSicapEnum: EnumField[];
   planosSegregacaoMassa: EnumField[];
+};
+
+type State = {
+  message: string;
+  status: string;
 };
 
 export default function CreatePrevidencia({
@@ -30,6 +39,34 @@ export default function CreatePrevidencia({
   options: PrevidenciaOptions;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [state, action] = useFormState<State, FormData>(createPrevidencia, {
+    message: "",
+    status: "",
+  });
+  const toast = useToast();
+
+  useEffect(() => {
+    if (state.status === "success") {
+      toast({
+        title: "Configuração criada.",
+        description: state.message,
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+      onClose();
+    }
+
+    if (state.status === "error") {
+      toast({
+        title: "Não foi possível criar a configuração.",
+        description: state.message,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  }, [state]);
 
   return (
     <>
@@ -40,7 +77,7 @@ export default function CreatePrevidencia({
         onClose={onClose}
         size={"xl"}
       >
-        <form action={createPrevidencia}>
+        <form action={action}>
           <ModalBody>
             <FormControl>
               <Flex direction={"column"} marginBottom={"1rem"} gap={"10px"}>
@@ -86,9 +123,7 @@ export default function CreatePrevidencia({
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="green" mr={3} type="submit">
-              Salvar
-            </Button>
+            <SaveButton />
           </ModalFooter>
         </form>
       </DraggableModal>
