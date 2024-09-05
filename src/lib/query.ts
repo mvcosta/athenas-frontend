@@ -27,7 +27,7 @@ export function getSearchEntityQueryFn<T>(endpoint: string) {
   }: QueryFunctionContext<[string, { search: string }]>): Promise<T[]> => {
     const [_, { search }] = queryKey;
 
-    const query = search ? `${endpoint}/?search=${search}` : `${endpoint}/`;
+    const query = search ? `${endpoint}/?keyword=${search}` : `${endpoint}/`;
     const response = await authAPIPaginatedClientFetch(query, 1, 20);
 
     const eventoResponse: PaginatedResponse<T> = await response.json();
