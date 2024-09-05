@@ -3,9 +3,12 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../theme/theme-providers";
 import { cookies } from "next/headers";
-import NavBar from "./nav-bar";
 import { Flex } from "@chakra-ui/react";
 import { ReactQueryClientProvider } from "./react-query-provider";
+import PageWrapper from "@/components/main-layout/page-wrapper";
+import MarginWidthWrapper from "@/components/main-layout/margin-width-wrapper";
+import SideNav from "@/components/main-layout/side-nav";
+import Header from "@/components/main-layout/header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,9 +29,14 @@ export default function RootLayout({
       <body>
         <ReactQueryClientProvider>
           <ThemeProvider colorMode={colorMode?.value}>
-            <Flex>
-              <NavBar />
-              {children}
+            <Flex width="100vw">
+              <SideNav />
+              <Flex flexGrow="1" as="main">
+                <MarginWidthWrapper>
+                  <Header />
+                  <PageWrapper>{children}</PageWrapper>
+                </MarginWidthWrapper>
+              </Flex>
             </Flex>
           </ThemeProvider>
         </ReactQueryClientProvider>
