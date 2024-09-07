@@ -10,7 +10,7 @@ export async function getConfiguracoesPrevidencia(
   page: number = 0,
   limit: number = 10
 ): Promise<{
-  configuracoesPrevidencias: ConfiguracaoPrevidencia[];
+  data: ConfiguracaoPrevidencia[];
   count: number;
 }> {
   const response = await authAPIPaginatedFetch(
@@ -21,7 +21,7 @@ export async function getConfiguracoesPrevidencia(
   const configuracoesResponse: ConfiguracaoPrevidenciaResponse =
     await response.json();
   return {
-    configuracoesPrevidencias: configuracoesResponse.results,
+    data: configuracoesResponse.results,
     count: configuracoesResponse.count,
   };
 }

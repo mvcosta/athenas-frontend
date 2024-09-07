@@ -8,13 +8,23 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 export default function QueryPaginationControls({
   page,
   lastPage,
+  pathIndex,
 }: {
   page: number;
   lastPage: number;
+  pathIndex?: number;
 }) {
   const router = useRouter();
   const pathName = usePathname();
   const searchParams = useSearchParams();
+
+  function getNewPathName() {
+    if (!pathIndex) return pathName;
+
+    const paths = pathName.split("/");
+    paths.splice(pathIndex, 1);
+    return paths.join("/");
+  }
 
   function onPageChange(newPage: number) {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
@@ -22,7 +32,7 @@ export default function QueryPaginationControls({
     const pagination = current.toString();
     const query = pagination ? `?${pagination}` : "";
 
-    router.push(`${pathName}${query}`);
+    router.push(`${getNewPathName()}${query}`);
   }
 
   const isBackDisabled = page === 1;
