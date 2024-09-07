@@ -1,9 +1,7 @@
-import { Container, Flex, Heading } from "@chakra-ui/react";
+import { Container, Heading } from "@chakra-ui/react";
 import { PageProps } from "@/interfaces/page-props";
-import Previdencias from "./_components/previdencias";
-import EntityRow from "@/components/entity-row";
-import CrudControls from "@/components/crud-controls";
 import { getConfiguracoesPrevidencia } from "../_lib/previdencia";
+import PrevidenciaTable from "./_components/previdencia-table";
 
 export default async function EventosPage({ searchParams }: PageProps) {
   const { configuracoesPrevidencias, count } =
@@ -14,13 +12,7 @@ export default async function EventosPage({ searchParams }: PageProps) {
       <Heading marginY="2rem" textAlign="center">
         Configurações de Previdência
       </Heading>
-      <Previdencias
-        previdencias={configuracoesPrevidencias}
-        EntityRow={EntityRow}
-      />
-      <Flex justifyContent={"center"} marginTop={"2rem"}>
-        <CrudControls />
-      </Flex>
+      <PrevidenciaTable data={configuracoesPrevidencias} />
     </Container>
   );
 }
