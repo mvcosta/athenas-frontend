@@ -1,4 +1,4 @@
-import EntityRowType from "@/components/entity-row";
+import EntityRowType from "@/components/multi-selection-entity-row";
 import EntityTable from "@/components/entity-table";
 import { Evento } from "@/app/gfp/_models/eventos.models";
 import { Td } from "@chakra-ui/react";

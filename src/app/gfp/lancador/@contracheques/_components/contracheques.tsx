@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { Td } from "@chakra-ui/react";
-import EntityRow from "@/components/entity-row";
 import EntityTable from "@/components/entity-table";
 import { Contracheque } from "@/app/gfp/_models/contracheque.models";
+import MultiSelectionEntityRow from "@/components/multi-selection-entity-row";
 
 export default function Contracheques({
   contracheques,
@@ -56,7 +56,7 @@ export default function Contracheques({
   return (
     <EntityTable headers={headers}>
       {contracheques.map((c) => (
-        <EntityRow
+        <MultiSelectionEntityRow
           key={c.id}
           entity={c}
           isSelected={selectedContracheques.includes(c.id)}
@@ -71,7 +71,7 @@ export default function Contracheques({
           <Td>{c.confianca}</Td>
           <Td>{c.estagio}</Td>
           <Td>{c.ferias}</Td>
-        </EntityRow>
+        </MultiSelectionEntityRow>
       ))}
     </EntityTable>
   );

@@ -1,6 +1,5 @@
 "use client";
 
-import NavigableRow from "@/components/navigable-row";
 import { TriangleDownIcon, TriangleUpIcon, UpDownIcon } from "@chakra-ui/icons";
 import { Box, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import {
@@ -10,6 +9,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { usePathname } from "next/navigation";
+import EntityRow from "./entity-row";
 
 function TanstackEntityTable<T>({
   data,
@@ -18,7 +18,7 @@ function TanstackEntityTable<T>({
 }: {
   data: T[];
   columns: any;
-  pathIndex?: number; // Indice da url a ser na navegação
+  pathIndex?: number; // Indice da url a ser atualizado na navegação
 }) {
   const table = useReactTable({
     data,
@@ -76,7 +76,7 @@ function TanstackEntityTable<T>({
           </Thead>
           <Tbody>
             {table.getRowModel().rows.map((row) => (
-              <NavigableRow
+              <EntityRow
                 key={row.id}
                 isSelected={isSelected(row.getValue("id"))}
                 entityId={row.getValue("id")}
@@ -87,7 +87,7 @@ function TanstackEntityTable<T>({
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </Td>
                 ))}
-              </NavigableRow>
+              </EntityRow>
             ))}
           </Tbody>
         </Table>

@@ -1,6 +1,6 @@
 import { HasId } from "@/interfaces/has-id";
 import { QueryFunctionContext } from "@tanstack/react-query";
-import EntityRow from "../entity-row";
+import MultiSelectionEntityRow from "../multi-selection-entity-row";
 
 export type searchEntityQuery<T> = (
   context: QueryFunctionContext<[string, { search: string }]>
@@ -12,5 +12,5 @@ export type getEntitiesQuery<T> = (
 
 export type EntityProps<T extends HasId> = {
   data: T[];
-  EntityRow: typeof EntityRow<T>;
+  EntityRow: typeof MultiSelectionEntityRow<T>;
 };

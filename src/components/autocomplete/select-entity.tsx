@@ -9,13 +9,15 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import EntityRow, { EntityRowProps } from "@/components/entity-row";
 import { calcLastPage } from "@/lib/pagination-utils";
 import { useQuery } from "@tanstack/react-query";
 import DraggableModal from "../draggable-modal";
 import PaginationControls from "../pagination/pagination-controls";
 import { HasId } from "@/interfaces/has-id";
 import { EntityProps, getEntitiesQuery } from "./auto-complete.type";
+import MultiSelectionEntityRow, {
+  MultiSelectionEntityRowProps,
+} from "../multi-selection-entity-row";
 
 export default function SelectEntity<T extends HasId>({
   onSelected,
@@ -101,10 +103,17 @@ function SelectEntityTable<T extends HasId>({
   entities: T[];
   onClick?: (e: T) => void;
 }) {
-  const withOnClickEntityRow = ({ entity, ...props }: EntityRowProps<T>) => (
-    <EntityRow {...props} entity={entity} onClick={() => onClick?.(entity)}>
+  const withOnClickEntityRow = ({
+    entity,
+    ...props
+  }: MultiSelectionEntityRowProps<T>) => (
+    <MultiSelectionEntityRow
+      {...props}
+      entity={entity}
+      onClick={() => onClick?.(entity)}
+    >
       {props.children}
-    </EntityRow>
+    </MultiSelectionEntityRow>
   );
 
   return <Entity data={entities} EntityRow={withOnClickEntityRow} />;

@@ -1,10 +1,10 @@
 import { getEventos } from "../_lib/eventos";
 import { Container, Heading } from "@chakra-ui/react";
 import Eventos from "./_components/eventos";
-import EntityRow from "@/components/entity-row";
 import { PageProps } from "@/interfaces/page-props";
 import QueryPaginationControls from "@/components/pagination/query-pagination-controls";
 import { calcLastPage, getPageFromParams } from "@/lib/pagination-utils";
+import MultiSelectionEntityRow from "@/components/multi-selection-entity-row";
 
 export default async function EventosPage({ searchParams }: PageProps) {
   const { page, limit } = getPageFromParams(searchParams);
@@ -16,7 +16,7 @@ export default async function EventosPage({ searchParams }: PageProps) {
       <Heading marginY="2rem" textAlign="center">
         Gerenciador de Eventos da Folha
       </Heading>
-      <Eventos data={eventos} EntityRow={EntityRow} />
+      <Eventos data={eventos} EntityRow={MultiSelectionEntityRow} />
       <QueryPaginationControls page={page} lastPage={lastPage} />
     </Container>
   );
