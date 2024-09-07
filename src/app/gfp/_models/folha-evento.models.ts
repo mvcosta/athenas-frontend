@@ -3,7 +3,8 @@ import { Evento } from "./eventos.models";
 import { Folha } from "./folha.models";
 import { Periodo } from "./periodo.models";
 
-export interface FolhasEventosResponse extends PaginatedResponse<FolhaEvento> {}
+export interface FolhasEventosResponse
+  extends PaginatedResponse<FolhaEventoResponse> {}
 export interface FolhaEvento {
   id: number;
   evento: string;
