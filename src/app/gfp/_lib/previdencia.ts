@@ -2,6 +2,8 @@ import { authAPIPaginatedFetch, fetchEnum } from "@/lib/fetch-server";
 import {
   ConfiguracaoPrevidencia,
   ConfiguracaoPrevidenciaResponse,
+  FiliacaoPrevidencia,
+  FiliacaoPrevidenciaResponse,
 } from "../_models/previdencia.models";
 
 export async function getConfiguracoesPrevidencia(
@@ -20,6 +22,26 @@ export async function getConfiguracoesPrevidencia(
     await response.json();
   return {
     configuracoesPrevidencias: configuracoesResponse.results,
+    count: configuracoesResponse.count,
+  };
+}
+
+export async function getFiliacoesPrevidencia(
+  page: number = 0,
+  limit: number = 10
+): Promise<{
+  filiacoesPrevidencia: FiliacaoPrevidencia[];
+  count: number;
+}> {
+  const response = await authAPIPaginatedFetch(
+    "v2/filiacoes-previdencia",
+    page,
+    limit
+  );
+  const configuracoesResponse: FiliacaoPrevidenciaResponse =
+    await response.json();
+  return {
+    filiacoesPrevidencia: configuracoesResponse.results,
     count: configuracoesResponse.count,
   };
 }
