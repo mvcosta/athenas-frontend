@@ -99,7 +99,7 @@ function SelectEntityTable<T extends HasId>({
   entities,
   onClick,
 }: {
-  Entity: any;
+  Entity: React.ComponentType<EntityProps<T>>;
   entities: T[];
   onClick?: (e: T) => void;
 }) {
@@ -116,5 +116,7 @@ function SelectEntityTable<T extends HasId>({
     </MultiSelectionEntityRow>
   );
 
-  return <Entity data={entities} EntityRow={withOnClickEntityRow} />;
+  return (
+    <Entity data={entities} MultiSelectionEntityRow={withOnClickEntityRow} />
+  );
 }

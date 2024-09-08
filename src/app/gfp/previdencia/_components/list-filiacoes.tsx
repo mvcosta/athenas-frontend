@@ -9,8 +9,13 @@ import { useState } from "react";
 import { getEntityQueryFn } from "@/lib/query";
 import { useQuery } from "@tanstack/react-query";
 import { calcLastPage } from "@/lib/pagination-utils";
+import CreateFiliacao from "./create-filiacao";
 
-function ListFiliacoes() {
+function ListFiliacoes({
+  configPrevidenciaId,
+}: {
+  configPrevidenciaId?: number;
+}) {
   const [page, setPage] = useState(1);
 
   const endpoint = "v2/filiacoes-previdencia";
@@ -33,6 +38,7 @@ function ListFiliacoes() {
       </Heading>
       <Flex justifyContent="space-between">
         <TableFilters />
+        <CreateFiliacao configPrevidenciaId={configPrevidenciaId} />
       </Flex>
       <FiliacoesTable data={data?.data ?? []} />
       <PaginationControls lastPage={lastPage} onPageChange={onPageChange} />

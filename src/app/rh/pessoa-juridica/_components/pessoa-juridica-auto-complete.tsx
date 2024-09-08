@@ -3,7 +3,7 @@
 import EntityAutoComplete from "@/components/autocomplete/entity-auto-complete";
 import { getEntityQueryFn, getSearchEntityQueryFn } from "@/lib/query";
 import { PessoaJuridica } from "../../_models/pessoa-juridica.models";
-import PessoasJuridicas from "./pessoa-juridica";
+import PessoasJuridicas from "./pessoas-juridicas";
 
 export default function PessoaJuridicaAutoComplete({
   name,

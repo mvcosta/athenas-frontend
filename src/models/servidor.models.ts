@@ -1,4 +1,7 @@
-export interface ServidorResponse {
+import { PaginatedResponse } from "@/interfaces/paginated-response";
+
+export interface ServidorResponse extends PaginatedResponse<Servidor> {}
+export interface Servidor {
   id: number;
   ativo: boolean;
   matricula: number;

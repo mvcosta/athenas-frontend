@@ -25,6 +25,15 @@ export async function getConfiguracoesPrevidencia(
     count: configuracoesResponse.count,
   };
 }
+export async function getConfiguracaoPrevidenciaById(
+  id: number
+): Promise<ConfiguracaoPrevidencia> {
+  const response = await authAPIPaginatedFetch(
+    `v2/configuracoes-previdencia/${id}`
+  );
+  const configuracoesResponse: ConfiguracaoPrevidencia = await response.json();
+  return configuracoesResponse;
+}
 
 export async function getFiliacoesPrevidencia(
   page: number = 0,

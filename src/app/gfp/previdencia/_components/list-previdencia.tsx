@@ -28,9 +28,7 @@ function ListPrevidencia({
       </Heading>
       <Flex justifyContent="space-between">
         <TableFilters />
-        <CreatePrevidencia options={options}>
-          Nova configuração
-        </CreatePrevidencia>
+        <CreatePrevidencia options={options} />
       </Flex>
       <PrevidenciaTable data={data} />
       <QueryPaginationControls page={page} lastPage={lastPage} pathIndex={3} />

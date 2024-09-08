@@ -1,5 +1,8 @@
 import { PaginatedResponse } from "@/interfaces/paginated-response";
-import { authAPIPaginatedClientFetch } from "@/lib/fetch-client";
+import {
+  authAPIClientFetch,
+  authAPIPaginatedClientFetch,
+} from "@/lib/fetch-client";
 import { QueryFunctionContext } from "@tanstack/react-query";
 
 export function getEntityQueryFn<T>(endpoint: string) {
@@ -18,6 +21,18 @@ export function getEntityQueryFn<T>(endpoint: string) {
 
     const eventoResponse: PaginatedResponse<T> = await response.json();
     return { data: eventoResponse.results, count: eventoResponse.count };
+  };
+}
+
+export function getEntityByIdQueryFn<T>(endpoint: string, id: number) {
+  return async ({
+    queryKey,
+  }: QueryFunctionContext<[string, { id: number }]>): Promise<T> => {
+    const [_, { id }] = queryKey;
+    const response = await authAPIClientFetch(`${endpoint}/${id}`);
+
+    const entity: T = await response.json();
+    return entity;
   };
 }
 
