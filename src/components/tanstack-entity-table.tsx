@@ -1,7 +1,7 @@
 "use client";
 
 import { TriangleDownIcon, TriangleUpIcon, UpDownIcon } from "@chakra-ui/icons";
-import { Box, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { Box, Flex, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import {
   flexRender,
   getCoreRowModel,
@@ -39,27 +39,30 @@ function TanstackEntityTable<T>({
   return (
     <>
       <Box maxW="100%" overflow="auto">
-        <Table w={table.getTotalSize()}>
+        <Table size="sm" w={table.getTotalSize()}>
           <Thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <Tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <Th key={header.id} position="relative" w={header.getSize()}>
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
+                    <Flex alignItems="center">
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
 
-                    {header.column.getCanSort() && (
-                      <UpDownIcon
-                        mx={3}
-                        fontSize={14}
-                        onClick={header.column.getToggleSortingHandler()}
-                      />
-                    )}
-                    {{ asc: <TriangleDownIcon />, desc: <TriangleUpIcon /> }[
-                      header.column.getIsSorted() as string
-                    ] ?? null}
+                      {header.column.getCanSort() && (
+                        <UpDownIcon
+                          mx={3}
+                          fontSize={14}
+                          cursor="pointer"
+                          onClick={header.column.getToggleSortingHandler()}
+                        />
+                      )}
+                      {{ asc: <TriangleDownIcon />, desc: <TriangleUpIcon /> }[
+                        header.column.getIsSorted() as string
+                      ] ?? null}
+                    </Flex>
                     <Box
                       // Barra utilizada para redimensionar as colunas
                       onMouseDown={header.getResizeHandler()}

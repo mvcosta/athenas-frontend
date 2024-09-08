@@ -13,11 +13,18 @@ function ListEntity({
   CreateEntity: React.ReactNode;
 }) {
   return (
-    <Container maxW="1500px">
-      <Heading marginY="2rem" textAlign="center">
+    <Container
+      maxW="1500px"
+      border="1px"
+      borderColor="gray.200"
+      borderRadius="5px"
+      backgroundColor="white"
+      py="2rem"
+    >
+      {/* <Heading marginY="2rem" textAlign="center">
         {title}
-      </Heading>
-      <Flex justifyContent="space-between">
+      </Heading> */}
+      <Flex justifyContent="space-between" mb="1rem">
         <TableFilters />
         {CreateEntity}
       </Flex>

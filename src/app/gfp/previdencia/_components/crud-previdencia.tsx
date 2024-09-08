@@ -26,7 +26,7 @@ const columns = [
   columnsHelper.accessor("id", {
     header: "Id",
     cell: (info) => info.getValue(),
-    size: 150,
+    size: 115,
   }),
   columnsHelper.accessor("regime_previdencia", {
     header: "Regime de previdência",
@@ -41,21 +41,22 @@ const columns = [
   columnsHelper.accessor("tipo_plano_segregacao", {
     header: "Plano de Segregação da Massa",
     cell: (info) => info.getValue().descricao,
-    size: 400,
+    size: 300,
   }),
   columnsHelper.accessor("orgao_previdencia", {
     header: "Órgão de previdência",
     cell: (info) => info.getValue().nome,
-    size: 300,
+    size: 250,
   }),
   columnsHelper.accessor("orgao_recolhimento", {
     header: "Órgão de recolhimento",
     cell: (info) => info.getValue().nome,
-    size: 300,
+    size: 250,
   }),
   columnsHelper.display({
     id: "acoes",
     header: "Ações",
+    size: 50,
     cell: (info) => {
       const previdencia = info.row.original;
       return <DeletePrevidencia previdencia={previdencia} />;
@@ -81,19 +82,17 @@ export default function CrudPrevidencia({
   };
 }) {
   return (
-    <>
-      <ListEntity
-        title={"Configurações de Previdência"}
-        CreateEntity={<CreatePrevidencia options={options} />}
-      >
-        <PrevidenciaTable data={data} />
-        <QueryPaginationControls
-          page={page}
-          lastPage={lastPage}
-          pagePrefix={pagePrefix}
-        />
-      </ListEntity>
-    </>
+    <ListEntity
+      title={"Configurações de Previdência"}
+      CreateEntity={<CreatePrevidencia options={options} />}
+    >
+      <PrevidenciaTable data={data} />
+      <QueryPaginationControls
+        page={page}
+        lastPage={lastPage}
+        pagePrefix={pagePrefix}
+      />
+    </ListEntity>
   );
 }
 

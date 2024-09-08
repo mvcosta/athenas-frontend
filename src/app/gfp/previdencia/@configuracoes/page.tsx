@@ -7,6 +7,7 @@ import {
 import { PageProps } from "@/interfaces/page-props";
 import { getPaginatedPageData } from "@/lib/pagination-utils";
 import CrudPrevidencia from "../_components/crud-previdencia";
+import { Heading } from "@chakra-ui/react";
 
 export default async function ConfiguracoesPrevidenciaPage({
   searchParams,
@@ -29,12 +30,17 @@ export default async function ConfiguracoesPrevidenciaPage({
   };
 
   return (
-    <CrudPrevidencia
-      data={data}
-      page={page}
-      pagePrefix={pagePrefix}
-      lastPage={lastPage}
-      options={options}
-    />
+    <>
+      <Heading marginY="1rem" as="h3" size="lg">
+        Configurações de Previdência
+      </Heading>
+      <CrudPrevidencia
+        data={data}
+        page={page}
+        pagePrefix={pagePrefix}
+        lastPage={lastPage}
+        options={options}
+      />
+    </>
   );
 }

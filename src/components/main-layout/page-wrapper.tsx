@@ -10,6 +10,7 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
       columnGap={2}
       flexGrow={1}
       pb={4}
+      backgroundColor="gray.50"
     >
       {children}
     </Flex>

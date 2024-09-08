@@ -1,4 +1,4 @@
-import { Container } from "@chakra-ui/react";
+import { Box, Container, Heading } from "@chakra-ui/react";
 import React from "react";
 
 export default function LancadorLayout({
@@ -10,10 +10,11 @@ export default function LancadorLayout({
 }) {
   return (
     <Container maxW="1500px">
-      <div>
-        <div>{configuracoes}</div>
-        <div>{filiacoes}</div>
-      </div>
+      <Box>
+        <Box mb="2rem">{configuracoes}</Box>
+
+        <Box>{filiacoes}</Box>
+      </Box>
     </Container>
   );
 }
