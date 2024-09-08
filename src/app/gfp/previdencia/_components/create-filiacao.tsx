@@ -1,14 +1,10 @@
 import { Box, Flex, FormLabel, Input } from "@chakra-ui/react";
-import { createPrevidencia } from "../../_actions/previdencia";
+import { createFiliacao, createPrevidencia } from "../../_actions/previdencia";
 import CreateEntity from "@/components/create-entity";
 import ServidorAutoComplete from "@/app/rh/servidor/_components/servidor-auto-complete";
-import { getConfiguracaoPrevidenciaById } from "../../_lib/previdencia";
 import { useQuery } from "@tanstack/react-query";
 import { getEntityByIdQueryFn } from "@/lib/query";
-import {
-  ConfiguracaoPrevidencia,
-  FiliacaoPrevidencia,
-} from "../../_models/previdencia.models";
+import { ConfiguracaoPrevidencia } from "../../_models/previdencia.models";
 
 export default function CreateFiliacao({
   configPrevidenciaId,
@@ -47,9 +43,10 @@ export default function CreateFiliacao({
   return (
     <CreateEntity
       title={"Nova Filiação de Previdência"}
-      formAction={createPrevidencia}
+      formAction={createFiliacao}
       btnText={"Adicionar Filiação"}
       toastConfig={toastConfig}
+      invalidateQueries={{ queryKey: ["filiacoes-previdencia"] }}
     >
       <Flex direction={"column"} marginBottom={"1rem"} gap={"10px"}>
         <Box>
@@ -61,7 +58,7 @@ export default function CreateFiliacao({
           />
           <Input
             type="hidden"
-            name={`configuracao-previdencia-id`}
+            name={"configuracao-previdencia-id"}
             value={configPrevidenciaId}
           />
         </Box>

@@ -14,6 +14,7 @@ import { useFormState } from "react-dom";
 import { useEffect } from "react";
 import { AddIcon } from "@chakra-ui/icons";
 import SaveButton from "./save-button";
+import { useQueryClient } from "@tanstack/react-query";
 
 type State = {
   message: string;
@@ -25,12 +26,14 @@ export default function CreateEntity({
   title,
   formAction,
   btnText,
+  invalidateQueries,
   toastConfig,
 }: {
   children: React.ReactNode;
   title: string;
   formAction: any;
   btnText: string;
+  invalidateQueries?: any;
   toastConfig: any;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,10 +42,14 @@ export default function CreateEntity({
     status: "",
   });
   const toast = useToast();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (state.status === "success") {
       toast({ ...toastConfig.success, description: state.message });
+      if (invalidateQueries) {
+        queryClient.invalidateQueries(invalidateQueries);
+      }
       onClose();
     }
     if (state.status === "error") {
