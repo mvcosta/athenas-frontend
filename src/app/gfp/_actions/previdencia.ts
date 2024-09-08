@@ -1,8 +1,11 @@
 "use server";
 
 import { FetchError } from "@/lib/fetch";
-import { authAPIFetch } from "@/lib/fetch-server";
+import { actionAuthAPIFetch, authAPIFetch } from "@/lib/fetch-server";
 import { revalidatePath } from "next/cache";
+
+const endpoint = "v2/configuracoes-previdencia/";
+const path = "/gfp/previdencia";
 
 export async function createPrevidenciaAction(prevState: any, formData: any) {
   const rawFormData = Object.fromEntries(formData);
@@ -16,50 +19,27 @@ export async function createPrevidenciaAction(prevState: any, formData: any) {
   };
 
   const error = await actionAuthAPIFetch(
-    "v2/configuracoes-previdencia/",
-    payload
+    endpoint,
+    payload,
+    "Erro ao tentar cadastrar a configuração"
   );
   if (error) {
     return error;
   }
 
-  revalidatePath("/gfp/previdencia", "layout");
+  revalidatePath(path, "layout");
   return {
     message: "A configuração de previdência foi criada com sucesso.",
     status: "success",
   };
 }
 
-export async function createFiliacaoAction(prevState: any, formData: any) {
+export async function deletePrevidenciaAction(prevState: any, formData: any) {
   const rawFormData = Object.fromEntries(formData);
-
-  const payload = {
-    configuracao_previdencia: +rawFormData["configuracao-previdencia-id"],
-    servidor: +rawFormData["servidor-id"],
-    data_inicio_vigencia:
-      rawFormData["data-inicio"] !== "" ? rawFormData["data-inicio"] : null,
-    data_fim_vigencia:
-      rawFormData["data-fim"] !== "" ? rawFormData["data-fim"] : null,
-  };
-
-  const error = await actionAuthAPIFetch("v2/filiacoes-previdencia/", payload);
-  if (error) {
-    return error;
-  }
-
-  revalidatePath("/gfp/previdencia", "layout");
-  return {
-    message: "A filiação do servidor foi adicionada à previdência com sucesso.",
-    status: "success",
-  };
-}
-
-export async function deleteFiliacaoAction(prevState: any, formData: any) {
-  const rawFormData = Object.fromEntries(formData);
-  const filiacaoId = rawFormData["filiacao-id"];
+  const filiacaoId = rawFormData["configuracao-previdencia-id"];
 
   try {
-    await authAPIFetch(`v2/filiacoes-previdencia/${filiacaoId}`, {
+    await authAPIFetch(`${endpoint}${filiacaoId}`, {
       method: "DELETE",
     });
   } catch (error) {
@@ -67,37 +47,15 @@ export async function deleteFiliacaoAction(prevState: any, formData: any) {
       return { message: error.info?.non_field_errors, status: "error" };
     } else {
       return {
-        message: "Erro ao tentar remover a filiação",
+        message: "Erro ao tentar excluir a configuração",
         status: "error",
       };
     }
   }
 
-  revalidatePath("/gfp/previdencia", "layout");
+  revalidatePath(path, "layout");
   return {
-    message: "A filiação do servidor removida da previdência com sucesso.",
+    message: "A configuração da previdência foi excluída com sucesso.",
     status: "success",
   };
-}
-
-async function actionAuthAPIFetch(endpoint: string, payload: any) {
-  try {
-    await authAPIFetch(endpoint, {
-      headers: {
-        "Content-type": "application/json;charset=UTF-8",
-      },
-      method: "POST",
-      body: JSON.stringify(payload),
-    });
-  } catch (error) {
-    if (error instanceof FetchError && error.info?.non_field_errors) {
-      return { message: error.info?.non_field_errors, status: "error" };
-    } else {
-      return {
-        message: "Erro ao tentar cadastrar a configuração",
-        status: "error",
-      };
-    }
-  }
-  return null;
 }

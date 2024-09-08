@@ -9,7 +9,11 @@ import { EnumField } from "@/interfaces/enum-field";
 import { Flex, Box, FormLabel, Select } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { ConfiguracaoPrevidencia } from "../../_models/previdencia.models";
-import { createPrevidenciaAction } from "../../_actions/previdencia";
+import {
+  createPrevidenciaAction,
+  deletePrevidenciaAction,
+} from "../../_actions/previdencia";
+import DeleteEntity from "@/components/delete-entity";
 
 type PrevidenciaOptions = {
   regimesPrevidenciaEnum: EnumField[];
@@ -48,6 +52,14 @@ const columns = [
     header: "Órgão de recolhimento",
     cell: (info) => info.getValue().nome,
     size: 300,
+  }),
+  columnsHelper.display({
+    id: "acoes",
+    header: "Ações",
+    cell: (info) => {
+      const previdencia = info.row.original;
+      return <DeletePrevidencia previdencia={previdencia} />;
+    },
   }),
 ];
 
@@ -149,5 +161,38 @@ function CreatePrevidencia({ options }: { options: PrevidenciaOptions }) {
         </Box>
       </Flex>
     </CreateEntity>
+  );
+}
+
+function DeletePrevidencia({
+  previdencia,
+  invalidateQueries,
+}: {
+  previdencia: ConfiguracaoPrevidencia;
+  invalidateQueries?: any;
+}) {
+  const toastConfig = {
+    success: {
+      title: "Configuração excluída.",
+      status: "success",
+    },
+    error: {
+      title: "Não foi possível excluir a configuração.",
+      status: "error",
+    },
+  };
+
+  return (
+    <DeleteEntity
+      title={`Excluindo a configuração ${previdencia.orgao_previdencia.nome}`}
+      name={"configuracao-previdencia-id"}
+      entity={previdencia}
+      formAction={deletePrevidenciaAction}
+      toastConfig={toastConfig}
+      invalidateQueries={invalidateQueries}
+    >
+      Você tem certeza que deseja excluir a configuração
+      {` ${previdencia?.orgao_previdencia.nome}`}?
+    </DeleteEntity>
   );
 }

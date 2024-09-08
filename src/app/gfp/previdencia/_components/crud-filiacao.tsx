@@ -18,7 +18,7 @@ import DeleteEntity from "@/components/delete-entity";
 import {
   createFiliacaoAction,
   deleteFiliacaoAction,
-} from "../../_actions/previdencia";
+} from "../../_actions/filiacao";
 
 const columnsHelper = createColumnHelper<FiliacaoPrevidencia>();
 const columns = [

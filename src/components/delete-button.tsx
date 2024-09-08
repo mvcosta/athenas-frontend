@@ -6,7 +6,7 @@ export default function DeleteButton() {
 
   return (
     <Button colorScheme="red" mr={3} type="submit">
-      {pending ? <Spinner /> : "Apagar"}
+      {pending ? <Spinner /> : "Excluir"}
     </Button>
   );
 }

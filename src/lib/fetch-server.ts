@@ -1,6 +1,32 @@
 import { cookies } from "next/headers";
-import { authFetch } from "./fetch";
+import { authFetch, FetchError } from "./fetch";
 import { EnumFieldResponse } from "@/interfaces/enum-field";
+
+export async function actionAuthAPIFetch(
+  endpoint: string,
+  payload: any,
+  defaultErrorMessage: string
+) {
+  try {
+    await authAPIFetch(endpoint, {
+      headers: {
+        "Content-type": "application/json;charset=UTF-8",
+      },
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+  } catch (error) {
+    if (error instanceof FetchError && error.info?.non_field_errors) {
+      return { message: error.info?.non_field_errors, status: "error" };
+    } else {
+      return {
+        message: defaultErrorMessage,
+        status: "error",
+      };
+    }
+  }
+  return null;
+}
 
 export async function fetchEnum(endpoint: string) {
   const response = await authAPIPaginatedFetch(endpoint);
