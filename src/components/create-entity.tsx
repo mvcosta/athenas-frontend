@@ -15,11 +15,7 @@ import { useEffect } from "react";
 import { AddIcon } from "@chakra-ui/icons";
 import SaveButton from "./save-button";
 import { useQueryClient } from "@tanstack/react-query";
-
-type State = {
-  message: string;
-  status: string;
-};
+import { ActionState } from "@/interfaces/action-state";
 
 export default function CreateEntity({
   children,
@@ -37,7 +33,7 @@ export default function CreateEntity({
   toastConfig: any;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [state, action] = useFormState<State, FormData>(formAction, {
+  const [state, action] = useFormState<ActionState, FormData>(formAction, {
     message: "",
     status: "",
   });

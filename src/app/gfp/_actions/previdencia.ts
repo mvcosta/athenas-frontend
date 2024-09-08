@@ -15,24 +15,14 @@ export async function createPrevidencia(prevState: any, formData: any) {
     orgao_recolhimento: +rawFormData["orgao-recolhimento-id"],
   };
 
-  try {
-    const response = await authAPIFetch("v2/configuracoes-previdencia/", {
-      headers: {
-        "Content-type": "application/json;charset=UTF-8",
-      },
-      method: "POST",
-      body: JSON.stringify(payload),
-    });
-  } catch (error) {
-    if (error instanceof FetchError && error.info?.non_field_errors) {
-      return { message: error.info?.non_field_errors, status: "error" };
-    } else {
-      return {
-        message: "Erro ao tentar cadastrar a configuração",
-        status: "error",
-      };
-    }
+  const error = await actionAuthAPIFetch(
+    "v2/configuracoes-previdencia/",
+    payload
+  );
+  if (error) {
+    return error;
   }
+
   revalidatePath("/gfp/previdencia", "layout");
   return {
     message: "A configuração de previdência foi criada com sucesso.",
@@ -52,8 +42,47 @@ export async function createFiliacao(prevState: any, formData: any) {
       rawFormData["data-fim"] !== "" ? rawFormData["data-fim"] : null,
   };
 
+  const error = await actionAuthAPIFetch("v2/filiacoes-previdencia/", payload);
+  if (error) {
+    return error;
+  }
+
+  revalidatePath("/gfp/previdencia", "layout");
+  return {
+    message: "A filiação do servidor foi adicionada à previdência com sucesso.",
+    status: "success",
+  };
+}
+
+export async function deleteFiliacao(prevState: any, formData: any) {
+  const rawFormData = Object.fromEntries(formData);
+  const filiacaoId = rawFormData["filiacao-id"];
+
   try {
-    const response = await authAPIFetch("v2/filiacoes-previdencia/", {
+    await authAPIFetch(`v2/filiacoes-previdencia/${filiacaoId}`, {
+      method: "DELETE",
+    });
+  } catch (error) {
+    if (error instanceof FetchError && error.info?.non_field_errors) {
+      return { message: error.info?.non_field_errors, status: "error" };
+    } else {
+      return {
+        message: "Erro ao tentar remover a filiação",
+        status: "error",
+      };
+    }
+  }
+
+  revalidatePath("/gfp/previdencia", "layout");
+  return {
+    message: "A filiação do servidor removida da previdência com sucesso.",
+    status: "success",
+  };
+}
+
+async function actionAuthAPIFetch(endpoint: string, payload: any) {
+  try {
+    await authAPIFetch(endpoint, {
       headers: {
         "Content-type": "application/json;charset=UTF-8",
       },
@@ -65,14 +94,10 @@ export async function createFiliacao(prevState: any, formData: any) {
       return { message: error.info?.non_field_errors, status: "error" };
     } else {
       return {
-        message: "Erro ao tentar cadastrar a filiação",
+        message: "Erro ao tentar cadastrar a configuração",
         status: "error",
       };
     }
   }
-  revalidatePath("/gfp/previdencia", "layout");
-  return {
-    message: "A filiação de previdência foi criada com sucesso.",
-    status: "success",
-  };
+  return null;
 }
