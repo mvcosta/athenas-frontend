@@ -4,6 +4,7 @@ import { Flex } from "@chakra-ui/react";
 export default function PageWrapper({ children }: { children: ReactNode }) {
   return (
     <Flex
+      as="section"
       direction="column"
       pt={2}
       px={4}

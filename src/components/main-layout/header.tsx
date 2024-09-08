@@ -27,6 +27,7 @@ export default function Header() {
 
   return (
     <Box
+      as="header"
       position="sticky"
       top={0}
       zIndex={30}

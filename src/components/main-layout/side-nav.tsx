@@ -8,6 +8,7 @@ import { SIDENAV_ITEMS } from "./side-nav-config";
 const SideNav = () => {
   return (
     <Box
+      as="nav"
       display={{ base: "none", md: "flex" }}
       width={{ md: "60" }}
       height="100vh"
