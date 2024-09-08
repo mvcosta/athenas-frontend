@@ -29,14 +29,12 @@ export default function RootLayout({
       <body>
         <ReactQueryClientProvider>
           <ThemeProvider colorMode={colorMode?.value}>
-            <Flex width="100vw">
-              <SideNav />
-              <Flex flexGrow="1" as="main">
-                <MarginWidthWrapper>
-                  <Header />
-                  <PageWrapper>{children}</PageWrapper>
-                </MarginWidthWrapper>
-              </Flex>
+            <SideNav />
+            <Flex as="main">
+              <MarginWidthWrapper>
+                <Header />
+                <PageWrapper>{children}</PageWrapper>
+              </MarginWidthWrapper>
             </Flex>
           </ThemeProvider>
         </ReactQueryClientProvider>

@@ -38,10 +38,9 @@ const NavItem = ({ item }: { item: SideNavItem }) => {
             py={2}
             px={4}
             borderRadius="lg"
-            bg={
-              `/v2${pathname}/`.includes(item.path) ? "gray.100" : "transparent"
-            }
-            _hover={{ bg: "gray.100" }}
+            bg={`/v2${pathname}/`.includes(item.path) ? "white" : "transparent"}
+            color={`/v2${pathname}/`.includes(item.path) ? "black" : "white"}
+            _hover={{ bg: "white", color: "black" }}
             rightIcon={
               <Icon icon="lucide:chevron-down" width={24} height={24} />
             }
@@ -79,8 +78,9 @@ const NavItem = ({ item }: { item: SideNavItem }) => {
           py={2}
           px={4}
           borderRadius="lg"
-          bg={`${pathname}` === item.path ? "gray.100" : "transparent"}
-          _hover={{ bg: "gray.100" }}
+          bg={`${pathname}` === item.path ? "white" : "transparent"}
+          color={`${pathname}` === item.path ? "black" : "white"}
+          _hover={{ bg: "white", color: "black" }}
         >
           {item.icon}
           <Text fontWeight="semibold" fontSize="xl" ml={4}>

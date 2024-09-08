@@ -11,33 +11,36 @@ const SideNav = () => {
       as="nav"
       display={{ base: "none", md: "flex" }}
       width={{ md: "60" }}
-      height="100vh"
+      minHeight="100vh"
       borderRightWidth="1px"
       borderColor="gray.200"
       position="fixed"
       flex="1"
+      zIndex={50}
+      backgroundColor="green.500"
+      color="white"
+      px="1rem"
     >
       <Flex direction="column" width="full">
         <Link
           href="/"
           display="flex"
           alignItems="center"
-          justifyContent={{ base: "center", md: "flex-start" }}
+          columnGap="0.5rem"
+          justifyContent={{ base: "center", md: "center" }}
           borderBottomWidth="1px"
           borderColor="gray.200"
-          height="12"
+          height="5rem"
           width="full"
           mb={6}
-          ms={2}
         >
           <Image src={LogoDPE} alt="Logo da Defensoria" width={40} />
           <Text
-            lineHeight={"18px"}
+            fontSize={"x-large"}
             fontWeight="bold"
             display={{ base: "none", md: "flex" }}
-            ml={3}
           >
-            Defensoria Pública do Estado de Roraima
+            Athenas
           </Text>
         </Link>
 

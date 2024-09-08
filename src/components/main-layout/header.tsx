@@ -39,7 +39,7 @@ export default function Header() {
       backdropFilter="blur(10px)"
     >
       <Flex
-        height="47px"
+        height="5rem"
         alignItems="center"
         justifyContent="space-between"
         px={4}

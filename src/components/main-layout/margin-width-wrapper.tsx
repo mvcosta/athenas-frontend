@@ -10,8 +10,6 @@ export default function MarginWidthWrapper({
     <Flex
       direction="column"
       ml={{ base: 0, md: "60" }}
-      borderRight={{ base: "none", sm: "1px solid" }}
-      borderColor={{ sm: "gray.700" }}
       minHeight="100vh"
       width="100%"
     >
