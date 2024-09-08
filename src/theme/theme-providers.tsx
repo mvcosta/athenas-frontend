@@ -25,6 +25,12 @@ export const ThemeProvider = ({
           },
         }}
         theme={theme}
+        toastOptions={{
+          defaultOptions: {
+            duration: 9000,
+            isClosable: true,
+          },
+        }}
       >
         <ColorModeScript
           initialColorMode={theme.config.initialColorMode}

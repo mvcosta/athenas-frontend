@@ -1,7 +1,7 @@
 import { PageProps } from "@/interfaces/page-props";
-import ListFiliacoes from "../../_components/list-filiacoes";
 import { getPaginatedPageData } from "@/lib/pagination-utils";
 import { getFiliacoesPrevidencia } from "@/app/gfp/_lib/previdencia";
+import CrudFiliacao from "../../_components/crud-filiacao";
 
 export default async function FiliacoesPrevidenciaPage({
   params,
@@ -15,7 +15,7 @@ export default async function FiliacoesPrevidenciaPage({
   );
   const id = params?.id;
   return (
-    <ListFiliacoes
+    <CrudFiliacao
       data={data}
       page={page}
       lastPage={lastPage}
