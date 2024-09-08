@@ -4,7 +4,7 @@ import { FetchError } from "@/lib/fetch";
 import { authAPIFetch } from "@/lib/fetch-server";
 import { revalidatePath } from "next/cache";
 
-export async function createPrevidencia(prevState: any, formData: any) {
+export async function createPrevidenciaAction(prevState: any, formData: any) {
   const rawFormData = Object.fromEntries(formData);
 
   const payload = {
@@ -30,7 +30,7 @@ export async function createPrevidencia(prevState: any, formData: any) {
   };
 }
 
-export async function createFiliacao(prevState: any, formData: any) {
+export async function createFiliacaoAction(prevState: any, formData: any) {
   const rawFormData = Object.fromEntries(formData);
 
   const payload = {
@@ -54,7 +54,7 @@ export async function createFiliacao(prevState: any, formData: any) {
   };
 }
 
-export async function deleteFiliacao(prevState: any, formData: any) {
+export async function deleteFiliacaoAction(prevState: any, formData: any) {
   const rawFormData = Object.fromEntries(formData);
   const filiacaoId = rawFormData["filiacao-id"];
 

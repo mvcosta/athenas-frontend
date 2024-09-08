@@ -6,7 +6,7 @@ import {
 } from "../../_lib/previdencia";
 import { PageProps } from "@/interfaces/page-props";
 import { getPaginatedPageData } from "@/lib/pagination-utils";
-import ListPrevidencia from "../_components/list-previdencia";
+import CrudPrevidencia from "../_components/crud-previdencia";
 
 export default async function ConfiguracoesPrevidenciaPage({
   searchParams,
@@ -29,7 +29,7 @@ export default async function ConfiguracoesPrevidenciaPage({
   };
 
   return (
-    <ListPrevidencia
+    <CrudPrevidencia
       data={data}
       page={page}
       pagePrefix={pagePrefix}

@@ -15,7 +15,10 @@ import CreateEntity from "@/components/create-entity";
 import { Flex, Box, FormLabel, Input } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import DeleteEntity from "@/components/delete-entity";
-import { createFiliacao, deleteFiliacao } from "../../_actions/previdencia";
+import {
+  createFiliacaoAction,
+  deleteFiliacaoAction,
+} from "../../_actions/previdencia";
 
 const columnsHelper = createColumnHelper<FiliacaoPrevidencia>();
 const columns = [
@@ -114,7 +117,7 @@ function CreateFiliacao({
   return (
     <CreateEntity
       title={"Nova Filiação de Previdência"}
-      formAction={createFiliacao}
+      formAction={createFiliacaoAction}
       btnText={"Adicionar Filiação"}
       toastConfig={toastConfig}
     >
@@ -188,7 +191,7 @@ function DeleteFiliacao({
       title={`Removendo filiação do servidor ${getServidorName()}`}
       name={"filiacao-id"}
       entity={filiacao}
-      formAction={deleteFiliacao}
+      formAction={deleteFiliacaoAction}
       toastConfig={toastConfig}
       invalidateQueries={invalidateQueries}
     >
