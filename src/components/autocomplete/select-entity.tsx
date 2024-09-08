@@ -41,7 +41,7 @@ export default function SelectEntity<T extends HasId>({
   const entityData = data?.data;
   const lastPage = calcLastPage(data?.count ?? 0, 20);
 
-  async function onPageChange(page: number) {
+  function onPageChange(page: number) {
     setPage(page);
   }
 

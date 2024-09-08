@@ -1,9 +1,12 @@
-import { Container, Heading } from "@chakra-ui/react";
-import { getConfiguracoesPrevidencia } from "../../_lib/previdencia";
-import PrevidenciaTable from "../_components/previdencia-table";
-import QueryPaginationControls from "@/components/pagination/query-pagination-controls";
+import {
+  getConfiguracoesPrevidencia,
+  getPlanosSegregacaoMassa,
+  getRegimesPrevidenciaEnum,
+  getRegimesPrevidenciaSicapEnum,
+} from "../../_lib/previdencia";
 import { PageProps } from "@/interfaces/page-props";
 import { getPaginatedPageData } from "@/lib/pagination-utils";
+import ListPrevidencia from "../_components/list-previdencia";
 
 export default async function ConfiguracoesPrevidenciaPage({
   searchParams,
@@ -13,13 +16,22 @@ export default async function ConfiguracoesPrevidenciaPage({
     getConfiguracoesPrevidencia
   );
 
+  const regimesPrevidenciaEnum = await getRegimesPrevidenciaEnum();
+  const regimesPrevidenciaSicapEnum = await getRegimesPrevidenciaSicapEnum();
+  const planosSegregacaoMassa = await getPlanosSegregacaoMassa();
+
+  const options = {
+    regimesPrevidenciaEnum,
+    regimesPrevidenciaSicapEnum,
+    planosSegregacaoMassa,
+  };
+
   return (
-    <Container maxW="1500px">
-      <Heading marginY="2rem" textAlign="center">
-        Configurações de Previdência
-      </Heading>
-      <PrevidenciaTable data={data} />
-      <QueryPaginationControls page={page} lastPage={lastPage} pathIndex={3} />
-    </Container>
+    <ListPrevidencia
+      data={data}
+      page={page}
+      lastPage={lastPage}
+      options={options}
+    />
   );
 }

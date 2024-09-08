@@ -19,6 +19,7 @@ import { createPrevidencia } from "../../_actions/previdencia";
 import { useFormState } from "react-dom";
 import SaveButton from "../../../../components/save-button";
 import { useEffect } from "react";
+import { AddIcon } from "@chakra-ui/icons";
 
 export type PrevidenciaOptions = {
   regimesPrevidenciaEnum: EnumField[];
@@ -70,7 +71,12 @@ export default function CreatePrevidencia({
 
   return (
     <>
-      <Button onClick={onOpen}>{children}</Button>
+      <Button onClick={onOpen}>
+        <Flex columnGap="10px" alignItems="center">
+          <AddIcon />
+          {children}
+        </Flex>
+      </Button>
       <DraggableModal
         title="Nova Configuração de Previdência"
         isOpen={isOpen}
