@@ -4,9 +4,8 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { FiliacaoPrevidencia } from "../../_models/previdencia.models";
 import TanstackEntityTable from "@/components/tanstack-entity-table";
 import { Button, Flex } from "@chakra-ui/react";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { EditIcon } from "@chakra-ui/icons";
 import DeleteFiliacao from "./delete-filiacao";
-import { deleteFiliacao } from "../../_actions/previdencia";
 
 const columnsHelper = createColumnHelper<FiliacaoPrevidencia>();
 const columns = [
@@ -38,7 +37,7 @@ const columns = [
       return (
         <>
           <Flex columnGap="10px">
-            <DeleteFiliacao filiacao={filiacao} formAction={deleteFiliacao} />
+            <DeleteFiliacao filiacao={filiacao} />
             <Button colorScheme="blue">
               <EditIcon />
             </Button>

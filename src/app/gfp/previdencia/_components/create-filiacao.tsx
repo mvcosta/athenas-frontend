@@ -1,5 +1,5 @@
 import { Box, Flex, FormLabel, Input } from "@chakra-ui/react";
-import { createFiliacao, createPrevidencia } from "../../_actions/previdencia";
+import { createFiliacao } from "../../_actions/previdencia";
 import CreateEntity from "@/components/create-entity";
 import ServidorAutoComplete from "@/app/rh/servidor/_components/servidor-auto-complete";
 import { useQuery } from "@tanstack/react-query";
