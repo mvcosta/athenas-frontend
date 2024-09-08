@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Flex,
@@ -16,7 +16,13 @@ import { SideNavItem } from "@/interfaces/side-nav-item";
 
 const NavItem = ({ item }: { item: SideNavItem }) => {
   const pathname = usePathname();
-  const { isOpen, onToggle } = useDisclosure();
+  const { isOpen, onOpen, onToggle } = useDisclosure();
+
+  useEffect(() => {
+    if (item.submenu && `/v2${pathname}/`.includes(item.path)) {
+      onOpen();
+    }
+  });
 
   return (
     <Box>
