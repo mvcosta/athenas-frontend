@@ -2,19 +2,24 @@ export async function getPaginatedPageData<T>(
   searchParams: {
     [key: string]: string | string[] | undefined;
   },
-  getFn: getFn<T>
+  getFn: getFn<T>,
+  pagePrefix?: string
 ) {
-  const { page, limit } = getPageFromParams(searchParams);
+  const { page, limit } = getPageFromParams(searchParams, pagePrefix);
   const { data, count } = await getFn(page, limit);
   const lastPage = calcLastPage(count, limit);
   return { data, page, lastPage };
 }
 
-export function getPageFromParams(searchParams: {
-  [key: string]: string | string[] | undefined;
-}) {
-  const page = Number(searchParams.page ?? "1");
-  const limit = Number(searchParams.limit ?? "10");
+export function getPageFromParams(
+  searchParams: {
+    [key: string]: string | string[] | undefined;
+  },
+  pagePrefix = ""
+) {
+  const page = Number(searchParams?.[`${pagePrefix}Page`] ?? "1");
+  const limit = Number(searchParams?.[`${pagePrefix}Limit`] ?? "10");
+
   return { page, limit };
 }
 

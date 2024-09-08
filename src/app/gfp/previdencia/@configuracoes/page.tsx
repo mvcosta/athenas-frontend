@@ -13,7 +13,8 @@ export default async function ConfiguracoesPrevidenciaPage({
 }: PageProps) {
   const { data, page, lastPage } = await getPaginatedPageData(
     searchParams,
-    getConfiguracoesPrevidencia
+    getConfiguracoesPrevidencia,
+    "configuracoes"
   );
 
   const regimesPrevidenciaEnum = await getRegimesPrevidenciaEnum();

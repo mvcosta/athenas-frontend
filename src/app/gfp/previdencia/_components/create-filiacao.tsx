@@ -46,7 +46,6 @@ export default function CreateFiliacao({
       formAction={createFiliacao}
       btnText={"Adicionar Filiação"}
       toastConfig={toastConfig}
-      invalidateQueries={{ queryKey: ["filiacoes-previdencia"] }}
     >
       <Flex direction={"column"} marginBottom={"1rem"} gap={"10px"}>
         <Box>

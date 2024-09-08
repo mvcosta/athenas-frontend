@@ -2,35 +2,22 @@
 
 import TableFilters from "@/components/table-filters";
 import { Container, Heading, Flex } from "@chakra-ui/react";
-import { FiliacaoPrevidencia } from "../../_models/previdencia.models";
 import FiliacoesTable from "./filiacoes-table";
-import PaginationControls from "@/components/pagination/pagination-controls";
-import { useState } from "react";
-import { getEntityQueryFn } from "@/lib/query";
-import { useQuery } from "@tanstack/react-query";
-import { calcLastPage } from "@/lib/pagination-utils";
 import CreateFiliacao from "./create-filiacao";
+import QueryPaginationControls from "@/components/pagination/query-pagination-controls";
+import { FiliacaoPrevidencia } from "../../_models/previdencia.models";
 
 function ListFiliacoes({
+  data,
+  page,
+  lastPage,
   configPrevidenciaId,
 }: {
+  data: FiliacaoPrevidencia[];
+  page: number;
+  lastPage: number;
   configPrevidenciaId?: number;
 }) {
-  const [page, setPage] = useState(1);
-
-  const endpoint = "v2/filiacoes-previdencia";
-
-  const { data } = useQuery({
-    queryKey: ["filiacoes-previdencia", { page: page, limit: 10 }],
-    queryFn: getEntityQueryFn<FiliacaoPrevidencia>(endpoint),
-  });
-
-  const lastPage = calcLastPage(data?.count ?? 0, 10);
-
-  function onPageChange(page: number) {
-    setPage(page);
-  }
-
   return (
     <Container maxW="1500px">
       <Heading marginY="2rem" textAlign="center">
@@ -40,8 +27,12 @@ function ListFiliacoes({
         <TableFilters />
         <CreateFiliacao configPrevidenciaId={configPrevidenciaId} />
       </Flex>
-      <FiliacoesTable data={data?.data ?? []} />
-      <PaginationControls lastPage={lastPage} onPageChange={onPageChange} />
+      <FiliacoesTable data={data} />
+      <QueryPaginationControls
+        page={page}
+        lastPage={lastPage}
+        pagePrefix="filiacoes"
+      />
     </Container>
   );
 }

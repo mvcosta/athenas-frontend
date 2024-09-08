@@ -23,7 +23,6 @@ function TanstackEntityTable<T>({
   const table = useReactTable({
     data,
     columns,
-    debugTable: true,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     columnResizeMode: "onChange",

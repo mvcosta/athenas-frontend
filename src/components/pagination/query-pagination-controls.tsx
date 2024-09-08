@@ -9,10 +9,12 @@ export default function QueryPaginationControls({
   page,
   lastPage,
   pathIndex,
+  pagePrefix = "",
 }: {
   page: number;
   lastPage: number;
   pathIndex?: number;
+  pagePrefix?: string;
 }) {
   const router = useRouter();
   const pathName = usePathname();
@@ -28,7 +30,7 @@ export default function QueryPaginationControls({
 
   function onPageChange(newPage: number) {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
-    current.set("page", newPage.toString());
+    current.set(`${pagePrefix}Page`, newPage.toString());
     const pagination = current.toString();
     const query = pagination ? `?${pagination}` : "";
 

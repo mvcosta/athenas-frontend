@@ -59,7 +59,7 @@ export default function CreateEntity({
 
   return (
     <>
-      <Button onClick={onOpen}>
+      <Button onClick={onOpen} colorScheme="green">
         <Flex columnGap="10px" alignItems="center">
           <AddIcon />
           {btnText}

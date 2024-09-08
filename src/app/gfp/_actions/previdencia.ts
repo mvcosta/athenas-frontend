@@ -51,7 +51,6 @@ export async function createFiliacao(prevState: any, formData: any) {
     data_fim_vigencia:
       rawFormData["data-fim"] !== "" ? rawFormData["data-fim"] : null,
   };
-  console.log(JSON.stringify(payload));
 
   try {
     const response = await authAPIFetch("v2/filiacoes-previdencia/", {
@@ -62,8 +61,6 @@ export async function createFiliacao(prevState: any, formData: any) {
       body: JSON.stringify(payload),
     });
   } catch (error) {
-    console.log(error);
-
     if (error instanceof FetchError && error.info?.non_field_errors) {
       return { message: error.info?.non_field_errors, status: "error" };
     } else {
@@ -73,7 +70,7 @@ export async function createFiliacao(prevState: any, formData: any) {
       };
     }
   }
-  revalidatePath("/gfp/previdencia/[id]/page", "page");
+  revalidatePath("/gfp/previdencia", "layout");
   return {
     message: "A filiação de previdência foi criada com sucesso.",
     status: "success",

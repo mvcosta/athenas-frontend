@@ -31,7 +31,12 @@ function ListPrevidencia({
         <CreatePrevidencia options={options} />
       </Flex>
       <PrevidenciaTable data={data} />
-      <QueryPaginationControls page={page} lastPage={lastPage} pathIndex={3} />
+      <QueryPaginationControls
+        page={page}
+        lastPage={lastPage}
+        pathIndex={3}
+        pagePrefix="configuracoes"
+      />
     </Container>
   );
 }
