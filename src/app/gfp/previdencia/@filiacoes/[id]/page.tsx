@@ -7,10 +7,11 @@ export default async function FiliacoesPrevidenciaPage({
   params,
   searchParams,
 }: PageProps) {
+  const pagePrefix = "filiacoes";
   const { data, page, lastPage } = await getPaginatedPageData(
     searchParams,
     getFiliacoesPrevidencia,
-    "filiacoes"
+    pagePrefix
   );
   const id = params?.id;
   return (
@@ -18,6 +19,7 @@ export default async function FiliacoesPrevidenciaPage({
       data={data}
       page={page}
       lastPage={lastPage}
+      pagePrefix={pagePrefix}
       configPrevidenciaId={id ? +id : undefined}
     />
   );

@@ -1,20 +1,21 @@
-import QueryPaginationControls from "@/components/pagination/query-pagination-controls";
-import TableFilters from "@/components/table-filters";
-import { Container, Heading, Flex } from "@chakra-ui/react";
 import CreatePrevidencia from "./create-previdencia";
 import PrevidenciaTable from "./previdencia-table";
 import { ConfiguracaoPrevidencia } from "../../_models/previdencia.models";
 import { EnumField } from "@/interfaces/enum-field";
+import ListEntity from "@/components/list-entity";
+import QueryPaginationControls from "@/components/pagination/query-pagination-controls";
 
 function ListPrevidencia({
   data,
   page,
   lastPage,
+  pagePrefix,
   options,
 }: {
   data: ConfiguracaoPrevidencia[];
   page: number;
   lastPage: number;
+  pagePrefix: string;
   options: {
     regimesPrevidenciaEnum: EnumField[];
     regimesPrevidenciaSicapEnum: EnumField[];
@@ -22,22 +23,19 @@ function ListPrevidencia({
   };
 }) {
   return (
-    <Container maxW="1500px">
-      <Heading marginY="2rem" textAlign="center">
-        Configurações de Previdência
-      </Heading>
-      <Flex justifyContent="space-between">
-        <TableFilters />
-        <CreatePrevidencia options={options} />
-      </Flex>
-      <PrevidenciaTable data={data} />
-      <QueryPaginationControls
-        page={page}
-        lastPage={lastPage}
-        pathIndex={3}
-        pagePrefix="configuracoes"
-      />
-    </Container>
+    <>
+      <ListEntity
+        title={"Configurações de Previdência"}
+        CreateEntity={<CreatePrevidencia options={options} />}
+      >
+        <PrevidenciaTable data={data} />
+        <QueryPaginationControls
+          page={page}
+          lastPage={lastPage}
+          pagePrefix={pagePrefix}
+        />
+      </ListEntity>
+    </>
   );
 }
 

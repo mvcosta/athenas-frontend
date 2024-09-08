@@ -1,39 +1,38 @@
 "use client";
 
-import TableFilters from "@/components/table-filters";
-import { Container, Heading, Flex } from "@chakra-ui/react";
 import FiliacoesTable from "./filiacoes-table";
 import CreateFiliacao from "./create-filiacao";
 import QueryPaginationControls from "@/components/pagination/query-pagination-controls";
 import { FiliacaoPrevidencia } from "../../_models/previdencia.models";
+import ListEntity from "@/components/list-entity";
 
 function ListFiliacoes({
   data,
   page,
   lastPage,
+  pagePrefix,
   configPrevidenciaId,
 }: {
   data: FiliacaoPrevidencia[];
   page: number;
   lastPage: number;
+  pagePrefix: string;
   configPrevidenciaId?: number;
 }) {
   return (
-    <Container maxW="1500px">
-      <Heading marginY="2rem" textAlign="center">
-        Filiações
-      </Heading>
-      <Flex justifyContent="space-between">
-        <TableFilters />
+    <ListEntity
+      title={"Filiações"}
+      CreateEntity={
         <CreateFiliacao configPrevidenciaId={configPrevidenciaId} />
-      </Flex>
+      }
+    >
       <FiliacoesTable data={data} />
       <QueryPaginationControls
         page={page}
         lastPage={lastPage}
-        pagePrefix="filiacoes"
+        pagePrefix={pagePrefix}
       />
-    </Container>
+    </ListEntity>
   );
 }
 

@@ -11,10 +11,11 @@ import ListPrevidencia from "../_components/list-previdencia";
 export default async function ConfiguracoesPrevidenciaPage({
   searchParams,
 }: PageProps) {
+  const pagePrefix = "configuracoes";
   const { data, page, lastPage } = await getPaginatedPageData(
     searchParams,
     getConfiguracoesPrevidencia,
-    "configuracoes"
+    pagePrefix
   );
 
   const regimesPrevidenciaEnum = await getRegimesPrevidenciaEnum();
@@ -31,6 +32,7 @@ export default async function ConfiguracoesPrevidenciaPage({
     <ListPrevidencia
       data={data}
       page={page}
+      pagePrefix={pagePrefix}
       lastPage={lastPage}
       options={options}
     />
