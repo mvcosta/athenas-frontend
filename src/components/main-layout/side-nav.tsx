@@ -1,11 +1,16 @@
+"use client";
+
 import React from "react";
-import { Box, Flex, Link, Text } from "@chakra-ui/react";
+import { Box, Flex, Link, Text, useColorModeValue } from "@chakra-ui/react";
 import LogoDPE from "@/static/logotipo-dpe-rr.png";
 import Image from "next/image";
 import NavItem from "./side-nav-item";
 import { SIDENAV_ITEMS } from "./side-nav-config";
 
 const SideNav = () => {
+  const bg = useColorModeValue("green.500", "gray.900");
+  const borderColor = useColorModeValue("gray.200", "gray.700");
+
   return (
     <Box
       as="nav"
@@ -13,11 +18,11 @@ const SideNav = () => {
       width={{ md: "60" }}
       minHeight="100vh"
       borderRightWidth="1px"
-      borderColor="gray.200"
+      borderColor={borderColor}
       position="fixed"
       flex="1"
       zIndex={50}
-      backgroundColor="green.500"
+      backgroundColor={bg}
       color="white"
       px="1rem"
     >
@@ -29,7 +34,7 @@ const SideNav = () => {
           columnGap="0.5rem"
           justifyContent={{ base: "center", md: "center" }}
           borderBottomWidth="1px"
-          borderColor="gray.200"
+          borderColor={borderColor}
           height="5rem"
           width="full"
           mb={6}

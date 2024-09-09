@@ -17,7 +17,7 @@ export default function EntityRow({
   children: React.ReactNode;
   onClick?: (e: React.MouseEvent) => void;
 }) {
-  const highlightColor = useColorModeValue("gray.100", "#152838");
+  const highlightColor = useColorModeValue("gray.100", "#293241");
   const navigateToEntity = useNavigateToEntity(entityId, pathIndex);
 
   function handleClick(e: React.MouseEvent) {

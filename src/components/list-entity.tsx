@@ -1,6 +1,6 @@
 "use client";
 
-import { Container, Heading, Flex } from "@chakra-ui/react";
+import { Container, Heading, Flex, useColorModeValue } from "@chakra-ui/react";
 import TableFilters from "./table-filters";
 
 function ListEntity({
@@ -12,18 +12,17 @@ function ListEntity({
   title: string;
   CreateEntity: React.ReactNode;
 }) {
+  const bg = useColorModeValue("white", "gray.700");
+  const borderColor = useColorModeValue("gray.200", "gray.600");
   return (
     <Container
       maxW="1500px"
       border="1px"
-      borderColor="gray.200"
+      borderColor={borderColor}
       borderRadius="5px"
-      backgroundColor="white"
+      backgroundColor={bg}
       py="2rem"
     >
-      {/* <Heading marginY="2rem" textAlign="center">
-        {title}
-      </Heading> */}
       <Flex justifyContent="space-between" mb="1rem">
         <TableFilters />
         {CreateEntity}
