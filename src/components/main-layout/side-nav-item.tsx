@@ -22,7 +22,7 @@ const NavItem = ({ item }: { item: SideNavItem }) => {
     if (item.submenu && `/v2${pathname}/`.includes(item.path)) {
       onOpen();
     }
-  });
+  }, []);
 
   return (
     <Box>
@@ -42,7 +42,11 @@ const NavItem = ({ item }: { item: SideNavItem }) => {
             color={`/v2${pathname}/`.includes(item.path) ? "black" : "white"}
             _hover={{ bg: "white", color: "black" }}
             rightIcon={
-              <Icon icon="lucide:chevron-down" width={24} height={24} />
+              isOpen ? (
+                <Icon icon="lucide:chevron-down" width={24} height={24} />
+              ) : (
+                <Icon icon="lucide:chevron-left" width={24} height={24} />
+              )
             }
           >
             <Flex alignItems="center">
