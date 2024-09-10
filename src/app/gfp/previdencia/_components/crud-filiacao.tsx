@@ -56,28 +56,32 @@ export default function CrudFiliacao({
   data,
   page,
   lastPage,
-  pagePrefix,
   configPrevidenciaId,
 }: {
   data: FiliacaoPrevidencia[];
   page: number;
   lastPage: number;
-  pagePrefix: string;
   configPrevidenciaId?: number;
 }) {
+  const breadCrumbItems = [
+    {
+      name: "Previdência",
+      link: "/gfp/previdencia",
+    },
+    {
+      name: "Filiação",
+    },
+  ];
   return (
     <ListEntity
       title={"Filiações"}
+      breadCrumbItems={breadCrumbItems}
       CreateEntity={
         <CreateFiliacao configPrevidenciaId={configPrevidenciaId} />
       }
     >
       <FiliacoesTable data={data} />
-      <QueryPaginationControls
-        page={page}
-        lastPage={lastPage}
-        pagePrefix={pagePrefix}
-      />
+      <QueryPaginationControls page={page} lastPage={lastPage} />
     </ListEntity>
   );
 }

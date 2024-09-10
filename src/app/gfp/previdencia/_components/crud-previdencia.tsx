@@ -68,30 +68,30 @@ export default function CrudPrevidencia({
   data,
   page,
   lastPage,
-  pagePrefix,
   options,
 }: {
   data: ConfiguracaoPrevidencia[];
   page: number;
   lastPage: number;
-  pagePrefix: string;
   options: {
     regimesPrevidenciaEnum: EnumField[];
     regimesPrevidenciaSicapEnum: EnumField[];
     planosSegregacaoMassa: EnumField[];
   };
 }) {
+  const breadCrumbItems = [
+    {
+      name: "Previdência",
+    },
+  ];
   return (
     <ListEntity
       title={"Configurações de Previdência"}
+      breadCrumbItems={breadCrumbItems}
       CreateEntity={<CreatePrevidencia options={options} />}
     >
       <PrevidenciaTable data={data} />
-      <QueryPaginationControls
-        page={page}
-        lastPage={lastPage}
-        pagePrefix={pagePrefix}
-      />
+      <QueryPaginationControls page={page} lastPage={lastPage} />
     </ListEntity>
   );
 }

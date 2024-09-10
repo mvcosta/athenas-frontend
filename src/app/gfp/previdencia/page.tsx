@@ -3,20 +3,17 @@ import {
   getPlanosSegregacaoMassa,
   getRegimesPrevidenciaEnum,
   getRegimesPrevidenciaSicapEnum,
-} from "../../_lib/previdencia";
+} from "../_lib/previdencia";
 import { PageProps } from "@/interfaces/page-props";
 import { getPaginatedPageData } from "@/lib/pagination-utils";
-import CrudPrevidencia from "../_components/crud-previdencia";
-import { Heading } from "@chakra-ui/react";
+import CrudPrevidencia from "./_components/crud-previdencia";
 
 export default async function ConfiguracoesPrevidenciaPage({
   searchParams,
 }: PageProps) {
-  const pagePrefix = "configuracoes";
   const { data, page, lastPage } = await getPaginatedPageData(
     searchParams,
-    getConfiguracoesPrevidencia,
-    pagePrefix
+    getConfiguracoesPrevidencia
   );
 
   const regimesPrevidenciaEnum = await getRegimesPrevidenciaEnum();
@@ -31,13 +28,9 @@ export default async function ConfiguracoesPrevidenciaPage({
 
   return (
     <>
-      <Heading marginY="1rem" as="h3" size="lg">
-        Configurações de Previdência
-      </Heading>
       <CrudPrevidencia
         data={data}
         page={page}
-        pagePrefix={pagePrefix}
         lastPage={lastPage}
         options={options}
       />
