@@ -6,12 +6,20 @@ import ListEntity from "@/components/list-entity";
 import QueryPaginationControls from "@/components/pagination/query-pagination-controls";
 import TanstackEntityTable from "@/components/tanstack-entity-table";
 import { EnumField } from "@/interfaces/enum-field";
-import { Flex, Box, FormLabel, Select, HStack } from "@chakra-ui/react";
+import {
+  Flex,
+  FormLabel,
+  Select,
+  HStack,
+  FormControl,
+  Input,
+} from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { ConfiguracaoPrevidencia } from "../../_models/previdencia.models";
 import {
   createPrevidenciaAction,
   deletePrevidenciaAction,
+  updatePrevidenciaAction,
 } from "../../_actions/previdencia";
 import DeleteEntity from "@/components/delete-entity";
 import UpdateEntity from "@/components/update-entity";
@@ -133,6 +141,7 @@ function CreatePrevidencia({ options }: { options: PrevidenciaOptions }) {
     success: {
       title: "Configuração criada.",
       status: "success",
+      description: "A configuração de previdência foi criada com sucesso.",
     },
     error: {
       title: "Não foi possível criar a configuração.",
@@ -147,6 +156,7 @@ function CreatePrevidencia({ options }: { options: PrevidenciaOptions }) {
         formAction={createPrevidenciaAction}
         btnText={"Adicionar Configuração"}
         toastConfig={toastConfig}
+        invalidateQueries={"/gfp/previdencia"}
       >
         <PrevidenciaForm options={options} />
       </CreateEntity>
@@ -174,6 +184,7 @@ function UpdatePrevidencia(props: {
     success: {
       title: "Configuração atualizada.",
       status: "success",
+      description: "A configuração de previdência foi atualizada com sucesso.",
     },
     error: {
       title: "Não foi possível atualizar a configuração.",
@@ -185,7 +196,7 @@ function UpdatePrevidencia(props: {
     <FormProvider {...formMethods}>
       <UpdateEntity
         title={"Atualizando Configuração de Previdência"}
-        formAction={createPrevidenciaAction}
+        formAction={updatePrevidenciaAction}
         toastConfig={toastConfig}
       >
         <PrevidenciaForm {...props} />
@@ -204,7 +215,8 @@ function PrevidenciaForm({
   const { register } = useFormContext();
   return (
     <Flex direction={"column"} marginBottom={"1rem"} gap={"10px"}>
-      <Box>
+      {previdencia && <Input type="hidden" value={previdencia.id} name="id" />}
+      <FormControl>
         <FormLabel>Regime de previdência:</FormLabel>
         <Select {...register("regime")}>
           {options.regimesPrevidenciaEnum.map((o) => (
@@ -213,8 +225,8 @@ function PrevidenciaForm({
             </option>
           ))}
         </Select>
-      </Box>
-      <Box>
+      </FormControl>
+      <FormControl>
         <FormLabel>Regime de previdência (SICAP):</FormLabel>
         <Select {...register("regime-sicap")}>
           {options.regimesPrevidenciaSicapEnum.map((o) => (
@@ -223,8 +235,8 @@ function PrevidenciaForm({
             </option>
           ))}
         </Select>
-      </Box>
-      <Box>
+      </FormControl>
+      <FormControl>
         <FormLabel>Plano de Segregação da Massa:</FormLabel>
         <Select {...register("plano")}>
           {options.planosSegregacaoMassa.map((o) => (
@@ -233,7 +245,7 @@ function PrevidenciaForm({
             </option>
           ))}
         </Select>
-      </Box>
+      </FormControl>
       <PessoaJuridicaAutoComplete
         name="orgao-previdencia"
         label="Órgão de previdência:"
@@ -261,6 +273,7 @@ function DeletePrevidencia({
     success: {
       title: "Configuração excluída.",
       status: "success",
+      message: "A configuração da previdência foi excluída com sucesso.",
     },
     error: {
       title: "Não foi possível excluir a configuração.",
@@ -271,7 +284,6 @@ function DeletePrevidencia({
   return (
     <DeleteEntity
       title={`Excluindo a configuração ${previdencia.orgao_previdencia.nome}`}
-      name={"configuracao-previdencia-id"}
       entity={previdencia}
       formAction={deletePrevidenciaAction}
       toastConfig={toastConfig}

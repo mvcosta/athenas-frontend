@@ -36,11 +36,10 @@ export async function createFiliacaoAction(prevState: any, formData: any) {
 }
 
 export async function deleteFiliacaoAction(prevState: any, formData: any) {
-  const rawFormData = Object.fromEntries(formData);
-  const filiacaoId = rawFormData["filiacao-id"];
+  const id = formData.get("id");
 
   try {
-    await authAPIFetch(`v2/filiacoes-previdencia/${filiacaoId}`, {
+    await authAPIFetch(`v2/filiacoes-previdencia/${id}/`, {
       method: "DELETE",
     });
   } catch (error) {

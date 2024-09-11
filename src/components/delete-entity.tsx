@@ -20,7 +20,6 @@ import { useFormState } from "react-dom";
 function DeleteEntity<T extends HasId>({
   children,
   title,
-  name,
   entity,
   formAction,
   invalidateQueries,
@@ -28,7 +27,6 @@ function DeleteEntity<T extends HasId>({
 }: {
   children: React.ReactNode;
   title: string;
-  name: string;
   entity: T;
   formAction: any;
   invalidateQueries?: any;
@@ -45,7 +43,7 @@ function DeleteEntity<T extends HasId>({
 
   useEffect(() => {
     if (state.status === "success") {
-      toast({ ...toastConfig.success, description: state.message });
+      toast({ ...toastConfig.success });
       if (invalidateQueries) {
         queryClient.invalidateQueries(invalidateQueries);
       }
@@ -74,7 +72,7 @@ function DeleteEntity<T extends HasId>({
         size={"xl"}
       >
         <form action={action}>
-          <Input type="hidden" name={name} value={entity.id} />
+          <Input type="hidden" name={"id"} value={entity.id} />
           <ModalBody>{children}</ModalBody>
           <ModalFooter>
             <DeleteButton />

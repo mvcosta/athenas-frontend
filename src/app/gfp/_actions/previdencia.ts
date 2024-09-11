@@ -8,16 +8,7 @@ const endpoint = "v2/configuracoes-previdencia/";
 const path = "/gfp/previdencia";
 
 export async function createPrevidenciaAction(prevState: any, formData: any) {
-  const rawFormData = Object.fromEntries(formData);
-
-  const payload = {
-    regime_previdencia: +rawFormData["regime"],
-    regime_previdencia_sicap: +rawFormData["regime-sicap"],
-    tipo_plano_segregacao: +rawFormData["plano"],
-    orgao_previdencia: +rawFormData["orgao-previdencia-id"],
-    orgao_recolhimento: +rawFormData["orgao-recolhimento-id"],
-  };
-
+  const payload = getPayload(formData);
   const error = await actionAuthAPIFetch(
     endpoint,
     payload,
@@ -26,20 +17,38 @@ export async function createPrevidenciaAction(prevState: any, formData: any) {
   if (error) {
     return error;
   }
-
   revalidatePath(path, "layout");
-  return {
-    message: "A configuração de previdência foi criada com sucesso.",
-    status: "success",
-  };
+  // return {
+  //   message: "",
+  //   status: "success",
+  // };
+}
+
+export async function updatePrevidenciaAction(prevState: any, formData: any) {
+  const id = formData.get("id");
+
+  const payload = getPayload(formData);
+  const error = await actionAuthAPIFetch(
+    `${endpoint}${id}/`,
+    payload,
+    "Erro ao tentar atualizar a configuração",
+    "PUT"
+  );
+  if (error) {
+    return error;
+  }
+  revalidatePath(path, "layout");
+  // return {
+  //   message: "",
+  //   status: "success",
+  // };
 }
 
 export async function deletePrevidenciaAction(prevState: any, formData: any) {
-  const rawFormData = Object.fromEntries(formData);
-  const filiacaoId = rawFormData["configuracao-previdencia-id"];
+  const id = formData.get("id");
 
   try {
-    await authAPIFetch(`${endpoint}${filiacaoId}`, {
+    await authAPIFetch(`${endpoint}${id}/`, {
       method: "DELETE",
     });
   } catch (error) {
@@ -52,10 +61,20 @@ export async function deletePrevidenciaAction(prevState: any, formData: any) {
       };
     }
   }
-
   revalidatePath(path, "layout");
   return {
-    message: "A configuração da previdência foi excluída com sucesso.",
+    message: "",
     status: "success",
+  };
+}
+
+function getPayload(formData: any) {
+  const rawFormData = Object.fromEntries(formData);
+  return {
+    regime_previdencia: +rawFormData["regime"],
+    regime_previdencia_sicap: +rawFormData["regime-sicap"],
+    tipo_plano_segregacao: +rawFormData["plano"],
+    orgao_previdencia: +rawFormData["orgao-previdencia-id"],
+    orgao_recolhimento: +rawFormData["orgao-recolhimento-id"],
   };
 }

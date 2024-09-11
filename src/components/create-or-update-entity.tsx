@@ -35,14 +35,14 @@ export default function CreateOrUpdateEntity({
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (state.status === "success") {
-      toast({ ...toastConfig.success, description: state.message });
+    if (state?.status === "success") {
+      toast({ ...toastConfig.success });
       if (invalidateQueries) {
         queryClient.invalidateQueries(invalidateQueries);
       }
       onClose();
     }
-    if (state.status === "error") {
+    if (state?.status === "error") {
       toast({ ...toastConfig.error, description: state.message });
     }
   }, [state]);

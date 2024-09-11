@@ -27,11 +27,11 @@ function TanstackEntityTable<T>({
     getSortedRowModel: getSortedRowModel(),
     columnResizeMode: "onChange",
   });
+  const pathName = usePathname();
 
   const isSelected = (id: number) => {
     if (!pathIndex) return false;
 
-    const pathName = usePathname();
     const paths = pathName.split("/");
     return +paths?.[pathIndex] === id;
   };

@@ -193,7 +193,6 @@ function DeleteFiliacao({
   return (
     <DeleteEntity
       title={`Removendo filiação do servidor ${getServidorName()}`}
-      name={"filiacao-id"}
       entity={filiacao}
       formAction={deleteFiliacaoAction}
       toastConfig={toastConfig}

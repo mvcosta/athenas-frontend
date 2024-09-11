@@ -5,14 +5,15 @@ import { EnumFieldResponse } from "@/interfaces/enum-field";
 export async function actionAuthAPIFetch(
   endpoint: string,
   payload: any,
-  defaultErrorMessage: string
+  defaultErrorMessage: string,
+  method: string = "POST"
 ) {
   try {
     await authAPIFetch(endpoint, {
       headers: {
         "Content-type": "application/json;charset=UTF-8",
       },
-      method: "POST",
+      method: method,
       body: JSON.stringify(payload),
     });
   } catch (error) {
