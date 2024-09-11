@@ -1,7 +1,15 @@
 "use client";
 
 import { SearchIcon } from "@chakra-ui/icons";
-import { Box, Input, InputGroup, InputLeftAddon } from "@chakra-ui/react";
+import {
+  Box,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  InputGroup,
+  InputLeftAddon,
+} from "@chakra-ui/react";
 import {
   AutoComplete,
   AutoCompleteInput,
@@ -9,7 +17,7 @@ import {
   AutoCompleteItem,
 } from "@choc-ui/chakra-autocomplete";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { ChangeEvent, FocusEvent, useEffect, useState } from "react";
 import SelectEntity from "./select-entity";
 import { HasId } from "@/interfaces/has-id";
 import {
@@ -17,42 +25,80 @@ import {
   EntityProps,
   getEntitiesQuery,
 } from "./auto-complete.type";
+import { useFormContext } from "react-hook-form";
 
 export default function EntityAutoComplete<T extends HasId>({
   placeholder,
   entityNotFound,
+  errorMessage,
   name,
+  label,
   queryKey,
   searchEntityQuery,
   getEntitiesQuery,
   getItemText,
+  selectedEntity,
   Entity,
 }: {
   placeholder?: string;
   entityNotFound?: string;
-  name?: string;
+  errorMessage?: string;
+  name: string;
+  label?: string;
   queryKey: string;
   searchEntityQuery: searchEntityQuery<T>;
   getEntitiesQuery: getEntitiesQuery<T>;
   getItemText: (entity: T) => string;
+  selectedEntity?: T;
   Entity: React.ComponentType<EntityProps<T>>;
 }) {
-  const [value, setValue] = useState<string>("");
-  const [entityId, setEntityId] = useState<string>("");
+  const [autoCompleteValue, setAutoCompleteValue] = useState<string>("");
+  const [error, setError] = useState<boolean>(false);
+  const { register, setValue } = useFormContext();
 
-  const handleOnSelected = (e: T) => {
-    setValue(getItemText(e));
-    setEntityId(e.id.toString());
+  const setValueOptions = {
+    shouldValidate: true,
+    shouldDirty: true,
+    shouldTouch: true,
   };
 
+  const handleOnSelected = (e: T) => {
+    setAutoCompleteValue(getItemText(e));
+    setValue(`${name}-id`, e.id.toString(), setValueOptions);
+    setError(false);
+  };
+
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value === "") {
+      setValue(`${name}-id`, "", setValueOptions);
+    }
+    setAutoCompleteValue(value);
+  };
+
+  const handleOnBlur = (e: FocusEvent<HTMLInputElement, Element>) => {
+    if (!autoCompleteValue) {
+      setError(true);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedEntity) {
+      handleOnSelected(selectedEntity);
+    }
+  }, []);
+
   const { data, isLoading } = useQuery({
-    queryKey: [queryKey, { search: value }],
+    queryKey: [queryKey, { search: autoCompleteValue }],
     queryFn: searchEntityQuery,
   });
 
   return (
-    <>
-      <Input type="hidden" name={`${name}-id`} value={entityId} />
+    <FormControl isInvalid={error}>
+      <FormLabel>{label}</FormLabel>
+
+      <Input hidden={true} {...register?.(`${name}-id`, { required: true })} />
+
       <AutoComplete
         openOnFocus
         isLoading={isLoading}
@@ -63,14 +109,13 @@ export default function EntityAutoComplete<T extends HasId>({
             <SearchIcon />
           </InputLeftAddon>
           <AutoCompleteInput
-            name={name}
             borderRightRadius={0}
             variant="filled"
             placeholder={placeholder}
-            onChange={(e) => setValue(e.target.value)}
-            value={value}
+            onChange={handleOnChange}
+            onBlur={handleOnBlur}
+            value={autoCompleteValue}
           />
-
           <SelectEntity
             queryFn={getEntitiesQuery}
             queryKey={queryKey}
@@ -94,6 +139,7 @@ export default function EntityAutoComplete<T extends HasId>({
           })}
         </AutoCompleteList>
       </AutoComplete>
-    </>
+      <FormErrorMessage>{errorMessage}</FormErrorMessage>
+    </FormControl>
   );
 }

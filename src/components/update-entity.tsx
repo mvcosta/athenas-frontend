@@ -1,47 +1,41 @@
 "use client";
 
-import { DeleteIcon } from "@chakra-ui/icons";
+import DraggableModal from "@/components/draggable-modal";
 import {
-  useDisclosure,
-  useToast,
   Button,
-  Input,
+  FormControl,
   ModalBody,
   ModalFooter,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import { useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
-import DeleteButton from "./delete-button";
-import DraggableModal from "./draggable-modal";
-import { ActionState } from "@/interfaces/action-state";
-import { HasId } from "@/interfaces/has-id";
 import { useFormState } from "react-dom";
+import { useEffect } from "react";
+import { EditIcon } from "@chakra-ui/icons";
+import SaveButton from "./save-button";
+import { useQueryClient } from "@tanstack/react-query";
+import { ActionState } from "@/interfaces/action-state";
 
-function DeleteEntity<T extends HasId>({
+export default function UpdateEntity({
   children,
   title,
-  name,
-  entity,
   formAction,
   invalidateQueries,
   toastConfig,
 }: {
   children: React.ReactNode;
   title: string;
-  name: string;
-  entity: T;
   formAction: any;
   invalidateQueries?: any;
   toastConfig: any;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
-  const queryClient = useQueryClient();
-
   const [state, action] = useFormState<ActionState, FormData>(formAction, {
     message: "",
     status: "",
   });
+  const toast = useToast();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (state.status === "success") {
@@ -63,9 +57,9 @@ function DeleteEntity<T extends HasId>({
           e.stopPropagation();
           onOpen();
         }}
-        colorScheme="red"
+        colorScheme="blue"
       >
-        <DeleteIcon />
+        <EditIcon />
       </Button>
       <DraggableModal
         title={title}
@@ -73,16 +67,13 @@ function DeleteEntity<T extends HasId>({
         onClose={onClose}
         size={"xl"}
       >
-        <form action={action}>
-          <Input type="hidden" name={name} value={entity.id} />
+        <form>
           <ModalBody>{children}</ModalBody>
           <ModalFooter>
-            <DeleteButton />
+            <SaveButton />
           </ModalFooter>
         </form>
       </DraggableModal>
     </>
   );
 }
-
-export default DeleteEntity;

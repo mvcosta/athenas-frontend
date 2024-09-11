@@ -55,7 +55,13 @@ export default function CreateEntity({
 
   return (
     <>
-      <Button onClick={onOpen} colorScheme="green">
+      <Button
+        onClick={(e) => {
+          e.stopPropagation();
+          onOpen();
+        }}
+        colorScheme="green"
+      >
         <Flex columnGap="10px" alignItems="center">
           <AddIcon />
           {btnText}

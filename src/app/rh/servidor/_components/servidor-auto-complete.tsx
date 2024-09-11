@@ -5,7 +5,7 @@ import { getEntityQueryFn, getSearchEntityQueryFn } from "@/lib/query";
 import { Servidor } from "@/models/servidor.models";
 import Servidores from "./servidores";
 
-export default function ServidorAutoComplete({ name }: { name?: string }) {
+export default function ServidorAutoComplete({ name }: { name: string }) {
   const endpoint = "servidores";
   const getItemText = (e: Servidor) => `${e.matricula}: ${e.nome}`;
 

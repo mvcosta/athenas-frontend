@@ -16,6 +16,7 @@ export default function EventoAutoComplete() {
     <Box>
       <FormLabel>Evento:</FormLabel>
       <EntityAutoComplete
+        name="evento"
         queryKey={endpoint}
         placeholder={"Selecione o evento"}
         entityNotFound={"Nenhum evento encontrado"}
