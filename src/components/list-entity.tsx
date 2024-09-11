@@ -31,8 +31,8 @@ function ListEntity({
     <>
       <Container maxW="1500px">
         <Breadcrumb separator={<ChevronRightIcon color="gray.500" />}>
-          {breadCrumbItems.map((item: BreadcrumbItemProps) => (
-            <BreadcrumbItem>
+          {breadCrumbItems.map((item: BreadcrumbItemProps, index) => (
+            <BreadcrumbItem key={index}>
               {item.link ? (
                 <Link href={item.link}>{item.name}</Link>
               ) : (

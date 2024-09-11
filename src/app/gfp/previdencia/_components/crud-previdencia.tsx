@@ -15,7 +15,7 @@ import {
 } from "../../_actions/previdencia";
 import DeleteEntity from "@/components/delete-entity";
 import UpdateEntity from "@/components/update-entity";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
 type PrevidenciaOptions = {
   regimesPrevidenciaEnum: EnumField[];
@@ -118,87 +118,16 @@ function PrevidenciaTable({
 }
 
 function CreatePrevidencia({ options }: { options: PrevidenciaOptions }) {
-  const toastConfig = {
-    success: {
-      title: "Configuração criada.",
-      status: "success",
-    },
-    error: {
-      title: "Não foi possível criar a configuração.",
-      status: "error",
-    },
-  };
-
-  return (
-    <CreateEntity
-      title={"Nova Configuração de Previdência"}
-      formAction={createPrevidenciaAction}
-      btnText={"Adicionar Configuração"}
-      toastConfig={toastConfig}
-    >
-      <Flex direction={"column"} marginBottom={"1rem"} gap={"10px"}>
-        <Box>
-          <FormLabel>Regime de previdência:</FormLabel>
-          <Select name="regime">
-            {options.regimesPrevidenciaEnum.map((o) => (
-              <option key={o.id} value={o.id}>
-                {o.descricao}
-              </option>
-            ))}
-          </Select>
-        </Box>
-        <Box>
-          <FormLabel>Regime de previdência (SICAP):</FormLabel>
-          <Select name="regime-sicap">
-            {options.regimesPrevidenciaSicapEnum.map((o) => (
-              <option key={o.id} value={o.id}>
-                {o.descricao}
-              </option>
-            ))}
-          </Select>
-        </Box>
-        <Box>
-          <FormLabel>Plano de Segregação da Massa:</FormLabel>
-          <Select name="plano">
-            {options.planosSegregacaoMassa.map((o) => (
-              <option key={o.id} value={o.id}>
-                {o.descricao}
-              </option>
-            ))}
-          </Select>
-        </Box>
-        <Box>
-          <FormLabel>Órgão de previdência:</FormLabel>
-          <PessoaJuridicaAutoComplete name="orgao-previdencia" />
-        </Box>
-        <Box>
-          <FormLabel>Órgão de recolhimento:</FormLabel>
-          <PessoaJuridicaAutoComplete name="orgao-recolhimento" />
-        </Box>
-      </Flex>
-    </CreateEntity>
-  );
-}
-
-function UpdatePrevidencia({
-  options,
-  previdencia,
-}: {
-  options: PrevidenciaOptions;
-  previdencia: ConfiguracaoPrevidencia;
-}) {
   const formMethods = useForm({
     mode: "onTouched",
     values: {
-      regime: previdencia.regime_previdencia.id,
-      "regime-sicap": previdencia.regime_previdencia_sicap.id,
-      plano: previdencia.tipo_plano_segregacao.id,
-      "orgao-previdencia-id": previdencia.orgao_previdencia.id,
-      "orgao-recolhimento-id": previdencia.orgao_recolhimento.id,
+      regime: 1,
+      "regime-sicap": 1,
+      plano: 1,
+      "orgao-previdencia-id": "",
+      "orgao-recolhimento-id": "",
     },
   });
-
-  const { register } = formMethods;
 
   const toastConfig = {
     success: {
@@ -213,57 +142,111 @@ function UpdatePrevidencia({
 
   return (
     <FormProvider {...formMethods}>
+      <CreateEntity
+        title={"Nova Configuração de Previdência"}
+        formAction={createPrevidenciaAction}
+        btnText={"Adicionar Configuração"}
+        toastConfig={toastConfig}
+      >
+        <PrevidenciaForm options={options} />
+      </CreateEntity>
+    </FormProvider>
+  );
+}
+
+function UpdatePrevidencia(props: {
+  options: PrevidenciaOptions;
+  previdencia: ConfiguracaoPrevidencia;
+}) {
+  const { previdencia } = props;
+  const formMethods = useForm({
+    mode: "onTouched",
+    values: {
+      regime: previdencia.regime_previdencia.id,
+      "regime-sicap": previdencia.regime_previdencia_sicap.id,
+      plano: previdencia.tipo_plano_segregacao.id,
+      "orgao-previdencia-id": previdencia.orgao_previdencia.id,
+      "orgao-recolhimento-id": previdencia.orgao_recolhimento.id,
+    },
+  });
+
+  const toastConfig = {
+    success: {
+      title: "Configuração atualizada.",
+      status: "success",
+    },
+    error: {
+      title: "Não foi possível atualizar a configuração.",
+      status: "error",
+    },
+  };
+
+  return (
+    <FormProvider {...formMethods}>
       <UpdateEntity
         title={"Atualizando Configuração de Previdência"}
         formAction={createPrevidenciaAction}
         toastConfig={toastConfig}
       >
-        <Flex direction={"column"} marginBottom={"1rem"} gap={"10px"}>
-          <Box>
-            <FormLabel>Regime de previdência:</FormLabel>
-            <Select {...register("regime")}>
-              {options.regimesPrevidenciaEnum.map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.descricao}
-                </option>
-              ))}
-            </Select>
-          </Box>
-          <Box>
-            <FormLabel>Regime de previdência (SICAP):</FormLabel>
-            <Select {...register("regime-sicap")}>
-              {options.regimesPrevidenciaSicapEnum.map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.descricao}
-                </option>
-              ))}
-            </Select>
-          </Box>
-          <Box>
-            <FormLabel>Plano de Segregação da Massa:</FormLabel>
-            <Select {...register("plano")}>
-              {options.planosSegregacaoMassa.map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.descricao}
-                </option>
-              ))}
-            </Select>
-          </Box>
-          <PessoaJuridicaAutoComplete
-            name="orgao-previdencia"
-            label="Órgão de previdência:"
-            pessoaJuridica={previdencia.orgao_previdencia}
-            errorMessage={"Órgão da previdência é obrigatório"}
-          />
-          <PessoaJuridicaAutoComplete
-            name="orgao-recolhimento"
-            label="Órgão de recolhimento:"
-            pessoaJuridica={previdencia.orgao_recolhimento}
-            errorMessage={"Órgão de recolhimento é obrigatório"}
-          />
-        </Flex>
+        <PrevidenciaForm {...props} />
       </UpdateEntity>
     </FormProvider>
+  );
+}
+
+function PrevidenciaForm({
+  options,
+  previdencia,
+}: {
+  options: PrevidenciaOptions;
+  previdencia?: ConfiguracaoPrevidencia;
+}) {
+  const { register } = useFormContext();
+  return (
+    <Flex direction={"column"} marginBottom={"1rem"} gap={"10px"}>
+      <Box>
+        <FormLabel>Regime de previdência:</FormLabel>
+        <Select {...register("regime")}>
+          {options.regimesPrevidenciaEnum.map((o) => (
+            <option key={o.id} value={o.id}>
+              {o.descricao}
+            </option>
+          ))}
+        </Select>
+      </Box>
+      <Box>
+        <FormLabel>Regime de previdência (SICAP):</FormLabel>
+        <Select {...register("regime-sicap")}>
+          {options.regimesPrevidenciaSicapEnum.map((o) => (
+            <option key={o.id} value={o.id}>
+              {o.descricao}
+            </option>
+          ))}
+        </Select>
+      </Box>
+      <Box>
+        <FormLabel>Plano de Segregação da Massa:</FormLabel>
+        <Select {...register("plano")}>
+          {options.planosSegregacaoMassa.map((o) => (
+            <option key={o.id} value={o.id}>
+              {o.descricao}
+            </option>
+          ))}
+        </Select>
+      </Box>
+      <PessoaJuridicaAutoComplete
+        name="orgao-previdencia"
+        label="Órgão de previdência:"
+        pessoaJuridica={previdencia?.orgao_previdencia}
+        errorMessage={"Órgão da previdência é obrigatório"}
+      />
+      <PessoaJuridicaAutoComplete
+        name="orgao-recolhimento"
+        label="Órgão de recolhimento:"
+        pessoaJuridica={previdencia?.orgao_recolhimento}
+        errorMessage={"Órgão de recolhimento é obrigatório"}
+      />
+    </Flex>
   );
 }
 
