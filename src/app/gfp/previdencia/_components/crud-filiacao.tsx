@@ -25,7 +25,7 @@ import {
   Grid,
   GridItem,
 } from "@chakra-ui/react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import DeleteEntity from "@/components/delete-entity";
 import {
   createFiliacaoAction,
@@ -34,6 +34,8 @@ import {
 } from "../../_actions/filiacao";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import UpdateEntity from "@/components/update-entity";
+import DateInput from "@/components/date-input";
+import { normalizeDate } from "@/lib/date-utils";
 
 const columnsHelper = createColumnHelper<FiliacaoPrevidencia>();
 function getColumns(configPrevidenciaId?: number) {
@@ -187,7 +189,7 @@ function FiliacoesTable({
 
 function CreateFiliacao(props: { configPrevidenciaId?: number }) {
   const formMethods = useForm({
-    mode: "onTouched",
+    mode: "onBlur",
     values: {
       "servidor-id": "",
       "data-inicio": "",
@@ -216,7 +218,7 @@ function UpdateFiliacao({
   configPrevidenciaId?: number;
 }) {
   const formMethods = useForm({
-    mode: "onTouched",
+    mode: "onBlur",
     values: {
       "servidor-id": filiacao.servidor.id,
       "data-inicio": filiacao.data_inicio_vigencia,
@@ -251,8 +253,17 @@ function FiliacaoForm({
     configPrevidencia = queryConfiguracaoById(configPrevidenciaId);
   }
 
-  const { register } = useFormContext();
+  const { getValues, trigger } = useFormContext();
+
   const placeholder = `${configPrevidencia?.orgao_previdencia.nome} - ${configPrevidencia?.tipo_plano_segregacao.descricao}`;
+
+  const dateFieldProps = {
+    onChange: (e: any) => (e.target.value = normalizeDate(e)),
+    pattern: {
+      value: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/,
+      message: "Data inválida",
+    },
+  };
 
   return (
     <Flex direction={"column"} marginBottom={"1rem"} gap={"10px"}>
@@ -272,14 +283,34 @@ function FiliacaoForm({
         errorMessage={"Servidor é obrigatório"}
         servidor={filiacao?.servidor}
       />
-      <FormControl>
-        <FormLabel>Data de Início:</FormLabel>
-        <Input {...register("data-inicio", { required: true })} />
-      </FormControl>
-      <FormControl>
-        <FormLabel>Data de Fim:</FormLabel>
-        <Input {...register("data-fim")} />
-      </FormControl>
+      <DateInput
+        name={"data-inicio"}
+        dateFieldProps={{
+          required: "A data inicial é obrigatória",
+          onBlur: (e: any) => trigger("data-fim"),
+          ...dateFieldProps,
+        }}
+      >
+        Data de Início:
+      </DateInput>
+      <DateInput
+        name={"data-fim"}
+        dateFieldProps={{
+          ...dateFieldProps,
+          validate: (value: string) => {
+            const dataInicio = getValues("data-inicio");
+            if (!dataInicio || !value) {
+              return true;
+            }
+            return (
+              new Date(value) >= new Date(dataInicio) ||
+              "Data Fim deve ser maior ou igual à Data de Início"
+            );
+          },
+        }}
+      >
+        Data Fim:
+      </DateInput>
     </Flex>
   );
 }
