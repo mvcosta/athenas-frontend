@@ -2,12 +2,13 @@
 
 import {
   Container,
-  Heading,
   Flex,
-  useColorModeValue,
   Breadcrumb,
   BreadcrumbItem,
   Text,
+  Card,
+  CardBody,
+  VStack,
 } from "@chakra-ui/react";
 import TableFilters from "./table-filters";
 import { ChevronRightIcon } from "@chakra-ui/icons";
@@ -16,19 +17,17 @@ import { Link } from "@chakra-ui/next-js";
 
 function ListEntity({
   children,
-  title,
+  info,
   breadCrumbItems,
   showSearch,
   CreateEntity,
 }: {
   children: React.ReactNode;
-  title: string;
+  info: React.ReactNode;
   breadCrumbItems: BreadcrumbItemProps[];
   showSearch: boolean;
   CreateEntity: React.ReactNode;
 }) {
-  const bg = useColorModeValue("white", "gray.700");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
   return (
     <>
       <Container maxW="1500px">
@@ -43,29 +42,24 @@ function ListEntity({
             </BreadcrumbItem>
           ))}
         </Breadcrumb>
-        <Heading marginY="1rem" as="h3" size="lg">
-          {title}
-        </Heading>
-        <Container
-          maxW="1500px"
-          border="1px"
-          borderColor={borderColor}
-          borderRadius="5px"
-          backgroundColor={bg}
-          py="2rem"
-        >
-          {showSearch ? (
-            <Flex justifyContent="space-between" mb="1rem">
-              <TableFilters />
-              {CreateEntity}
-            </Flex>
-          ) : (
-            <Flex justifyContent="end" mb="1rem">
-              {CreateEntity}
-            </Flex>
-          )}
-          {children}
-        </Container>
+        <VStack>
+          {info}
+          <Card w="100%">
+            <CardBody>
+              {showSearch ? (
+                <Flex justifyContent="space-between" mb="1rem">
+                  <TableFilters />
+                  {CreateEntity}
+                </Flex>
+              ) : (
+                <Flex justifyContent="end" mb="1rem">
+                  {CreateEntity}
+                </Flex>
+              )}
+              {children}
+            </CardBody>
+          </Card>
+        </VStack>
       </Container>
     </>
   );

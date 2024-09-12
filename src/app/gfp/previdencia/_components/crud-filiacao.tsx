@@ -19,6 +19,11 @@ import {
   FormControl,
   Heading,
   HStack,
+  Card,
+  CardBody,
+  Text,
+  Grid,
+  GridItem,
 } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import DeleteEntity from "@/components/delete-entity";
@@ -92,9 +97,14 @@ export default function CrudFiliacao({
       name: "Filiação",
     },
   ];
+  let configPrevidencia;
+  if (configPrevidenciaId) {
+    configPrevidencia = queryConfiguracaoById(configPrevidenciaId);
+  }
+
   return (
     <ListEntity
-      title={"Filiações"}
+      info={<FiliacaoInfo configPrevidencia={configPrevidencia} />}
       breadCrumbItems={breadCrumbItems}
       showSearch={!!data.length}
       CreateEntity={
@@ -110,6 +120,57 @@ export default function CrudFiliacao({
       )}
       <QueryPaginationControls page={page} lastPage={lastPage} />
     </ListEntity>
+  );
+}
+
+function FiliacaoInfo({
+  configPrevidencia,
+}: {
+  configPrevidencia?: ConfiguracaoPrevidencia;
+}) {
+  const infoProps = [
+    {
+      label: "ÓRGÃO DA PREVIDÊNCIA: ",
+      value: configPrevidencia?.orgao_previdencia.nome,
+    },
+
+    {
+      label: "REGIME DE PREVIDÊNCIA: ",
+      value: configPrevidencia?.regime_previdencia.descricao,
+    },
+    {
+      label: "REGIME DE PREVIDÊNCIA (SICAP): ",
+      value: configPrevidencia?.regime_previdencia_sicap.descricao,
+    },
+    {
+      label: "TIPO DE PLANO DE SEGREGAÇÃO: ",
+      value: configPrevidencia?.tipo_plano_segregacao.descricao,
+      colSpan: 2,
+    },
+    {
+      label: "ÓRGÃO DE RECOLHIMENTO: ",
+      value: configPrevidencia?.orgao_recolhimento.nome,
+    },
+  ];
+
+  return (
+    <>
+      <Heading marginY="1rem" as="h3" size="lg">
+        Filiações
+      </Heading>
+      <Card w="100%">
+        <CardBody>
+          <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+            {infoProps.map((i, index) => (
+              <GridItem key={index} colSpan={i.colSpan}>
+                <Text as={"b"}>{i.label}</Text>
+                {i.value}
+              </GridItem>
+            ))}
+          </Grid>
+        </CardBody>
+      </Card>
+    </>
   );
 }
 
@@ -191,14 +252,7 @@ function FiliacaoForm({
 }) {
   let configPrevidencia;
   if (configPrevidenciaId) {
-    const { data } = useQuery({
-      queryKey: ["configuracoes-previdencia", { id: configPrevidenciaId }],
-      queryFn: getEntityByIdQueryFn<ConfiguracaoPrevidencia>(
-        "v2/configuracoes-previdencia",
-        configPrevidenciaId
-      ),
-    });
-    configPrevidencia = data;
+    configPrevidencia = queryConfiguracaoById(configPrevidenciaId);
   }
 
   const { register } = useFormContext();
@@ -270,4 +324,14 @@ function DeleteFiliacao({
       ?
     </DeleteEntity>
   );
+}
+function queryConfiguracaoById(configPrevidenciaId: number) {
+  const { data } = useQuery({
+    queryKey: ["configuracoes-previdencia", { id: configPrevidenciaId }],
+    queryFn: getEntityByIdQueryFn<ConfiguracaoPrevidencia>(
+      "v2/configuracoes-previdencia",
+      configPrevidenciaId
+    ),
+  });
+  return data;
 }

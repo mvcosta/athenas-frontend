@@ -98,9 +98,14 @@ export default function CrudPrevidencia({
       name: "Previdência",
     },
   ];
+  const info = (
+    <Heading marginY="1rem" as="h3" size="lg">
+      Configurações de Previdência
+    </Heading>
+  );
   return (
     <ListEntity
-      title={"Configurações de Previdência"}
+      info={info}
       breadCrumbItems={breadCrumbItems}
       showSearch={!!data.length}
       CreateEntity={<CreatePrevidencia options={options} />}
