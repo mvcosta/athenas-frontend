@@ -25,7 +25,7 @@ import {
   Grid,
   GridItem,
 } from "@chakra-ui/react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import DeleteEntity from "@/components/delete-entity";
 import {
   createFiliacaoAction,
@@ -106,18 +106,14 @@ export default function CrudFiliacao({
     <ListEntity
       info={<FiliacaoInfo configPrevidencia={configPrevidencia} />}
       breadCrumbItems={breadCrumbItems}
-      showSearch={!!data.length}
+      empty={!data.length}
+      notFound="Nenhuma filiação encontrada"
+      emptyMessage="Nenhuma filiação cadastrada"
       CreateEntity={
         <CreateFiliacao configPrevidenciaId={configPrevidenciaId} />
       }
     >
-      {data.length ? (
-        <FiliacoesTable data={data} configPrevidenciaId={configPrevidenciaId} />
-      ) : (
-        <Heading as="h3" size="lg" textAlign="center">
-          Nenhuma filiação cadastrada
-        </Heading>
-      )}
+      <FiliacoesTable data={data} configPrevidenciaId={configPrevidenciaId} />
       <QueryPaginationControls page={page} lastPage={lastPage} />
     </ListEntity>
   );

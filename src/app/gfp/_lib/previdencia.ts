@@ -8,16 +8,16 @@ import {
 
 export async function getConfiguracoesPrevidencia(
   page: number = 0,
-  limit: number = 10
+  limit: number = 10,
+  search?: string
 ): Promise<{
   data: ConfiguracaoPrevidencia[];
   count: number;
 }> {
-  const response = await authAPIPaginatedFetch(
-    "v2/configuracoes-previdencia",
-    page,
-    limit
-  );
+  const url = search
+    ? `v2/configuracoes-previdencia?search=${search}`
+    : "v2/configuracoes-previdencia";
+  const response = await authAPIPaginatedFetch(url, page, limit);
   const configuracoesResponse: ConfiguracaoPrevidenciaResponse =
     await response.json();
   return {
@@ -25,6 +25,7 @@ export async function getConfiguracoesPrevidencia(
     count: configuracoesResponse.count,
   };
 }
+
 export async function getConfiguracaoPrevidenciaById(
   id: number
 ): Promise<ConfiguracaoPrevidencia> {
@@ -38,16 +39,17 @@ export async function getConfiguracaoPrevidenciaById(
 export async function getFiliacoesPrevidencia(
   configuracaoPrevidenciaId: string | undefined,
   page: number = 0,
-  limit: number = 10
+  limit: number = 10,
+  search?: string
 ): Promise<{
   data: FiliacaoPrevidencia[];
   count: number;
 }> {
-  const response = await authAPIPaginatedFetch(
-    `v2/filiacoes-previdencia/?configuracao_previdencia=${configuracaoPrevidenciaId}`,
-    page,
-    limit
-  );
+  const url = search
+    ? `v2/filiacoes-previdencia/?configuracao_previdencia=${configuracaoPrevidenciaId}&search=${search}`
+    : `v2/filiacoes-previdencia/?configuracao_previdencia=${configuracaoPrevidenciaId}`;
+
+  const response = await authAPIPaginatedFetch(url, page, limit);
   const configuracoesResponse: FiliacaoPrevidenciaResponse =
     await response.json();
   return {

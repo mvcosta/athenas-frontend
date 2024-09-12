@@ -9,25 +9,52 @@ import {
   Card,
   CardBody,
   VStack,
+  Heading,
 } from "@chakra-ui/react";
 import TableFilters from "./table-filters";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { BreadcrumbItemProps } from "@/interfaces/breadcrumb-item-props";
 import { Link } from "@chakra-ui/next-js";
+import { useSearchParams } from "next/navigation";
 
 function ListEntity({
   children,
   info,
   breadCrumbItems,
-  showSearch,
+  empty,
+  emptyMessage,
+  notFound,
   CreateEntity,
 }: {
   children: React.ReactNode;
   info: React.ReactNode;
   breadCrumbItems: BreadcrumbItemProps[];
-  showSearch: boolean;
+  empty: boolean;
+  emptyMessage: string;
+  notFound: string;
   CreateEntity: React.ReactNode;
 }) {
+  const searchParams = useSearchParams();
+  const isSearching = !!searchParams.get("search");
+
+  const showSearch = isSearching || !empty;
+
+  let content;
+  if (!empty) {
+    content = children;
+  } else if (isSearching) {
+    content = (
+      <Heading as="h3" size="lg" textAlign="center">
+        {notFound}
+      </Heading>
+    );
+  } else {
+    content = (
+      <Heading as="h3" size="lg" textAlign="center">
+        {emptyMessage}
+      </Heading>
+    );
+  }
   return (
     <>
       <Container maxW="1500px">
@@ -56,7 +83,7 @@ function ListEntity({
                   {CreateEntity}
                 </Flex>
               )}
-              {children}
+              {content}
             </CardBody>
           </Card>
         </VStack>

@@ -1,3 +1,5 @@
+import { validateSearchParams } from "./serach-params-utils";
+
 export async function getPaginatedPageData<T>(
   searchParams: {
     [key: string]: string | string[] | undefined;
@@ -5,8 +7,11 @@ export async function getPaginatedPageData<T>(
   getFn: getFn<T>,
   pagePrefix?: string
 ) {
+  const search = searchParams.search;
+  validateSearchParams(search);
+
   const { page, limit } = getPageFromParams(searchParams, pagePrefix);
-  const { data, count } = await getFn(page, limit);
+  const { data, count } = await getFn(page, limit, search);
   const lastPage = calcLastPage(count, limit);
   return { data, page, lastPage };
 }
@@ -29,7 +34,8 @@ export function calcLastPage(count: number, limit: number) {
 
 type getFn<T> = (
   page?: number,
-  limit?: number
+  limit?: number,
+  search?: string
 ) => Promise<{
   data: T[];
   count: number;

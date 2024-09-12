@@ -25,6 +25,7 @@ import {
 import DeleteEntity from "@/components/delete-entity";
 import UpdateEntity from "@/components/update-entity";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
 
 type PrevidenciaOptions = {
   regimesPrevidenciaEnum: EnumField[];
@@ -103,20 +104,17 @@ export default function CrudPrevidencia({
       Configurações de Previdência
     </Heading>
   );
+
   return (
     <ListEntity
       info={info}
       breadCrumbItems={breadCrumbItems}
-      showSearch={!!data.length}
+      empty={!data.length}
+      notFound="Nenhuma configuração encontrada"
+      emptyMessage="Nenhuma configuração cadastrada"
       CreateEntity={<CreatePrevidencia options={options} />}
     >
-      {data.length ? (
-        <PrevidenciaTable data={data} options={options} />
-      ) : (
-        <Heading as="h3" size="lg" textAlign="center">
-          Nenhuma configuração cadastrada
-        </Heading>
-      )}
+      <PrevidenciaTable data={data} options={options} />
       <QueryPaginationControls page={page} lastPage={lastPage} />
     </ListEntity>
   );
