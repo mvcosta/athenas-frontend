@@ -23,14 +23,12 @@ function DeleteEntity<T extends HasId>({
   entity,
   formAction,
   invalidateQueries,
-  toastConfig,
 }: {
   children: React.ReactNode;
   title: string;
   entity: T;
   formAction: any;
   invalidateQueries?: any;
-  toastConfig: any;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -43,14 +41,10 @@ function DeleteEntity<T extends HasId>({
 
   useEffect(() => {
     if (state.status === "success") {
-      toast({ ...toastConfig.success });
       if (invalidateQueries) {
         queryClient.invalidateQueries(invalidateQueries);
       }
       onClose();
-    }
-    if (state.status === "error") {
-      toast({ ...toastConfig.error, description: state.message });
     }
   }, [state]);
 

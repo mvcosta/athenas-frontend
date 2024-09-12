@@ -137,25 +137,12 @@ function CreatePrevidencia({ options }: { options: PrevidenciaOptions }) {
     },
   });
 
-  const toastConfig = {
-    success: {
-      title: "Configuração criada.",
-      status: "success",
-      description: "A configuração de previdência foi criada com sucesso.",
-    },
-    error: {
-      title: "Não foi possível criar a configuração.",
-      status: "error",
-    },
-  };
-
   return (
     <FormProvider {...formMethods}>
       <CreateEntity
         title={"Nova Configuração de Previdência"}
         formAction={createPrevidenciaAction}
         btnText={"Adicionar Configuração"}
-        toastConfig={toastConfig}
         invalidateQueries={"/gfp/previdencia"}
       >
         <PrevidenciaForm options={options} />
@@ -180,24 +167,11 @@ function UpdatePrevidencia(props: {
     },
   });
 
-  const toastConfig = {
-    success: {
-      title: "Configuração atualizada.",
-      status: "success",
-      description: "A configuração de previdência foi atualizada com sucesso.",
-    },
-    error: {
-      title: "Não foi possível atualizar a configuração.",
-      status: "error",
-    },
-  };
-
   return (
     <FormProvider {...formMethods}>
       <UpdateEntity
         title={"Atualizando Configuração de Previdência"}
         formAction={updatePrevidenciaAction}
-        toastConfig={toastConfig}
       >
         <PrevidenciaForm {...props} />
       </UpdateEntity>
@@ -269,24 +243,11 @@ function DeletePrevidencia({
   previdencia: ConfiguracaoPrevidencia;
   invalidateQueries?: any;
 }) {
-  const toastConfig = {
-    success: {
-      title: "Configuração excluída.",
-      status: "success",
-      message: "A configuração da previdência foi excluída com sucesso.",
-    },
-    error: {
-      title: "Não foi possível excluir a configuração.",
-      status: "error",
-    },
-  };
-
   return (
     <DeleteEntity
       title={`Excluindo a configuração ${previdencia.orgao_previdencia.nome}`}
       entity={previdencia}
       formAction={deletePrevidenciaAction}
-      toastConfig={toastConfig}
       invalidateQueries={invalidateQueries}
     >
       Você tem certeza que deseja excluir a configuração

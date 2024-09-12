@@ -1,12 +1,12 @@
 "use server";
 
-import { FetchError } from "@/lib/fetch";
-import { actionAuthAPIFetch, authAPIFetch } from "@/lib/fetch-server";
+import { errorResponse, successResponse } from "@/lib/action-helpers";
+import { actionAuthAPIFetch } from "@/lib/fetch-server";
+import { toast } from "@/lib/toast";
 import { revalidatePath } from "next/cache";
 
 const endpoint = "v2/filiacoes-previdencia/";
 const path = "/gfp/previdencia";
-
 export async function createFiliacaoAction(prevState: any, formData: any) {
   const rawFormData = Object.fromEntries(formData);
 
@@ -19,43 +19,42 @@ export async function createFiliacaoAction(prevState: any, formData: any) {
       rawFormData["data-fim"] !== "" ? rawFormData["data-fim"] : null,
   };
 
-  const error = await actionAuthAPIFetch(
-    endpoint,
-    payload,
-    "Erro ao tentar adicionar o servidor à  configuração"
-  );
-  if (error) {
-    return error;
-  }
+  const error = await actionAuthAPIFetch(endpoint, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
 
+  if (error) {
+    toast(
+      error ?? "Erro ao tentar adicionar o servidor à  configuração",
+      "error"
+    );
+    return errorResponse;
+  }
   revalidatePath(path, "layout");
-  return {
-    message: "A filiação do servidor foi adicionada à previdência com sucesso.",
-    status: "success",
-  };
+
+  toast(
+    "A filiação do servidor foi adicionada à previdência com sucesso.",
+    "success"
+  );
+  return successResponse;
 }
 
 export async function deleteFiliacaoAction(prevState: any, formData: any) {
   const id = formData.get("id");
+  const error = await actionAuthAPIFetch(`${endpoint}${id}/`, {
+    method: "DELETE",
+  });
 
-  try {
-    await authAPIFetch(`v2/filiacoes-previdencia/${id}/`, {
-      method: "DELETE",
-    });
-  } catch (error) {
-    if (error instanceof FetchError && error.info?.non_field_errors) {
-      return { message: error.info?.non_field_errors, status: "error" };
-    } else {
-      return {
-        message: "Erro ao tentar remover a filiação",
-        status: "error",
-      };
-    }
+  if (error) {
+    toast(error ?? "Erro ao tentar remover a filiação", "error");
+    return errorResponse;
   }
-
   revalidatePath(path, "layout");
-  return {
-    message: "A filiação do servidor removida da previdência com sucesso.",
-    status: "success",
-  };
+
+  toast(
+    "A filiação do servidor removida da previdência com sucesso.",
+    "success"
+  );
+  return successResponse;
 }

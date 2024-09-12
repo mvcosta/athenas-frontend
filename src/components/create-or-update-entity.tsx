@@ -14,7 +14,6 @@ export default function CreateOrUpdateEntity({
   formAction,
   button,
   invalidateQueries,
-  toastConfig,
   onClose,
   isOpen,
 }: {
@@ -23,7 +22,6 @@ export default function CreateOrUpdateEntity({
   formAction: any;
   button: React.ReactNode;
   invalidateQueries?: any;
-  toastConfig: any;
   onClose: () => void;
   isOpen: boolean;
 }) {
@@ -36,14 +34,10 @@ export default function CreateOrUpdateEntity({
 
   useEffect(() => {
     if (state?.status === "success") {
-      toast({ ...toastConfig.success });
       if (invalidateQueries) {
         queryClient.invalidateQueries(invalidateQueries);
       }
       onClose();
-    }
-    if (state?.status === "error") {
-      toast({ ...toastConfig.error, description: state.message });
     }
   }, [state]);
 

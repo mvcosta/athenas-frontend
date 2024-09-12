@@ -1,7 +1,8 @@
 "use server";
 
-import { FetchError } from "@/lib/fetch";
-import { actionAuthAPIFetch, authAPIFetch } from "@/lib/fetch-server";
+import { errorResponse, successResponse } from "@/lib/action-helpers";
+import { actionAuthAPIFetch } from "@/lib/fetch-server";
+import { toast } from "@/lib/toast";
 import { revalidatePath } from "next/cache";
 
 const endpoint = "v2/configuracoes-previdencia/";
@@ -9,63 +10,53 @@ const path = "/gfp/previdencia";
 
 export async function createPrevidenciaAction(prevState: any, formData: any) {
   const payload = getPayload(formData);
-  const error = await actionAuthAPIFetch(
-    endpoint,
-    payload,
-    "Erro ao tentar cadastrar a configuração"
-  );
+  const error = await actionAuthAPIFetch(endpoint, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+
   if (error) {
-    return error;
+    toast(error ?? "Erro ao criar previdência", "error");
+    return errorResponse;
   }
   revalidatePath(path, "layout");
-  // return {
-  //   message: "",
-  //   status: "success",
-  // };
+
+  toast("Previdência criada com sucesso", "success");
+  return successResponse;
 }
 
 export async function updatePrevidenciaAction(prevState: any, formData: any) {
   const id = formData.get("id");
 
   const payload = getPayload(formData);
-  const error = await actionAuthAPIFetch(
-    `${endpoint}${id}/`,
-    payload,
-    "Erro ao tentar atualizar a configuração",
-    "PUT"
-  );
+  const error = await actionAuthAPIFetch(`${endpoint}${id}/`, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+  });
   if (error) {
-    return error;
+    toast(error ?? "Erro na atualização da previdência", "error");
+    return errorResponse;
   }
   revalidatePath(path, "layout");
-  // return {
-  //   message: "",
-  //   status: "success",
-  // };
+
+  toast("Previdência atualizada com sucesso", "success");
+  return successResponse;
 }
 
 export async function deletePrevidenciaAction(prevState: any, formData: any) {
   const id = formData.get("id");
+  const error = await actionAuthAPIFetch(`${endpoint}${id}/`, {
+    method: "DELETE",
+  });
 
-  try {
-    await authAPIFetch(`${endpoint}${id}/`, {
-      method: "DELETE",
-    });
-  } catch (error) {
-    if (error instanceof FetchError && error.info?.non_field_errors) {
-      return { message: error.info?.non_field_errors, status: "error" };
-    } else {
-      return {
-        message: "Erro ao tentar excluir a configuração",
-        status: "error",
-      };
-    }
+  if (error) {
+    toast(error ?? "Erro ao excluir a previdência", "error");
+    return errorResponse;
   }
   revalidatePath(path, "layout");
-  return {
-    message: "",
-    status: "success",
-  };
+
+  toast("Previdência excluída com sucesso", "success");
+  return successResponse;
 }
 
 function getPayload(formData: any) {

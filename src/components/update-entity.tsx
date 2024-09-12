@@ -9,7 +9,6 @@ export default function UpdateEntity(props: {
   title: string;
   formAction: any;
   invalidateQueries?: any;
-  toastConfig: any;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const button = (

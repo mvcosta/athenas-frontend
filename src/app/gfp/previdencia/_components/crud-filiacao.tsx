@@ -107,23 +107,11 @@ function CreateFiliacao({
     configPrevidencia = data;
   }
 
-  const toastConfig = {
-    success: {
-      title: "Filiação criada.",
-      status: "success",
-    },
-    error: {
-      title: "Não foi possível criar a filiação.",
-      status: "error",
-    },
-  };
-
   return (
     <CreateEntity
       title={"Nova Filiação de Previdência"}
       formAction={createFiliacaoAction}
       btnText={"Adicionar Filiação"}
-      toastConfig={toastConfig}
     >
       <Flex direction={"column"} marginBottom={"1rem"} gap={"10px"}>
         <Box>
@@ -195,7 +183,6 @@ function DeleteFiliacao({
       title={`Removendo filiação do servidor ${getServidorName()}`}
       entity={filiacao}
       formAction={deleteFiliacaoAction}
-      toastConfig={toastConfig}
       invalidateQueries={invalidateQueries}
     >
       Você tem certeza que deseja remover o servidor {getServidorName()} da

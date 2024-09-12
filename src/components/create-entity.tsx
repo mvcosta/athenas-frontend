@@ -10,14 +10,12 @@ export default function CreateEntity({
   formAction,
   btnText,
   invalidateQueries,
-  toastConfig,
 }: {
   children: React.ReactNode;
   title: string;
   formAction: any;
   btnText: string;
   invalidateQueries?: any;
-  toastConfig: any;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const button = (
@@ -40,7 +38,6 @@ export default function CreateEntity({
     title,
     formAction,
     invalidateQueries,
-    toastConfig,
     button,
     isOpen,
     onClose,

@@ -1,10 +1,17 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { Flex, useColorModeValue } from "@chakra-ui/react";
+import useCookieToast from "@/hooks/useCookieToast";
 
 export default function PageWrapper({ children }: { children: ReactNode }) {
   const bg = useColorModeValue("gray.50", "gray.800");
+  const toast = useCookieToast();
+
+  useEffect(() => {
+    toast?.();
+  });
+
   return (
     <Flex
       as="section"
