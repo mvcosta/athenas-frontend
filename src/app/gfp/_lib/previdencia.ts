@@ -36,6 +36,7 @@ export async function getConfiguracaoPrevidenciaById(
 }
 
 export async function getFiliacoesPrevidencia(
+  configuracaoPrevidenciaId: string | undefined,
   page: number = 0,
   limit: number = 10
 ): Promise<{
@@ -43,7 +44,7 @@ export async function getFiliacoesPrevidencia(
   count: number;
 }> {
   const response = await authAPIPaginatedFetch(
-    "v2/filiacoes-previdencia",
+    `v2/filiacoes-previdencia/?configuracao_previdencia=${configuracaoPrevidenciaId}`,
     page,
     limit
   );

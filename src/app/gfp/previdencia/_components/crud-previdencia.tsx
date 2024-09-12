@@ -13,6 +13,7 @@ import {
   HStack,
   FormControl,
   Input,
+  Heading,
 } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { ConfiguracaoPrevidencia } from "../../_models/previdencia.models";
@@ -101,9 +102,16 @@ export default function CrudPrevidencia({
     <ListEntity
       title={"Configurações de Previdência"}
       breadCrumbItems={breadCrumbItems}
+      showSearch={!!data.length}
       CreateEntity={<CreatePrevidencia options={options} />}
     >
-      <PrevidenciaTable data={data} options={options} />
+      {data.length ? (
+        <PrevidenciaTable data={data} options={options} />
+      ) : (
+        <Heading as="h3" size="lg" textAlign="center">
+          Nenhuma configuração cadastrada
+        </Heading>
+      )}
       <QueryPaginationControls page={page} lastPage={lastPage} />
     </ListEntity>
   );

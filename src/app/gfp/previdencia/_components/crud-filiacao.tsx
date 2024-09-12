@@ -12,13 +12,14 @@ import { useQuery } from "@tanstack/react-query";
 import { getEntityByIdQueryFn } from "@/lib/query";
 import ServidorAutoComplete from "@/app/rh/servidor/_components/servidor-auto-complete";
 import CreateEntity from "@/components/create-entity";
-import { Flex, Box, FormLabel, Input } from "@chakra-ui/react";
+import { Flex, FormLabel, Input, FormControl, Heading } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import DeleteEntity from "@/components/delete-entity";
 import {
   createFiliacaoAction,
   deleteFiliacaoAction,
 } from "../../_actions/filiacao";
+import { FormProvider, useForm } from "react-hook-form";
 
 const columnsHelper = createColumnHelper<FiliacaoPrevidencia>();
 const columns = [
@@ -76,11 +77,18 @@ export default function CrudFiliacao({
     <ListEntity
       title={"Filiações"}
       breadCrumbItems={breadCrumbItems}
+      showSearch={!!data.length}
       CreateEntity={
         <CreateFiliacao configPrevidenciaId={configPrevidenciaId} />
       }
     >
-      <FiliacoesTable data={data} />
+      {data.length ? (
+        <FiliacoesTable data={data} />
+      ) : (
+        <Heading as="h3" size="lg" textAlign="center">
+          Nenhuma filiação cadastrada
+        </Heading>
+      )}
       <QueryPaginationControls page={page} lastPage={lastPage} />
     </ListEntity>
   );
@@ -106,41 +114,52 @@ function CreateFiliacao({
     });
     configPrevidencia = data;
   }
+  const formMethods = useForm({
+    mode: "onTouched",
+    values: {
+      servidor: "",
+      "data-inicio": "",
+      "data-fim": "",
+    },
+  });
 
   return (
-    <CreateEntity
-      title={"Nova Filiação de Previdência"}
-      formAction={createFiliacaoAction}
-      btnText={"Adicionar Filiação"}
-    >
-      <Flex direction={"column"} marginBottom={"1rem"} gap={"10px"}>
-        <Box>
-          <FormLabel>Configuração de Previdência:</FormLabel>{" "}
-          <Input
-            variant="filled"
-            placeholder={configPrevidencia?.orgao_previdencia.nome ?? ""}
-            isDisabled={true}
+    <FormProvider {...formMethods}>
+      <CreateEntity
+        title={"Nova Filiação de Previdência"}
+        formAction={createFiliacaoAction}
+        btnText={"Adicionar Filiação"}
+      >
+        <Flex direction={"column"} marginBottom={"1rem"} gap={"10px"}>
+          <FormControl>
+            <FormLabel>Configuração de Previdência:</FormLabel>{" "}
+            <Input
+              variant="filled"
+              placeholder={configPrevidencia?.orgao_previdencia.nome ?? ""}
+              isDisabled={true}
+            />
+            <Input
+              type="hidden"
+              name={"configuracao-previdencia-id"}
+              value={configPrevidenciaId}
+            />
+          </FormControl>
+          <ServidorAutoComplete
+            name="servidor"
+            label="Servidor:"
+            errorMessage={"Servidor é obrigatório"}
           />
-          <Input
-            type="hidden"
-            name={"configuracao-previdencia-id"}
-            value={configPrevidenciaId}
-          />
-        </Box>
-        <Box>
-          <FormLabel>Servidor:</FormLabel>
-          <ServidorAutoComplete name="servidor" />
-        </Box>
-        <Box>
-          <FormLabel>Data de Início:</FormLabel>
-          <Input name="data-inicio" />
-        </Box>
-        <Box>
-          <FormLabel>Data de Fim:</FormLabel>
-          <Input name="data-fim" />
-        </Box>
-      </Flex>
-    </CreateEntity>
+          <FormControl>
+            <FormLabel>Data de Início:</FormLabel>
+            <Input name="data-inicio" />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Data de Fim:</FormLabel>
+            <Input name="data-fim" />
+          </FormControl>
+        </Flex>
+      </CreateEntity>
+    </FormProvider>
   );
 }
 

@@ -1,6 +1,7 @@
 import { EnumField } from "@/interfaces/enum-field";
 import { PaginatedResponse } from "@/interfaces/paginated-response";
 import { PessoaJuridica } from "../../rh/_models/pessoa-juridica.models";
+import { Servidor } from "@/app/rh/_models/servidor.models";
 
 export interface ConfiguracaoPrevidenciaResponse
   extends PaginatedResponse<ConfiguracaoPrevidencia> {}
@@ -23,16 +24,4 @@ export interface FiliacaoPrevidencia {
   servidor: Servidor;
   data_inicio_vigencia: string;
   data_fim_vigencia: string;
-}
-
-interface Servidor {
-  id: number;
-  matricula: number;
-  pessoa_fisica: Pessoafisica;
-}
-
-interface Pessoafisica {
-  id: number;
-  nome: string;
-  cpf: string;
 }

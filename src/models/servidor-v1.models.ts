@@ -1,7 +1,7 @@
 import { PaginatedResponse } from "@/interfaces/paginated-response";
 
-export interface ServidorResponse extends PaginatedResponse<Servidor> {}
-export interface Servidor {
+export interface ServidorV1Response extends PaginatedResponse<ServidorV1> {}
+export interface ServidorV1 {
   id: number;
   ativo: boolean;
   matricula: number;

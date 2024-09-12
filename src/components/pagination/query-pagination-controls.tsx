@@ -41,30 +41,34 @@ export default function QueryPaginationControls({
   const isFowardDisabled = page === lastPage;
 
   return (
-    <Flex alignItems="center" gap="10px">
-      <ExtremesPaginationButton
-        direction="back"
-        onClick={() => onPageChange(1)}
-        isDisabled={isBackDisabled}
-      />
-      <StepPaginationButton
-        direction="back"
-        onClick={() => onPageChange(page - 1)}
-        isDisabled={isBackDisabled}
-      />
-      <span>
-        Página {page} de {lastPage}
-      </span>
-      <StepPaginationButton
-        direction="foward"
-        onClick={() => onPageChange(page + 1)}
-        isDisabled={isFowardDisabled}
-      />
-      <ExtremesPaginationButton
-        direction="foward"
-        onClick={() => onPageChange(lastPage)}
-        isDisabled={isFowardDisabled}
-      />
-    </Flex>
+    <>
+      {lastPage > 1 && (
+        <Flex alignItems="center" gap="10px">
+          <ExtremesPaginationButton
+            direction="back"
+            onClick={() => onPageChange(1)}
+            isDisabled={isBackDisabled}
+          />
+          <StepPaginationButton
+            direction="back"
+            onClick={() => onPageChange(page - 1)}
+            isDisabled={isBackDisabled}
+          />
+          <span>
+            Página {page} de {lastPage}
+          </span>
+          <StepPaginationButton
+            direction="foward"
+            onClick={() => onPageChange(page + 1)}
+            isDisabled={isFowardDisabled}
+          />
+          <ExtremesPaginationButton
+            direction="foward"
+            onClick={() => onPageChange(lastPage)}
+            isDisabled={isFowardDisabled}
+          />
+        </Flex>
+      )}
+    </>
   );
 }

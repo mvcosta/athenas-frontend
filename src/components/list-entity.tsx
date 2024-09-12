@@ -18,11 +18,13 @@ function ListEntity({
   children,
   title,
   breadCrumbItems,
+  showSearch,
   CreateEntity,
 }: {
   children: React.ReactNode;
   title: string;
   breadCrumbItems: BreadcrumbItemProps[];
+  showSearch: boolean;
   CreateEntity: React.ReactNode;
 }) {
   const bg = useColorModeValue("white", "gray.700");
@@ -52,10 +54,16 @@ function ListEntity({
           backgroundColor={bg}
           py="2rem"
         >
-          <Flex justifyContent="space-between" mb="1rem">
-            <TableFilters />
-            {CreateEntity}
-          </Flex>
+          {showSearch ? (
+            <Flex justifyContent="space-between" mb="1rem">
+              <TableFilters />
+              {CreateEntity}
+            </Flex>
+          ) : (
+            <Flex justifyContent="end" mb="1rem">
+              {CreateEntity}
+            </Flex>
+          )}
           {children}
         </Container>
       </Container>

@@ -7,7 +7,7 @@ import {
   FolhaEvento,
   FolhasEventosResponse,
 } from "@/app/gfp/_models/folha-evento.models";
-import { Servidor } from "@/models/servidor.models";
+import { ServidorV1 } from "@/models/servidor-v1.models";
 
 export async function getFolhaEventos(
   contrachequeId: number
@@ -78,7 +78,7 @@ async function getServidorExtraAttr(
 ): Promise<ServidorExtraAttr> {
   const response = await authAPIFetch(`/servidores/${servidorId}/`);
 
-  const servidor: Servidor = await response.json();
+  const servidor: ServidorV1 = await response.json();
   const efetivo = findCargoCodigoPorTipoLeiCargo(servidor, "EF");
   const confianca = findCargoCodigoPorTipoLeiCargo(servidor, "CM");
 
@@ -90,7 +90,7 @@ async function getServidorExtraAttr(
 }
 
 function findCargoCodigoPorTipoLeiCargo(
-  servidor: Servidor,
+  servidor: ServidorV1,
   tipoLeiCargo: string
 ): string {
   return (

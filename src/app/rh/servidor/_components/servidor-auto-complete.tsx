@@ -2,19 +2,24 @@
 
 import EntityAutoComplete from "@/components/autocomplete/entity-auto-complete";
 import { getEntityQueryFn, getSearchEntityQueryFn } from "@/lib/query";
-import { Servidor } from "@/models/servidor.models";
 import Servidores from "./servidores";
+import { Servidor } from "../../_models/servidor.models";
 
-export default function ServidorAutoComplete({ name }: { name: string }) {
-  const endpoint = "servidores";
-  const getItemText = (e: Servidor) => `${e.matricula}: ${e.nome}`;
+export default function ServidorAutoComplete(props: {
+  name: string;
+  label: string;
+  errorMessage: string;
+}) {
+  const endpoint = "v2/servidores/";
+  const getItemText = (e: Servidor) =>
+    `${e.matricula}: ${e.pessoa_fisica.nome}`;
 
   const getQuery = getEntityQueryFn<Servidor>(endpoint);
   const searchQuery = getSearchEntityQueryFn<Servidor>(endpoint);
 
   return (
     <EntityAutoComplete
-      name={name}
+      {...props}
       queryKey={endpoint}
       placeholder={"Selecione o servidor"}
       entityNotFound={"Nenhum servidor encontrado"}
