@@ -17,7 +17,7 @@ import {
   AutoCompleteItem,
 } from "@choc-ui/chakra-autocomplete";
 import { useQuery } from "@tanstack/react-query";
-import { ChangeEvent, FocusEvent, useEffect, useState } from "react";
+import { ChangeEvent, FocusEvent, useEffect, useRef, useState } from "react";
 import SelectEntity from "./select-entity";
 import { HasId } from "@/interfaces/has-id";
 import {
@@ -54,7 +54,9 @@ export default function EntityAutoComplete<T extends HasId>({
 }) {
   const [autoCompleteValue, setAutoCompleteValue] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
+  const idInput = useRef<HTMLInputElement | null>(null);
   const { register, setValue } = useFormContext();
+  let errorTimer: NodeJS.Timeout | null = null;
 
   const setValueOptions = {
     shouldValidate: true,
@@ -66,6 +68,9 @@ export default function EntityAutoComplete<T extends HasId>({
     setAutoCompleteValue(getItemText(e));
     setValue(`${name}-id`, e.id.toString(), setValueOptions);
     setError(false);
+    if (errorTimer) {
+      clearTimeout(errorTimer);
+    }
   };
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -77,9 +82,14 @@ export default function EntityAutoComplete<T extends HasId>({
   };
 
   const handleOnBlur = (e: FocusEvent<HTMLInputElement, Element>) => {
-    if (!autoCompleteValue) {
-      setError(true);
+    if (errorTimer) {
+      clearTimeout(errorTimer);
     }
+    errorTimer = setTimeout(() => {
+      if (!idInput.current?.value) {
+        setError(true);
+      }
+    }, 250);
   };
 
   useEffect(() => {
@@ -93,11 +103,20 @@ export default function EntityAutoComplete<T extends HasId>({
     queryFn: searchEntityQuery,
   });
 
+  const { ref, ...rest } = register(`${name}-id`, { required: true });
+
   return (
     <FormControl isInvalid={error}>
       <FormLabel>{label}</FormLabel>
 
-      <Input hidden={true} {...register?.(`${name}-id`, { required: true })} />
+      <Input
+        hidden={true}
+        {...rest}
+        ref={(e) => {
+          ref(e);
+          idInput.current = e;
+        }}
+      />
 
       <AutoComplete
         openOnFocus
