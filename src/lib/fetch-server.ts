@@ -19,6 +19,7 @@ export async function actionAuthAPIFetch(input: string, init: RequestInit) {
     if (error instanceof FetchError && error.info?.non_field_errors) {
       return error.info?.non_field_errors;
     }
+    return "Erro desconhecido";
   }
   return null;
 }

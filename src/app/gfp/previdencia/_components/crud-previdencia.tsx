@@ -160,8 +160,8 @@ function CreatePrevidencia({ options }: { options: PrevidenciaOptions }) {
 }
 
 function UpdatePrevidencia(props: {
-  options: PrevidenciaOptions;
   previdencia: ConfiguracaoPrevidencia;
+  options: PrevidenciaOptions;
 }) {
   const { previdencia } = props;
   const formMethods = useForm({
@@ -178,7 +178,7 @@ function UpdatePrevidencia(props: {
   return (
     <FormProvider {...formMethods}>
       <UpdateEntity
-        title={"Atualizando Configuração de Previdência"}
+        title={"Atualizando configuração de previdência"}
         formAction={updatePrevidenciaAction}
       >
         <PrevidenciaForm {...props} />

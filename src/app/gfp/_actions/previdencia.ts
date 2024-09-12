@@ -15,10 +15,9 @@ export async function createPrevidenciaAction(prevState: any, formData: any) {
     body: JSON.stringify(payload),
   });
 
-  if (error) {
-    toast(error ?? "Erro ao criar previdência", "error");
-    return errorResponse;
-  }
+  const errorMessage =
+    error !== "Erro desconhecido" ? error : "Erro ao criar previdência";
+  toast(errorMessage, "error");
   revalidatePath(path, "layout");
 
   toast("Previdência criada com sucesso", "success");
@@ -33,10 +32,12 @@ export async function updatePrevidenciaAction(prevState: any, formData: any) {
     method: "PUT",
     body: JSON.stringify(payload),
   });
-  if (error) {
-    toast(error ?? "Erro na atualização da previdência", "error");
-    return errorResponse;
-  }
+
+  const errorMessage =
+    error !== "Erro desconhecido"
+      ? error
+      : "Erro na atualização da previdência";
+  toast(errorMessage, "error");
   revalidatePath(path, "layout");
 
   toast("Previdência atualizada com sucesso", "success");
@@ -49,10 +50,9 @@ export async function deletePrevidenciaAction(prevState: any, formData: any) {
     method: "DELETE",
   });
 
-  if (error) {
-    toast(error ?? "Erro ao excluir a previdência", "error");
-    return errorResponse;
-  }
+  const errorMessage =
+    error !== "Erro desconhecido" ? error : "Erro ao excluir a previdência";
+  toast(errorMessage, "error");
   revalidatePath(path, "layout");
 
   toast("Previdência excluída com sucesso", "success");

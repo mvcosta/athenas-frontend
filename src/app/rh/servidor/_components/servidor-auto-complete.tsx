@@ -9,6 +9,7 @@ export default function ServidorAutoComplete(props: {
   name: string;
   label: string;
   errorMessage: string;
+  servidor?: Servidor;
 }) {
   const endpoint = "v2/servidores/";
   const getItemText = (e: Servidor) =>
@@ -20,6 +21,7 @@ export default function ServidorAutoComplete(props: {
   return (
     <EntityAutoComplete
       {...props}
+      selectedEntity={props.servidor}
       queryKey={endpoint}
       placeholder={"Selecione o servidor"}
       entityNotFound={"Nenhum servidor encontrado"}

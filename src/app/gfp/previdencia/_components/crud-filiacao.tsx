@@ -12,46 +12,65 @@ import { useQuery } from "@tanstack/react-query";
 import { getEntityByIdQueryFn } from "@/lib/query";
 import ServidorAutoComplete from "@/app/rh/servidor/_components/servidor-auto-complete";
 import CreateEntity from "@/components/create-entity";
-import { Flex, FormLabel, Input, FormControl, Heading } from "@chakra-ui/react";
+import {
+  Flex,
+  FormLabel,
+  Input,
+  FormControl,
+  Heading,
+  HStack,
+} from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import DeleteEntity from "@/components/delete-entity";
 import {
   createFiliacaoAction,
   deleteFiliacaoAction,
+  updateFiliacaoAction,
 } from "../../_actions/filiacao";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import UpdateEntity from "@/components/update-entity";
 
 const columnsHelper = createColumnHelper<FiliacaoPrevidencia>();
-const columns = [
-  columnsHelper.accessor("id", {
-    header: "Id",
-    cell: (info) => info.getValue(),
-    size: 150,
-  }),
-  columnsHelper.accessor("servidor", {
-    header: "Servidor",
-    cell: (info) => info.getValue().pessoa_fisica.nome,
-    size: 600,
-  }),
-  columnsHelper.accessor("data_inicio_vigencia", {
-    header: "Data de inicio",
-    cell: (info) => info.getValue(),
-    size: 250,
-  }),
-  columnsHelper.accessor("data_fim_vigencia", {
-    header: "Data de fim",
-    cell: (info) => info.getValue(),
-    size: 250,
-  }),
-  columnsHelper.display({
-    id: "acoes",
-    header: "Ações",
-    cell: (info) => {
-      const filiacao = info.row.original;
-      return <DeleteFiliacao filiacao={filiacao} />;
-    },
-  }),
-];
+function getColumns(configPrevidenciaId?: number) {
+  return [
+    columnsHelper.accessor("id", {
+      header: "Id",
+      cell: (info) => info.getValue(),
+      size: 150,
+    }),
+    columnsHelper.accessor("servidor", {
+      header: "Servidor",
+      cell: (info) => info.getValue().pessoa_fisica.nome,
+      size: 600,
+    }),
+    columnsHelper.accessor("data_inicio_vigencia", {
+      header: "Data de inicio",
+      cell: (info) => info.getValue(),
+      size: 250,
+    }),
+    columnsHelper.accessor("data_fim_vigencia", {
+      header: "Data de fim",
+      cell: (info) => info.getValue(),
+      size: 250,
+    }),
+    columnsHelper.display({
+      id: "acoes",
+      header: "Ações",
+      cell: (info) => {
+        const filiacao = info.row.original;
+        return (
+          <HStack>
+            <UpdateFiliacao
+              filiacao={filiacao}
+              configPrevidenciaId={configPrevidenciaId}
+            />
+            <DeleteFiliacao filiacao={filiacao} />;
+          </HStack>
+        );
+      },
+    }),
+  ];
+}
 
 export default function CrudFiliacao({
   data,
@@ -83,7 +102,7 @@ export default function CrudFiliacao({
       }
     >
       {data.length ? (
-        <FiliacoesTable data={data} />
+        <FiliacoesTable data={data} configPrevidenciaId={configPrevidenciaId} />
       ) : (
         <Heading as="h3" size="lg" textAlign="center">
           Nenhuma filiação cadastrada
@@ -94,13 +113,80 @@ export default function CrudFiliacao({
   );
 }
 
-function FiliacoesTable({ data }: { data: FiliacaoPrevidencia[] }) {
-  return <TanstackEntityTable data={data} columns={columns} />;
-}
-
-function CreateFiliacao({
+function FiliacoesTable({
+  data,
   configPrevidenciaId,
 }: {
+  data: FiliacaoPrevidencia[];
+  configPrevidenciaId?: number;
+}) {
+  return (
+    <TanstackEntityTable
+      data={data}
+      columns={getColumns(configPrevidenciaId)}
+    />
+  );
+}
+
+function CreateFiliacao(props: { configPrevidenciaId?: number }) {
+  const formMethods = useForm({
+    mode: "onTouched",
+    values: {
+      "servidor-id": "",
+      "data-inicio": "",
+      "data-fim": "",
+    },
+  });
+
+  return (
+    <FormProvider {...formMethods}>
+      <CreateEntity
+        title={"Nova Filiação de Previdência"}
+        formAction={createFiliacaoAction}
+        btnText={"Adicionar Filiação"}
+      >
+        <FiliacaoForm {...props} />
+      </CreateEntity>
+    </FormProvider>
+  );
+}
+
+function UpdateFiliacao({
+  filiacao,
+  configPrevidenciaId,
+}: {
+  filiacao: FiliacaoPrevidencia;
+  configPrevidenciaId?: number;
+}) {
+  const formMethods = useForm({
+    mode: "onTouched",
+    values: {
+      "servidor-id": filiacao.servidor.id,
+      "data-inicio": filiacao.data_inicio_vigencia,
+      "data-fim": filiacao.data_fim_vigencia,
+    },
+  });
+
+  return (
+    <FormProvider {...formMethods}>
+      <UpdateEntity
+        title={"Atualizando filiação"}
+        formAction={updateFiliacaoAction}
+      >
+        <FiliacaoForm
+          filiacao={filiacao}
+          configPrevidenciaId={configPrevidenciaId}
+        />
+      </UpdateEntity>
+    </FormProvider>
+  );
+}
+
+function FiliacaoForm({
+  filiacao,
+  configPrevidenciaId,
+}: {
+  filiacao?: FiliacaoPrevidencia;
   configPrevidenciaId?: number;
 }) {
   let configPrevidencia;
@@ -114,52 +200,37 @@ function CreateFiliacao({
     });
     configPrevidencia = data;
   }
-  const formMethods = useForm({
-    mode: "onTouched",
-    values: {
-      servidor: "",
-      "data-inicio": "",
-      "data-fim": "",
-    },
-  });
+
+  const { register } = useFormContext();
+  const placeholder = `${configPrevidencia?.orgao_previdencia.nome} - ${configPrevidencia?.tipo_plano_segregacao.descricao}`;
 
   return (
-    <FormProvider {...formMethods}>
-      <CreateEntity
-        title={"Nova Filiação de Previdência"}
-        formAction={createFiliacaoAction}
-        btnText={"Adicionar Filiação"}
-      >
-        <Flex direction={"column"} marginBottom={"1rem"} gap={"10px"}>
-          <FormControl>
-            <FormLabel>Configuração de Previdência:</FormLabel>{" "}
-            <Input
-              variant="filled"
-              placeholder={configPrevidencia?.orgao_previdencia.nome ?? ""}
-              isDisabled={true}
-            />
-            <Input
-              type="hidden"
-              name={"configuracao-previdencia-id"}
-              value={configPrevidenciaId}
-            />
-          </FormControl>
-          <ServidorAutoComplete
-            name="servidor"
-            label="Servidor:"
-            errorMessage={"Servidor é obrigatório"}
-          />
-          <FormControl>
-            <FormLabel>Data de Início:</FormLabel>
-            <Input name="data-inicio" />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Data de Fim:</FormLabel>
-            <Input name="data-fim" />
-          </FormControl>
-        </Flex>
-      </CreateEntity>
-    </FormProvider>
+    <Flex direction={"column"} marginBottom={"1rem"} gap={"10px"}>
+      <FormControl>
+        <Input type="hidden" name={"id"} value={filiacao?.id} />
+        <FormLabel>Configuração de Previdência:</FormLabel>{" "}
+        <Input variant="filled" placeholder={placeholder} isDisabled={true} />
+        <Input
+          type="hidden"
+          name={"configuracao-previdencia-id"}
+          value={configPrevidencia?.id}
+        />
+      </FormControl>
+      <ServidorAutoComplete
+        name="servidor"
+        label="Servidor:"
+        errorMessage={"Servidor é obrigatório"}
+        servidor={filiacao?.servidor}
+      />
+      <FormControl>
+        <FormLabel>Data de Início:</FormLabel>
+        <Input {...register("data-inicio", { required: true })} />
+      </FormControl>
+      <FormControl>
+        <FormLabel>Data de Fim:</FormLabel>
+        <Input {...register("data-fim")} />
+      </FormControl>
+    </Flex>
   );
 }
 
@@ -186,17 +257,6 @@ function DeleteFiliacao({
     return `${filiacao.servidor.matricula}: ${filiacao.servidor.pessoa_fisica.nome}`;
   };
 
-  const toastConfig = {
-    success: {
-      title: "Filiação removida.",
-      status: "success",
-    },
-    error: {
-      title: "Não foi possível remover a filiação.",
-      status: "error",
-    },
-  };
-
   return (
     <DeleteEntity
       title={`Removendo filiação do servidor ${getServidorName()}`}
@@ -205,7 +265,9 @@ function DeleteFiliacao({
       invalidateQueries={invalidateQueries}
     >
       Você tem certeza que deseja remover o servidor {getServidorName()} da
-      configuração {data?.orgao_previdencia.nome}?
+      configuração{" "}
+      {`${data?.orgao_previdencia.nome} - ${data?.tipo_plano_segregacao.descricao}`}
+      ?
     </DeleteEntity>
   );
 }
