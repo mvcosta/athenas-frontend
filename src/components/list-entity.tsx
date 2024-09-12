@@ -27,7 +27,7 @@ function ListEntity({
   CreateEntity,
 }: {
   children: React.ReactNode;
-  info: React.ReactNode;
+  info: string | React.ReactNode;
   breadCrumbItems: BreadcrumbItemProps[];
   empty: boolean;
   emptyMessage: string;
@@ -44,13 +44,13 @@ function ListEntity({
     content = children;
   } else if (isSearching) {
     content = (
-      <Heading as="h3" size="lg" textAlign="center">
+      <Heading as="h3" size="lg" textAlign="center" mt={5} mb={10}>
         {notFound}
       </Heading>
     );
   } else {
     content = (
-      <Heading as="h3" size="lg" textAlign="center">
+      <Heading as="h3" size="lg" textAlign="center" mb={12}>
         {emptyMessage}
       </Heading>
     );
@@ -70,7 +70,13 @@ function ListEntity({
           ))}
         </Breadcrumb>
         <VStack>
-          {info}
+          {typeof info === "string" ? (
+            <Heading marginY="1rem" as="h3" size="lg">
+              {info}
+            </Heading>
+          ) : (
+            info
+          )}
           <Card w="100%">
             <CardBody>
               {showSearch ? (

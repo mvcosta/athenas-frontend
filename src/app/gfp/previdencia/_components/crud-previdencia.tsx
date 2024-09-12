@@ -13,7 +13,6 @@ import {
   HStack,
   FormControl,
   Input,
-  Heading,
 } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { ConfiguracaoPrevidencia } from "../../_models/previdencia.models";
@@ -25,7 +24,6 @@ import {
 import DeleteEntity from "@/components/delete-entity";
 import UpdateEntity from "@/components/update-entity";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
-import { useSearchParams } from "next/navigation";
 
 type PrevidenciaOptions = {
   regimesPrevidenciaEnum: EnumField[];
@@ -99,15 +97,10 @@ export default function CrudPrevidencia({
       name: "Previdência",
     },
   ];
-  const info = (
-    <Heading marginY="1rem" as="h3" size="lg">
-      Configurações de Previdência
-    </Heading>
-  );
 
   return (
     <ListEntity
-      info={info}
+      info={"Configurações de previdência"}
       breadCrumbItems={breadCrumbItems}
       empty={!data.length}
       notFound="Nenhuma configuração encontrada"
