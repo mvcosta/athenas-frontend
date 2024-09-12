@@ -36,6 +36,7 @@ export default function SelectEntity<T extends HasId>({
   const { data, isPending } = useQuery({
     queryKey: [queryKey, { page: page, limit: 20 }],
     queryFn: queryFn,
+    enabled: isOpen,
   });
 
   const entityData = data?.data;

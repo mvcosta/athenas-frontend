@@ -54,6 +54,7 @@ export default function EntityAutoComplete<T extends HasId>({
 }) {
   const [autoCompleteValue, setAutoCompleteValue] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
+  const [isQueryEnabled, setIsQueryEnabled] = useState<boolean>(false);
   const idInput = useRef<HTMLInputElement | null>(null);
   const { register, setValue } = useFormContext();
   let errorTimer: NodeJS.Timeout | null = null;
@@ -68,9 +69,14 @@ export default function EntityAutoComplete<T extends HasId>({
     setAutoCompleteValue(getItemText(e));
     setValue(`${name}-id`, e.id.toString(), setValueOptions);
     setError(false);
+    setIsQueryEnabled(false);
     if (errorTimer) {
       clearTimeout(errorTimer);
     }
+  };
+
+  const handleOnFocus = () => {
+    setIsQueryEnabled(true);
   };
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -79,6 +85,7 @@ export default function EntityAutoComplete<T extends HasId>({
       setValue(`${name}-id`, "", setValueOptions);
     }
     setAutoCompleteValue(value);
+    setIsQueryEnabled(true);
   };
 
   const handleOnBlur = (e: FocusEvent<HTMLInputElement, Element>) => {
@@ -101,6 +108,7 @@ export default function EntityAutoComplete<T extends HasId>({
   const { data, isLoading } = useQuery({
     queryKey: [queryKey, { search: autoCompleteValue }],
     queryFn: searchEntityQuery,
+    enabled: isQueryEnabled,
   });
 
   const { ref, ...rest } = register(`${name}-id`, { required: true });
@@ -133,6 +141,7 @@ export default function EntityAutoComplete<T extends HasId>({
             placeholder={placeholder}
             onChange={handleOnChange}
             onBlur={handleOnBlur}
+            onFocus={handleOnFocus}
             value={autoCompleteValue}
           />
           <SelectEntity
