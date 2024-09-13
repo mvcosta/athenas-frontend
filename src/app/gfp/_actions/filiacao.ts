@@ -23,8 +23,8 @@ export async function createFiliacaoAction(prevState: any, formData: any) {
     toast(errorMessage, "error");
     return errorResponse;
   }
-  revalidatePath(path, "layout");
 
+  revalidatePath(path, "layout");
   toast(
     "A filiação do servidor foi adicionada à previdência com sucesso.",
     "success"
