@@ -13,17 +13,6 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     path: "/gfp/",
     icon: <Icon icon="lucide:receipt" width="24" height="24" />,
     submenu: true,
-    subMenuItems: [
-      { title: "Eventos", path: "/gfp/eventos/" },
-      { title: "Lançador", path: "/gfp/lancador/" },
-      { title: "Previdência", path: "/gfp/previdencia/" },
-    ],
-  },
-  {
-    title: "RH",
-    path: "/rh/",
-    icon: <Icon icon="lucide:folder" width="24" height="24" />,
-    submenu: true,
-    subMenuItems: [{ title: "Pessoa Jurídica", path: "/rh/pessoa-juridica" }],
+    subMenuItems: [{ title: "Previdência", path: "/gfp/previdencia/" }],
   },
 ];
