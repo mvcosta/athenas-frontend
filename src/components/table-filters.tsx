@@ -1,4 +1,5 @@
 "use client";
+import { updateSearchParam } from "@/lib/search-params-utils";
 import { SearchIcon } from "@chakra-ui/icons";
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -9,12 +10,12 @@ const TableFilters = () => {
   const searchParams = useSearchParams();
 
   function onSearch(search: string) {
-    const current = new URLSearchParams(Array.from(searchParams.entries()));
-    current.set(`search`, search.toString());
-    const newQuery = current.toString();
-    const query = newQuery ? `?${newQuery}` : "";
-
-    router.push(`${pathName}${query}`);
+    const newSearchParams = updateSearchParam(
+      searchParams,
+      "search",
+      search.toString()
+    );
+    router.push(pathName + newSearchParams);
   }
 
   return (

@@ -8,8 +8,12 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import EntityRow from "./entity-row";
+import {
+  deleteSearchParam,
+  updateSearchParam,
+} from "@/lib/search-params-utils";
 
 function TanstackEntityTable<T>({
   data,
@@ -27,13 +31,44 @@ function TanstackEntityTable<T>({
     getSortedRowModel: getSortedRowModel(),
     columnResizeMode: "onChange",
   });
+  const router = useRouter();
   const pathName = usePathname();
+  const searchParams = useSearchParams();
 
   const isSelected = (id: number) => {
     if (!pathIndex) return false;
 
     const paths = pathName.split("/");
     return +paths?.[pathIndex] === id;
+  };
+
+  const sortedColumn = searchParams.get("ordering");
+  const sortTable = (column: string) => {
+    let newSortedColumn;
+    switch (sortedColumn) {
+      case column:
+        newSortedColumn = `-${column}`;
+        break;
+      case `-${column}`:
+        newSortedColumn = "";
+        break;
+      default:
+        newSortedColumn = column;
+        break;
+    }
+
+    let newSearchParams;
+    if (newSortedColumn) {
+      newSearchParams = updateSearchParam(
+        searchParams,
+        "ordering",
+        newSortedColumn
+      );
+    } else {
+      newSearchParams = deleteSearchParam(searchParams, "ordering");
+    }
+
+    router.push(pathName + newSearchParams);
   };
 
   return (
@@ -56,12 +91,16 @@ function TanstackEntityTable<T>({
                           mx={3}
                           fontSize={14}
                           cursor="pointer"
-                          onClick={header.column.getToggleSortingHandler()}
+                          onClick={(e) => sortTable(header.id)}
                         />
                       )}
-                      {{ asc: <TriangleDownIcon />, desc: <TriangleUpIcon /> }[
-                        header.column.getIsSorted() as string
-                      ] ?? null}
+                      {sortedColumn == header.id ? (
+                        <TriangleDownIcon />
+                      ) : sortedColumn == `-${header.id}` ? (
+                        <TriangleUpIcon />
+                      ) : (
+                        ""
+                      )}
                     </Flex>
                     <Box
                       // Barra utilizada para redimensionar as colunas

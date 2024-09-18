@@ -1,4 +1,4 @@
-import { validateSearchParams } from "./serach-params-utils";
+import { validateSearchParams } from "./search-params-utils";
 
 export async function getPaginatedPageData<T>(
   searchParams: {

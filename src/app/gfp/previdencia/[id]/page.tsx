@@ -2,7 +2,7 @@ import { PageProps } from "@/interfaces/page-props";
 import CrudFiliacao from "../_components/crud-filiacao";
 import { calcLastPage, getPageFromParams } from "@/lib/pagination-utils";
 import { getFiliacoesPrevidencia } from "../../_lib/previdencia";
-import { validateSearchParams } from "@/lib/serach-params-utils";
+import { validateSearchParams } from "@/lib/search-params-utils";
 
 export default async function FiliacoesPrevidenciaPage({
   params,
