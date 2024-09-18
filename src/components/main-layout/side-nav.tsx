@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
-import { Box, Flex, Link, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
 import LogoDPE from "@/static/logotipo-dpe-rr.png";
 import Image from "next/image";
 import NavItem from "./side-nav-item";
 import { SIDENAV_ITEMS } from "./side-nav-config";
+import { Link } from "@chakra-ui/next-js";
 
 const SideNav = () => {
   const bg = useColorModeValue("green.500", "gray.900");

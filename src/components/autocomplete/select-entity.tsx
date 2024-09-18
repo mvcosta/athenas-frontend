@@ -81,7 +81,7 @@ export default function SelectEntity<T extends HasId>({
         <AddIcon />
       </InputLeftAddon>
       <DraggableModal
-        title="Selecionar Evento"
+        title="Selecione o servidor"
         isOpen={isOpen}
         onClose={onClose}
         size={"full"}

@@ -1,3 +1,4 @@
+import { normalizeDate } from "@/lib/date-utils";
 import {
   FormControl,
   FormLabel,
@@ -20,10 +21,21 @@ function DateInput({
     getFieldState,
     formState: { errors },
   } = useFormContext();
+
+  const defaultDateFieldProps = {
+    onChange: (e: any) => (e.target.value = normalizeDate(e)),
+    pattern: {
+      value: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/,
+      message: "Data inválida",
+    },
+  };
   return (
     <FormControl isInvalid={getFieldState(name).invalid}>
       <FormLabel>{children}</FormLabel>
-      <Input placeholder="aaaa-mm-dd" {...register(name, dateFieldProps)} />
+      <Input
+        placeholder="aaaa-mm-dd"
+        {...register(name, { ...defaultDateFieldProps, ...dateFieldProps })}
+      />
       <FormErrorMessage>{errors[name]?.message?.toString()}</FormErrorMessage>
     </FormControl>
   );

@@ -257,14 +257,6 @@ function FiliacaoForm({
 
   const placeholder = `${configPrevidencia?.orgao_previdencia.nome} - ${configPrevidencia?.tipo_plano_segregacao.descricao}`;
 
-  const dateFieldProps = {
-    onChange: (e: any) => (e.target.value = normalizeDate(e)),
-    pattern: {
-      value: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/,
-      message: "Data inválida",
-    },
-  };
-
   return (
     <Flex direction={"column"} marginBottom={"1rem"} gap={"10px"}>
       <FormControl>
@@ -288,7 +280,6 @@ function FiliacaoForm({
         dateFieldProps={{
           required: "A data inicial é obrigatória",
           onBlur: (e: any) => trigger("data-fim"),
-          ...dateFieldProps,
         }}
       >
         Data de Início:
@@ -296,7 +287,6 @@ function FiliacaoForm({
       <DateInput
         name={"data-fim"}
         dateFieldProps={{
-          ...dateFieldProps,
           validate: (value: string) => {
             const dataInicio = getValues("data-inicio");
             if (!dataInicio || !value) {
