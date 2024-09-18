@@ -1,14 +1,14 @@
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
-export default function useNavigateToEntity(
-  entityId: number,
-  pathIndex?: number // Indice da url a ser atualizado na navegação
-) {
+export default function useNavigateToEntity() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  function navigateToEntity() {
+  function navigateToEntity(
+    entityId: number,
+    pathIndex?: number // Indice da url a ser atualizado na navegação
+  ) {
     if (!pathIndex) return;
 
     const current = new URLSearchParams(Array.from(searchParams.entries()));

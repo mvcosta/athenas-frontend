@@ -18,7 +18,7 @@ export default function EntityRow({
   onClick?: (e: React.MouseEvent) => void;
 }) {
   const highlightColor = useColorModeValue("gray.100", "whiteAlpha.50");
-  const navigateToEntity = useNavigateToEntity(entityId, pathIndex);
+  const navigateToEntity = useNavigateToEntity();
 
   function handleClick(e: React.MouseEvent) {
     e.preventDefault();
@@ -26,7 +26,7 @@ export default function EntityRow({
     if (onClick) {
       onClick(e);
     } else {
-      navigateToEntity();
+      navigateToEntity(entityId, pathIndex);
     }
   }
 
@@ -35,7 +35,7 @@ export default function EntityRow({
       bg={isSelected ? highlightColor : "transparent"}
       _hover={{ bg: highlightColor }}
       onClick={handleClick}
-      cursor={pathIndex ? "pointer" : "auto"}
+      cursor={"pointer"}
     >
       {children}
     </Tr>

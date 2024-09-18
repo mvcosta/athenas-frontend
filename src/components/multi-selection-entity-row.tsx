@@ -24,9 +24,10 @@ export default function MultiSelectionEntityRow<T extends HasId>({
   onShiftClick,
   children,
 }: MultiSelectionEntityRowProps<T>) {
-  const navigateToEntity = useNavigateToEntity(entity.id, pathIndex);
+  const navigateToEntity = useNavigateToEntity();
   function handleClick(e: React.MouseEvent) {
     e.preventDefault();
+    e.stopPropagation();
     if (e.ctrlKey) {
       onCtrlClick?.(entity);
       return;
@@ -39,7 +40,7 @@ export default function MultiSelectionEntityRow<T extends HasId>({
     if (onClick) {
       onClick(e);
     } else {
-      navigateToEntity();
+      navigateToEntity(entity.id, pathIndex);
     }
   }
 
